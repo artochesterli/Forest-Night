@@ -12,7 +12,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+    
     }
 
     // Update is called once per frame
@@ -46,10 +46,5 @@ public class Character_Horizontal_Movement : MonoBehaviour
                 transform.position += air_speed * Vector3.right * Time.deltaTime;
             }
         }
-
-
     }
-
-    
-
 }
