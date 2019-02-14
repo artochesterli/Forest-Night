@@ -20,7 +20,10 @@ public class Character_Horizontal_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        check_input();
+        if (player.id == 0 && !GetComponent<Dash_To_Fairy>().dashing)
+        {
+            check_input();
+        }
     }
 
     private void check_input()
@@ -36,6 +39,8 @@ public class Character_Horizontal_Movement : MonoBehaviour
         {
             transform.position += moveVector * air_speed * Time.deltaTime;
         }
+
+
         if (player.id== 1)
         {
             if (Input.GetKey(KeyCode.D))

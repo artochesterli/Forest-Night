@@ -9,8 +9,9 @@ public class Dash_To_Fairy : MonoBehaviour
     public float dash_distance;
     public float dash_speed;
     public float over_dash_velocity;
+    public float dash_pause_time;
 
-    private bool dashing;
+    public bool dashing;
 
     private Player player;
     // Start is called before the first frame update
@@ -23,6 +24,7 @@ public class Dash_To_Fairy : MonoBehaviour
     void Update()
     {
         lock_fairy();
+        Check_Input();
     }
 
     private void lock_fairy()
@@ -79,11 +81,21 @@ public class Dash_To_Fairy : MonoBehaviour
         Vector2 direction = Character_Manager.Fairy.transform.position - transform.position;
         direction.Normalize();
         Vector2 target = Character_Manager.Fairy.transform.position;
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        float dis = (target - (Vector2)transform.position).magnitude;
         while (Vector2.Dot(direction, target - (Vector2)transform.position) > 0)
         {
             transform.position += (Vector3)(dash_speed*direction * Time.deltaTime);
             yield return null;
         }
+        yield return new WaitForSeconds(dash_pause_time);
+        dashing = false;
+        GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
+        //transform.position = target;
+        Character_Manager.Fairy.GetComponent<Float_Point>().Is_Float_Point = false;
+        GetComponent<Rigidbody2D>().velocity = direction * over_dash_velocity;
+        
 
     }
 }

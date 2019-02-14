@@ -6,7 +6,6 @@ public class Float_Point : MonoBehaviour
 {
     public bool Is_Float_Point;
 
-    public float normal_gravity_scale;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,7 +41,7 @@ public class Float_Point : MonoBehaviour
         }
         else
         {
-            GetComponent<Rigidbody2D>().gravityScale = normal_gravity_scale;
+            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
             invisible_ward.have_ward = true;
 
             Color current_color = GetComponent<SpriteRenderer>().color;

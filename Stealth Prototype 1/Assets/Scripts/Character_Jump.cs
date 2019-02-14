@@ -19,7 +19,10 @@ public class Character_Jump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        check_jump();
+        if (player.id == 0 && !GetComponent<Dash_To_Fairy>().dashing)
+        {
+            check_jump();
+        }
     }
 
     private void check_jump()
