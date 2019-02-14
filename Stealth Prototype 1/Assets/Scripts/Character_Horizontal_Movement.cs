@@ -14,6 +14,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
     void Start()
     {
         player = GetComponent<PlayerId>().player;
+
     }
 
     // Update is called once per frame
@@ -60,10 +61,5 @@ public class Character_Horizontal_Movement : MonoBehaviour
                 }
             }
         }
-
-
     }
-
-    
-
 }
