@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Fairy
+  - Main_Character
   layers:
   - Default
   - TransparentFX
@@ -14,9 +16,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - Character
-  - 
-  - 
+  - Main_Character
+  - Fairy
+  - Invisible_Ward
   - 
   - 
   - 
@@ -40,4 +42,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GameObjects
+    uniqueID: 3053917789
+    locked: 0
+  - name: Icon_On_Objects
+    uniqueID: 3125356939
     locked: 0

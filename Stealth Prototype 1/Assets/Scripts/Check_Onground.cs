@@ -22,7 +22,7 @@ public class Check_Onground : MonoBehaviour
 
     private void check_onground()
     {
-        int layermask = 1 << LayerMask.NameToLayer("Character");
+        int layermask = (1 << LayerMask.NameToLayer("Main_Character")) | (1<< LayerMask.NameToLayer("Fairy") | (1<<LayerMask.NameToLayer("Invisible_Ward")));
         layermask = ~layermask;
         RaycastHit2D hit = Physics2D.BoxCast(new Vector2(transform.position.x, transform.position.y), transform.localScale, 0, Vector2.down, detect_dis, layermask);
         if (hit.collider != null)

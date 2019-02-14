@@ -33,7 +33,8 @@ public class Invisible_Ward : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject collided_object = collision.GetComponent<Collider2D>().gameObject;
-        if (collided_object.layer == LayerMask.NameToLayer("Character"))
+        if (collided_object.CompareTag("Main_Character")||collided_object.CompareTag("Fairy"))
+
         {
             collided_object.GetComponent<Invisible>().invisible = true;
         }
@@ -42,7 +43,7 @@ public class Invisible_Ward : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         GameObject collided_object = collision.GetComponent<Collider2D>().gameObject;
-        if (collided_object.layer == LayerMask.NameToLayer("Character"))
+        if (collided_object.CompareTag("Main_Character") || collided_object.CompareTag("Fairy"))
         {
             collided_object.GetComponent<Invisible>().invisible = false;
         }
