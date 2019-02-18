@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Float_Point : MonoBehaviour
 {
-    public bool Is_Float_Point;
 
     // Start is called before the first frame update
     void Start()
@@ -23,18 +22,26 @@ public class Float_Point : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.J))
         {
-            Is_Float_Point = !Is_Float_Point;
+            var Fairy_Status = GetComponent<Fairy_Status_Manager>();
+            if (Fairy_Status.status == Fairy_Status.NORMAL)
+            {
+                Fairy_Status.status = Fairy_Status.FLOAT;
+            }
+            else
+            {
+                Fairy_Status.status = Fairy_Status.NORMAL;
+            }
         }
     }
 
     private void Check_Float_Point()
     {
-        var invisible_ward = transform.Find("Invisible_Ward").GetComponent<Invisible_Ward>();
-        if (Is_Float_Point)
+        var Fairy_Status = GetComponent<Fairy_Status_Manager>();
+
+        if (Fairy_Status.status==Fairy_Status.FLOAT)
         {
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GetComponent<Rigidbody2D>().gravityScale = 0;
-            invisible_ward.have_ward = false;
 
             Color current_color = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = new Color(0, 1, 1,current_color.a);
@@ -42,10 +49,9 @@ public class Float_Point : MonoBehaviour
         else
         {
             GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-            invisible_ward.have_ward = true;
 
             Color current_color = GetComponent<SpriteRenderer>().color;
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, current_color.a);
+            GetComponent<SpriteRenderer>().color = new Color(38/255f, 197/255f, 243/255f, current_color.a);
         }
     }
 }

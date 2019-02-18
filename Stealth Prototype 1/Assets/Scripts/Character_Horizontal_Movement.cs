@@ -20,9 +20,22 @@ public class Character_Horizontal_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.id == 0 && !GetComponent<Dash_To_Fairy>().dashing)
+        if (gameObject.CompareTag("Fairy"))
         {
-            check_input();
+            var Fairy_Status = GetComponent<Fairy_Status_Manager>();
+            if (Fairy_Status.status == Fairy_Status.NORMAL || Fairy_Status.status == Fairy_Status.AIM)
+            {
+                check_input();
+            }
+        }
+        else if(gameObject.CompareTag("Main_Character"))
+        {
+            var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
+            if (Main_Character_Status.Status == Main_Character_Status.NORMAL)
+            {
+                check_input();
+            }
+            
         }
     }
 
@@ -39,32 +52,14 @@ public class Character_Horizontal_Movement : MonoBehaviour
         {
             transform.position += moveVector * air_speed * Time.deltaTime;
         }
-
-
-        if (player.id== 1)
+        if (moveVector.x > 0)
         {
-            if (Input.GetKey(KeyCode.D))
-            {
-                if (check_onground.onground)
-                {
-                    transform.position += ground_speed * Vector3.right * Time.deltaTime;
-                }
-                else
-                {
-                    transform.position += air_speed * Vector3.right * Time.deltaTime;
-                }
-            }
-            else if (Input.GetKey(KeyCode.A))
-            {
-                if (check_onground.onground)
-                {
-                    transform.position += ground_speed * Vector3.left * Time.deltaTime;
-                }
-                else
-                {
-                    transform.position += air_speed * Vector3.right * Time.deltaTime;
-                }
-            }
+            transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
         }
+        else if(moveVector.x < 0)
+        {
+            transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+        }
+
     }
 }

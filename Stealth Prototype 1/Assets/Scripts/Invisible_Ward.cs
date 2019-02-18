@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Invisible_Ward : MonoBehaviour
 {
-    public bool have_ward;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +19,8 @@ public class Invisible_Ward : MonoBehaviour
 
     private void Check_Ward()
     {
-        if (have_ward)
+        var Fairy_Status = transform.parent.GetComponent<Fairy_Status_Manager>();
+        if (Fairy_Status.status == Fairy_Status.NORMAL)
         {
             GetComponent<CircleCollider2D>().enabled = true;
         }

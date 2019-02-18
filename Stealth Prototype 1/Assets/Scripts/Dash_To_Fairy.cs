@@ -11,7 +11,6 @@ public class Dash_To_Fairy : MonoBehaviour
     public float over_dash_velocity;
     public float dash_pause_time;
 
-    public bool dashing;
 
     private Player player;
     // Start is called before the first frame update
@@ -29,14 +28,19 @@ public class Dash_To_Fairy : MonoBehaviour
 
     private void lock_fairy()
     {
-        if (dashing)
+        var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
+        if (Character_Manager.Fairy == null)
+        {
+            return;
+        }
+        if (Main_Character_Status.Status==Main_Character_Status.DASHING)
         {
             detect_float_fairy = false;
             return;
         }
         GameObject fairy = Character_Manager.Fairy;
         float current_dis = ((Vector2)(transform.position) - (Vector2)(fairy.transform.position)).magnitude;
-        if (current_dis <= dash_distance && fairy.GetComponent<Float_Point>().Is_Float_Point)
+        if (current_dis <= dash_distance && fairy.GetComponent<Fairy_Status_Manager>().status==fairy.GetComponent<Fairy_Status_Manager>().FLOAT)
         {
             int layermask = (1 << LayerMask.NameToLayer("Main_Character")) | (1 << LayerMask.NameToLayer("Invisible_Ward"));
             layermask = ~layermask;
@@ -69,7 +73,8 @@ public class Dash_To_Fairy : MonoBehaviour
 
     private void Check_Input()
     {
-        if (player.GetButtonDown("Dash and Release") && detect_float_fairy && !dashing)
+        var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
+        if (player.GetButtonDown("Dash and Release") && detect_float_fairy && Main_Character_Status.Status != Main_Character_Status.DASHING)
         {
             StartCoroutine(Dash());
         }
@@ -77,7 +82,9 @@ public class Dash_To_Fairy : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        dashing = true;
+        var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
+        Main_Character_Status.Status = Main_Character_Status.DASHING;
+
         Vector2 direction = Character_Manager.Fairy.transform.position - transform.position;
         direction.Normalize();
         Vector2 target = Character_Manager.Fairy.transform.position;
@@ -90,10 +97,10 @@ public class Dash_To_Fairy : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(dash_pause_time);
-        dashing = false;
+
+        Main_Character_Status.Status = Main_Character_Status.NORMAL;
         GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-        //transform.position = target;
-        Character_Manager.Fairy.GetComponent<Float_Point>().Is_Float_Point = false;
+        //Character_Manager.Fairy.GetComponent<Float_Point>().Is_Float_Point = false;
         GetComponent<Rigidbody2D>().velocity = direction * over_dash_velocity;
         
 
