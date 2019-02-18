@@ -694,6 +694,7 @@ GameObject:
   - component: {fileID: 274084844}
   - component: {fileID: 274084845}
   - component: {fileID: 274084846}
+  - component: {fileID: 274084847}
   m_Layer: 9
   m_Name: Main_Character
   m_TagString: Main_Character
@@ -822,7 +823,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583afec6aac6e5144828ca49eadd7d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  able_to_move: 0
   ground_speed: 5
   air_speed: 3
 --- !u!114 &274084840
@@ -882,7 +882,6 @@ MonoBehaviour:
   dash_speed: 15
   over_dash_velocity: 15
   dash_pause_time: 0.03
-  dashing: 0
 --- !u!114 &274084844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -922,6 +921,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   normal_gravityScale: 3
+--- !u!114 &274084847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274084834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a6b585402b48e4dac6fba91730ae9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Status: 0
+  NORMAL: 0
+  DASHING: 1
 --- !u!1 &276593404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,6 +1292,7 @@ GameObject:
   - component: {fileID: 439539334}
   - component: {fileID: 439539335}
   - component: {fileID: 439539336}
+  - component: {fileID: 439539337}
   m_Layer: 10
   m_Name: Fairy
   m_TagString: Fairy
@@ -1361,7 +1376,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583afec6aac6e5144828ca49eadd7d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  able_to_move: 0
   ground_speed: 7
   air_speed: 4
 --- !u!61 &439539328
@@ -1463,7 +1477,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7062ef4b61b18f94fa5973e6ade9833c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Is_Float_Point: 1
 --- !u!114 &439539334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1502,8 +1515,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b006907a93cfbbd448a7e8fa71b41c33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Charging: 0
   Connected_Arrow: {fileID: 0}
+--- !u!114 &439539337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439539324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a433a245059916f4ebab231506f2c48c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: 0
+  NORMAL: 0
+  FLOAT: 1
+  AIM: 2
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,7 +1792,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a9fd0b4e9957db458f8d75af90bc040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  have_ward: 0
 --- !u!1001 &580207736
 PrefabInstance:
   m_ObjectHideFlags: 0
