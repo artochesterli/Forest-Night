@@ -22,10 +22,12 @@ public class Invisible_Ward : MonoBehaviour
         var Fairy_Status = transform.parent.GetComponent<Fairy_Status_Manager>();
         if (Fairy_Status.status == Fairy_Status.NORMAL)
         {
+            transform.parent.GetComponent<Invisible>().invisible = true;
             GetComponent<CircleCollider2D>().enabled = true;
         }
         else
         {
+            transform.parent.GetComponent<Invisible>().invisible = false;
             GetComponent<CircleCollider2D>().enabled = false;
         }
     }

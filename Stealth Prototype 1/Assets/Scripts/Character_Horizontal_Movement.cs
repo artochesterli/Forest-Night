@@ -10,6 +10,8 @@ public class Character_Horizontal_Movement : MonoBehaviour
     public float air_speed;
 
     private Player player;
+
+    private const float moveVectorThreshold = 0.2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,10 @@ public class Character_Horizontal_Movement : MonoBehaviour
         var check_onground = GetComponent<Check_Onground>();
         Vector3 moveVector=Vector3.zero;
         moveVector.x = player.GetAxis("Move Horizontal");
+        if (Mathf.Abs(moveVector.x) < moveVectorThreshold)
+        {
+            moveVector.x = 0;
+        }
         if (check_onground.onground)
         {
             transform.position += moveVector * ground_speed * Time.deltaTime;

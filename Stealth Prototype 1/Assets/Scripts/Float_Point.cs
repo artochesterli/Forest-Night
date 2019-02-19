@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class Float_Point : MonoBehaviour
 {
 
+    private Player player;
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GetComponent<PlayerId>().player;
     }
 
     // Update is called once per frame
@@ -20,7 +22,7 @@ public class Float_Point : MonoBehaviour
 
     private void Check_Input()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (player.GetButtonDown("Skill_Y"))
         {
             var Fairy_Status = GetComponent<Fairy_Status_Manager>();
             if (Fairy_Status.status == Fairy_Status.NORMAL)

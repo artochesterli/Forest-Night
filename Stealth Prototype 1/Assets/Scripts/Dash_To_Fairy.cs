@@ -47,7 +47,7 @@ public class Dash_To_Fairy : MonoBehaviour
             Vector2 direction = fairy.transform.position - transform.position;
             direction.Normalize();
             float angle = Mathf.Atan2(direction.y, direction.x);
-            RaycastHit2D hit = Physics2D.BoxCast(new Vector2(transform.position.x, transform.position.y), transform.localScale, angle, direction, dash_distance, layermask);
+            RaycastHit2D hit = Physics2D.BoxCast(new Vector2(transform.position.x, transform.position.y), transform.localScale*0.9f, angle, direction, dash_distance, layermask);
             if (hit.collider.gameObject.CompareTag("Fairy"))
             {
                 detect_float_fairy = true;

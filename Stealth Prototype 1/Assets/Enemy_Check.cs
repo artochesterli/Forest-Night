@@ -4,76 +4,67 @@ using UnityEngine;
 
 public class Enemy_Check : MonoBehaviour
 {
-    public bool IsChecking;
-    public bool IsCheckingCharacter;
+
     public float Check_Character_Bar;
     public float Check_Object_Time;
-    public bool Check_Right;
+    public bool Check_Object_Right;
+    public float check_object_time_count;
 
     private GameObject detected_character;
+    
     private const float RaycastAngle=60;
     private const float RaycastLines = 7;
-    private const float RaycastDis = 8;
+    private const float RaycastDis = 10;
+    private const float irratate_dis = 3;
     private const float Check_Character_Bar_full=100;
     private const float Check_Character_Bar_Max_Up_Speed=300;
     private const float Check_Character_Bar_Fall_Speed = 30;
+
+    
     // Start is called before the first frame update
     void Start()
     {
         detected_character = null;
-        IsChecking = false;
-        IsCheckingCharacter = false;
         Check_Character_Bar = 0;
-
+        check_object_time_count = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         Find_Character();
+        Check_Object();
         Check_Character();
 
-
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(Check_Object());
-        }
     }
 
-    public IEnumerator Check_Object()
+    private void Check_Object()
     {
-        if (IsCheckingCharacter)
+        var Enemy_Status = GetComponent<Enemy_Status_Manager>();
+        if (Enemy_Status.Status == Enemy_Status.CHECK_OBJECT)
         {
-            yield break;
-        }
-        GetComponent<Enemy_Patrol>().IsPatrol = false;
-        IsChecking = true;
-        IsCheckingCharacter = false;
-        if (Check_Right)
-        {
-            transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
-        }
-        else
-        {
-            transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
-        }
-        float time_count = 0;
-        while (time_count < Check_Object_Time)
-        {
-            if (IsCheckingCharacter)
+            if (Check_Object_Right)
             {
-                yield break;
+                transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
             }
-            time_count += Time.deltaTime;
-            yield return null;
+            else
+            {
+                transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+            }
+            check_object_time_count += Time.deltaTime;
+            if (check_object_time_count > Check_Object_Time)
+            {
+                check_object_time_count = 0;
+                Enemy_Status.Status = Enemy_Status.PATROL;
+            }
         }
-        GetComponent<Enemy_Patrol>().IsPatrol = true;
-        IsChecking = false;
-
     }
+
+    
 
     private void Find_Character()
     {
+        var Enemy_Status = GetComponent<Enemy_Status_Manager>();
         int layermask = 1 << LayerMask.NameToLayer("Enemy");
         layermask = ~layermask;
         float angle = -RaycastAngle / 2;
@@ -85,25 +76,49 @@ public class Enemy_Check : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction, RaycastDis, layermask);
             if (hit&&(hit.collider.gameObject.CompareTag("Main_Character") || hit.collider.gameObject.CompareTag("Fairy")))
             {
-                IsChecking = true;
-                IsCheckingCharacter = true;
-                detected_character = hit.collider.gameObject;
-                GetComponent<Enemy_Patrol>().IsPatrol = false;
-                return;
+                if (!hit.collider.gameObject.GetComponent<Invisible>().invisible)
+                {
+                    Enemy_Status.Status = Enemy_Status.CHECK_CHARACTER;
+                    detected_character = hit.collider.gameObject;
+                    return;
+                }
             }
         }
-        IsChecking = false;
-        IsCheckingCharacter = false;
+        if(Enemy_Status.Status == Enemy_Status.CHECK_CHARACTER)
+        {
+            if (detected_character != null)
+            {
+                if (detected_character.transform.position.x > transform.position.x)
+                {
+                    Check_Object_Right = true;
+                }
+                else
+                {
+                    Check_Object_Right = false;
+                }
+                check_object_time_count = 0;
+                Enemy_Status.Status = Enemy_Status.CHECK_OBJECT;
+            }
+            else
+            {
+                Enemy_Status.Status = Enemy_Status.PATROL;
+            }
+            
+        }
         detected_character = null;
-        GetComponent<Enemy_Patrol>().IsPatrol = true;
     }
 
     private void Check_Character()
     {
-        if (IsCheckingCharacter)
+        var Enemy_Status = GetComponent<Enemy_Status_Manager>();
+        if (Enemy_Status.Status==Enemy_Status.CHECK_CHARACTER)
         {
             float dis = ((Vector2)(detected_character.transform.position - transform.position)).magnitude;
             Check_Character_Bar += Check_Character_Bar_Max_Up_Speed / dis * Time.deltaTime;
+            if (dis < irratate_dis)
+            {
+                Check_Character_Bar = Check_Character_Bar_full;
+            }
             if (Check_Character_Bar >= Check_Character_Bar_full)
             {
                 Destroy(detected_character);

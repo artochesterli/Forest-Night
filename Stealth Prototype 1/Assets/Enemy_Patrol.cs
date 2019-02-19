@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Enemy_Patrol : MonoBehaviour
 {
-    public bool IsPatrol;
     public float Patrol_Speed;
     public float Patrol_Right_pos_x;
     public float Patrol_Left_pos_x;
@@ -34,7 +33,8 @@ public class Enemy_Patrol : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsPatrol)
+        var Enemy_Status = GetComponent<Enemy_Status_Manager>();
+        if (Enemy_Status.Status==Enemy_Status.PATROL)
         {
             Patrol();
         }
