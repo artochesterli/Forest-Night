@@ -65,7 +65,8 @@ public class Enemy_Check : MonoBehaviour
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("Enemy");
+        int layermask = 1 << LayerMask.NameToLayer("Invisible_Ward")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object");
+  
         layermask = ~layermask;
         float angle = -RaycastAngle / 2;
         float Interval = RaycastAngle / (RaycastLines - 1);
@@ -74,6 +75,10 @@ public class Enemy_Check : MonoBehaviour
             Vector2 direction= Rotate((Vector2)transform.right, angle);
             angle += Interval;
             RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction, RaycastDis, layermask);
+            if (hit)
+            {
+                //Debug.Log(hit.collider.gameObject.name);
+            }
             if (hit&&(hit.collider.gameObject.CompareTag("Main_Character") || hit.collider.gameObject.CompareTag("Fairy")))
             {
                 if (!hit.collider.gameObject.GetComponent<Invisible>().invisible)

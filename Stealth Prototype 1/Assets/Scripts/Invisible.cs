@@ -19,11 +19,20 @@ public class Invisible : MonoBehaviour
         {
             Color current_color = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = new Color(current_color.r, current_color.g, current_color.b, invisible_alpha);
+            gameObject.layer = LayerMask.NameToLayer("Invisible_Object");
         }
         else
         {
             Color current_color = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = new Color(current_color.r, current_color.g, current_color.b, 1);
+            if (GetComponent<PlayerId>().Id == 0)
+            {
+                gameObject.layer = LayerMask.NameToLayer("Main_Character");
+            }
+            else
+            {
+                gameObject.layer = LayerMask.NameToLayer("Fairy");
+            }
         }
     }
 }

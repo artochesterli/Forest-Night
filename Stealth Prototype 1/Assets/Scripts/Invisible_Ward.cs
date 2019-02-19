@@ -23,11 +23,13 @@ public class Invisible_Ward : MonoBehaviour
         if (Fairy_Status.status == Fairy_Status.NORMAL)
         {
             transform.parent.GetComponent<Invisible>().invisible = true;
+            GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<CircleCollider2D>().enabled = true;
         }
         else
         {
             transform.parent.GetComponent<Invisible>().invisible = false;
+            GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<CircleCollider2D>().enabled = false;
         }
     }
