@@ -725,12 +725,12 @@ PrefabInstance:
     - target: {fileID: 2152294345904171487, guid: e7f41a3f4738df345946dc737c91096f,
         type: 3}
       propertyPath: Patrol_Right_pos_x
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2152294345904171487, guid: e7f41a3f4738df345946dc737c91096f,
         type: 3}
       propertyPath: Patrol_Left_pos_x
-      value: -2
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 2152294345904171487, guid: e7f41a3f4738df345946dc737c91096f,
         type: 3}
