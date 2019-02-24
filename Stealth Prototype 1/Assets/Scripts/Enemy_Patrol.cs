@@ -46,6 +46,8 @@ public class Enemy_Patrol : MonoBehaviour
 
     private void Patrol()
     {
+        GameObject Indicator = transform.Find("Indicator").gameObject;
+        Indicator.GetComponent<SpriteRenderer>().enabled = false;
         if (!IsObserving)
         {
             if (Patrol_Right)

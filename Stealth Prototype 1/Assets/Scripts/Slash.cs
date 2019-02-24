@@ -33,7 +33,7 @@ public class Slash : MonoBehaviour
 
     private void Check_Input()
     {
-        if (player.GetButtonDown("Slash")&&!Weapon_Active)
+        if (player.GetButtonDown("X")&&!Weapon_Active)
         {
             Weapon_Active = true;
             Weapon.SetActive(true);

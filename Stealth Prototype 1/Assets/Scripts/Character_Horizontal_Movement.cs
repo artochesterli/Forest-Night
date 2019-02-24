@@ -11,7 +11,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
 
     private Player player;
 
-    private const float moveVectorThreshold = 0.2f;
+    private const float moveVectorThreshold = 0.3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +25,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status == Fairy_Status.NORMAL || Fairy_Status.status == Fairy_Status.AIM)
+            if (Fairy_Status.status != Fairy_Status.CLIMBING)
             {
                 check_input();
             }
@@ -45,10 +45,14 @@ public class Character_Horizontal_Movement : MonoBehaviour
     {
         var check_onground = GetComponent<Check_Onground>();
         Vector3 moveVector=Vector3.zero;
-        moveVector.x = player.GetAxis("Move Horizontal");
+        moveVector.x = player.GetAxis("Left Stick X");
         if (Mathf.Abs(moveVector.x) < moveVectorThreshold)
         {
             moveVector.x = 0;
+        }
+        else
+        {
+            moveVector.Normalize();
         }
         if (check_onground.onground)
         {

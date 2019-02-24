@@ -5,45 +5,45 @@ using UnityEngine;
 public class Enemy_Check : MonoBehaviour
 {
 
-    public float Check_Character_Bar;
-    public float Check_Object_Time;
-    public bool Check_Object_Right;
-    public float check_object_time_count;
+    public float Alert_Time;
+    public float Attention_Drawn_Time;
+    public float Shoot_Time;
+    public bool Attention_Drawn_Right;
+
+    public float Alert_Distance;
+    public float Aim_Distance;
+    public float Shoot_Distance;
+    public float time_count;
+    public float alert_time_count;
 
     private GameObject detected_character;
     
     private const float RaycastAngle=60;
     private const float RaycastLines = 7;
-    private const float RaycastDis = 10;
-    private const float irratate_dis = 3;
-    private const float Check_Character_Bar_full=100;
-    private const float Check_Character_Bar_Max_Up_Speed=300;
-    private const float Check_Character_Bar_Fall_Speed = 30;
 
     
     // Start is called before the first frame update
     void Start()
     {
         detected_character = null;
-        Check_Character_Bar = 0;
-        check_object_time_count = 0;
+        time_count = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         Find_Character();
-        Check_Object();
-        Check_Character();
+        Attention_Drawn();
+        Alert();
 
     }
 
-    private void Check_Object()
+    private void Attention_Drawn()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        if (Enemy_Status.Status == Enemy_Status.CHECK_OBJECT)
+        if (Enemy_Status.Status == Enemy_Status.ATTENTION_DRAWN)
         {
-            if (Check_Object_Right)
+            if (Attention_Drawn_Right)
             {
                 transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
             }
@@ -51,10 +51,10 @@ public class Enemy_Check : MonoBehaviour
             {
                 transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
             }
-            check_object_time_count += Time.deltaTime;
-            if (check_object_time_count > Check_Object_Time)
+            time_count += Time.deltaTime;
+            if (time_count > Attention_Drawn_Time)
             {
-                check_object_time_count = 0;
+                time_count = 0;
                 Enemy_Status.Status = Enemy_Status.PATROL;
             }
         }
@@ -65,7 +65,7 @@ public class Enemy_Check : MonoBehaviour
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("Invisible_Ward")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object");
+        int layermask = 1 << LayerMask.NameToLayer("Bullet")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object");
   
         layermask = ~layermask;
         float angle = -RaycastAngle / 2;
@@ -74,24 +74,47 @@ public class Enemy_Check : MonoBehaviour
         {
             Vector2 direction= Rotate((Vector2)transform.right, angle);
             angle += Interval;
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction, RaycastDis, layermask);
-            if (hit)
-            {
-                //Debug.Log(hit.collider.gameObject.name);
-            }
+            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction, Alert_Distance, layermask);
+            
             if (hit&&(hit.collider.gameObject.CompareTag("Main_Character") || hit.collider.gameObject.CompareTag("Fairy")))
             {
-                if (!hit.collider.gameObject.GetComponent<Invisible>().invisible)
+                GameObject hit_collider = hit.collider.gameObject;
+                if (!hit_collider.GetComponent<Invisible>().invisible)
                 {
-                    Enemy_Status.Status = Enemy_Status.CHECK_CHARACTER;
-                    detected_character = hit.collider.gameObject;
+                    if (Enemy_Status.Status != Enemy_Status.SHOOT_CHARACTER)
+                    {
+                        if (((Vector2)(hit_collider.transform.position - transform.position)).magnitude <= Shoot_Distance)
+                        {
+                            Enemy_Status.Status = Enemy_Status.SHOOT_CHARACTER;
+                            time_count = 0;
+                            StartCoroutine(Shoot());
+                        }
+                        else
+                        {
+                            Enemy_Status.Status = Enemy_Status.ALERT;
+                        }
+                        detected_character = hit.collider.gameObject;
+                    }
                     return;
                 }
             }
         }
-        if(Enemy_Status.Status == Enemy_Status.CHECK_CHARACTER)
+        if (Enemy_Status.Status == Enemy_Status.ALERT)
         {
-            if (detected_character != null)
+            Enemy_Status.Status = Enemy_Status.ALERT_RELEASE;
+        }
+        if(Enemy_Status.Status == Enemy_Status.ALERT_RELEASE)
+        {
+            alert_time_count -= Time.deltaTime;
+            if (alert_time_count < 0)
+            {
+                alert_time_count = 0;
+                Enemy_Status.Status = Enemy_Status.PATROL;
+            }
+            detected_character = null;
+        }
+            
+            /*if (detected_character != null)
             {
                 if (detected_character.transform.position.x > transform.position.x)
                 {
@@ -107,38 +130,59 @@ public class Enemy_Check : MonoBehaviour
             else
             {
                 Enemy_Status.Status = Enemy_Status.PATROL;
-            }
-            
-        }
-        detected_character = null;
+            }*/
+
     }
 
-    private void Check_Character()
+    private void Alert ()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        if (Enemy_Status.Status==Enemy_Status.CHECK_CHARACTER)
+        GameObject Indicator = transform.Find("Indicator").gameObject;
+        if (Enemy_Status.Status==Enemy_Status.ALERT)
         {
-            float dis = ((Vector2)(detected_character.transform.position - transform.position)).magnitude;
-            Check_Character_Bar += Check_Character_Bar_Max_Up_Speed / dis * Time.deltaTime;
-            if (dis < irratate_dis)
+            Indicator.GetComponent<SpriteRenderer>().enabled = true;
+            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
+            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1 - alert_time_count / Alert_Time, 1 - alert_time_count / Alert_Time);
+            alert_time_count += Time.deltaTime;
+            if (alert_time_count > Alert_Time)
             {
-                Check_Character_Bar = Check_Character_Bar_full;
+                alert_time_count = Alert_Time;
+                Enemy_Status.Status = Enemy_Status.SHOOT_CHARACTER;
+                time_count = 0;
+                StartCoroutine(Shoot());
             }
-            if (Check_Character_Bar >= Check_Character_Bar_full)
-            {
-                Destroy(detected_character);
-            }
+
         }
-        else
-        {
-            Check_Character_Bar -= Check_Character_Bar_Fall_Speed * Time.deltaTime;
-            if (Check_Character_Bar < 0)
-            {
-                Check_Character_Bar = 0;
-            }
-        }
-        GetComponent<SpriteRenderer>().color = new Color(1, 1 - Check_Character_Bar / Check_Character_Bar_full, 1 - Check_Character_Bar / Check_Character_Bar_full);
     }
+
+    private IEnumerator Shoot()
+    {
+        GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+        alert_time_count = Alert_Time;
+        GameObject Indicator = transform.Find("Indicator").gameObject;
+        Indicator.GetComponent<SpriteRenderer>().enabled = true;
+        Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
+        Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 0, 0);
+
+        Vector2 direction = detected_character.transform.position - transform.position;
+        GameObject bullet = (GameObject)Instantiate(Resources.Load("Prefabs/Bullet_Enemy"), transform.position, new Quaternion(0, 0, 0, 0));
+        bullet.GetComponent<Bullet_Enemy>().target = detected_character;
+        bullet.transform.localScale = Vector3.zero;
+        bullet.transform.parent = transform;
+        float time_count = 0;
+        while (time_count < Shoot_Time)
+        {
+            bullet.transform.localScale = Vector3.one * time_count / Shoot_Time;
+            time_count += Time.deltaTime;
+            yield return null;
+        }
+        bullet.transform.parent = null;
+        bullet.GetComponent<Bullet_Enemy>().StartCoroutine(bullet.GetComponent<Bullet_Enemy>().fly());
+        var Enemy_Status = GetComponent<Enemy_Status_Manager>();
+        Enemy_Status.Status = Enemy_Status.ALERT_RELEASE;
+        GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+    }
+
     private Vector2 Rotate(Vector2 v, float degrees)
     {
         float radians = degrees * Mathf.Deg2Rad;

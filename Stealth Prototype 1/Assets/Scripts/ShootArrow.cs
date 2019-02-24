@@ -29,8 +29,8 @@ public class ShootArrow : MonoBehaviour
     private void Check_Input()
     {
         Vector2 direction = Vector2.zero;
-        direction.x = player.GetAxis("Select Direction X");
-        direction.y = player.GetAxis("Select Direction Y");
+        direction.x = player.GetAxis("Right Stick X");
+        direction.y = player.GetAxis("Right Stick Y");
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
         if (direction != Vector2.zero&&Fairy_Status.status!=Fairy_Status.FLOAT)
         {
@@ -41,7 +41,7 @@ public class ShootArrow : MonoBehaviour
                 Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
             }
             Connected_Arrow.transform.position = transform.position + (Vector3)direction;
-            if (player.GetButton("Charge"))
+            if (player.GetButton("LT"))
             {
                 current_arrow_velocity += Velocity_Charge_Speed * Time.deltaTime;
 
@@ -50,7 +50,7 @@ public class ShootArrow : MonoBehaviour
                     current_arrow_velocity = Max_Arrow_Velocity - Min_Arrow_Velocity;
                 }
             }
-            if (player.GetButtonDown("Dash and Release"))
+            if (player.GetButtonDown("RT"))
             {
                 
                 Connected_Arrow.GetComponent<Rigidbody2D>().velocity = (current_arrow_velocity + Min_Arrow_Velocity) * direction;

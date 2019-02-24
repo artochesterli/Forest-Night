@@ -25,14 +25,14 @@ public class Arrow : MonoBehaviour
         {
             if (transform.position.x > collision_object.transform.position.x)
             {
-                collision_object.GetComponent<Enemy_Check>().Check_Object_Right = true;
+                collision_object.GetComponent<Enemy_Check>().Attention_Drawn_Right = true;
             }
             else
             {
-                collision_object.GetComponent<Enemy_Check>().Check_Object_Right = false;
+                collision_object.GetComponent<Enemy_Check>().Attention_Drawn_Right = false;
             }
-            collision_object.GetComponent<Enemy_Check>().check_object_time_count = 0;
-            collision_object.GetComponent<Enemy_Status_Manager>().Status = collision_object.GetComponent<Enemy_Status_Manager>().CHECK_OBJECT;
+            collision_object.GetComponent<Enemy_Check>().time_count = 0;
+            collision_object.GetComponent<Enemy_Status_Manager>().Status = collision_object.GetComponent<Enemy_Status_Manager>().ATTENTION_DRAWN;
 
         }
 
