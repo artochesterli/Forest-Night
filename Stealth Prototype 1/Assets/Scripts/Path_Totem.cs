@@ -12,7 +12,10 @@ public class Path_Totem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(GetComponent<Totem_Status_Manager>().Status== GetComponent<Totem_Status_Manager>().INGROUND)
+        {
+            Create_Path();
+        }
     }
 
     // Update is called once per frame

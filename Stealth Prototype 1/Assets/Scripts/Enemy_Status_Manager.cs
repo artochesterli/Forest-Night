@@ -12,6 +12,7 @@ public class Enemy_Status_Manager : MonoBehaviour
     public int AIM_CHARACTER = 3;
     public int SHOOT_CHARACTER = 4;
     public int ALERT_RELEASE = 5;
+    public int DRAWN_BY_GEM = 6;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,4 +24,6 @@ public class Enemy_Status_Manager : MonoBehaviour
     {
         
     }
+
+
 }

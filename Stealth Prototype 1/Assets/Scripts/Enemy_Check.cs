@@ -35,6 +35,7 @@ public class Enemy_Check : MonoBehaviour
         Find_Character();
         Attention_Drawn();
         Alert();
+        Alert_Release();
 
     }
 
@@ -87,13 +88,15 @@ public class Enemy_Check : MonoBehaviour
                         {
                             Enemy_Status.Status = Enemy_Status.SHOOT_CHARACTER;
                             time_count = 0;
+                            detected_character = hit.collider.gameObject;
                             StartCoroutine(Shoot());
                         }
                         else
                         {
+                            detected_character = hit.collider.gameObject;
                             Enemy_Status.Status = Enemy_Status.ALERT;
                         }
-                        detected_character = hit.collider.gameObject;
+                        
                     }
                     return;
                 }
@@ -103,7 +106,7 @@ public class Enemy_Check : MonoBehaviour
         {
             Enemy_Status.Status = Enemy_Status.ALERT_RELEASE;
         }
-        if(Enemy_Status.Status == Enemy_Status.ALERT_RELEASE)
+        /*if(Enemy_Status.Status == Enemy_Status.ALERT_RELEASE)
         {
             alert_time_count -= Time.deltaTime;
             if (alert_time_count < 0)
@@ -112,25 +115,8 @@ public class Enemy_Check : MonoBehaviour
                 Enemy_Status.Status = Enemy_Status.PATROL;
             }
             detected_character = null;
-        }
+        }*/
             
-            /*if (detected_character != null)
-            {
-                if (detected_character.transform.position.x > transform.position.x)
-                {
-                    Check_Object_Right = true;
-                }
-                else
-                {
-                    Check_Object_Right = false;
-                }
-                check_object_time_count = 0;
-                Enemy_Status.Status = Enemy_Status.CHECK_OBJECT;
-            }
-            else
-            {
-                Enemy_Status.Status = Enemy_Status.PATROL;
-            }*/
 
     }
 
@@ -151,7 +137,25 @@ public class Enemy_Check : MonoBehaviour
                 time_count = 0;
                 StartCoroutine(Shoot());
             }
+        }
+    }
 
+    private void Alert_Release()
+    {
+        var Enemy_Status = GetComponent<Enemy_Status_Manager>();
+        GameObject Indicator = transform.Find("Indicator").gameObject;
+        if (Enemy_Status.Status == Enemy_Status.ALERT_RELEASE)
+        {
+            Indicator.GetComponent<SpriteRenderer>().enabled = true;
+            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
+            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1 - alert_time_count / Alert_Time, 1 - alert_time_count / Alert_Time);
+            alert_time_count -= Time.deltaTime;
+            if (alert_time_count < 0)
+            {
+                alert_time_count = 0;
+                Enemy_Status.Status = Enemy_Status.PATROL;
+            }
+            detected_character = null;
         }
     }
 

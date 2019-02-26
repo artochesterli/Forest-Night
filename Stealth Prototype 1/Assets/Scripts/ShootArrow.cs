@@ -41,19 +41,12 @@ public class ShootArrow : MonoBehaviour
                 Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
             }
             Connected_Arrow.transform.position = transform.position + (Vector3)direction;
-            if (player.GetButton("LT"))
-            {
-                current_arrow_velocity += Velocity_Charge_Speed * Time.deltaTime;
 
-                if (current_arrow_velocity + Min_Arrow_Velocity > Max_Arrow_Velocity)
-                {
-                    current_arrow_velocity = Max_Arrow_Velocity - Min_Arrow_Velocity;
-                }
-            }
+            Connected_Arrow.transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction),Vector3.forward);
             if (player.GetButtonDown("RT"))
             {
-                
-                Connected_Arrow.GetComponent<Rigidbody2D>().velocity = (current_arrow_velocity + Min_Arrow_Velocity) * direction;
+                Connected_Arrow.GetComponent<Arrow>().direction = direction;
+
                 current_arrow_velocity = 0;
                 Connected_Arrow.transform.parent = null;
                 Connected_Arrow = null;
@@ -70,8 +63,8 @@ public class ShootArrow : MonoBehaviour
                 Destroy(Connected_Arrow.gameObject);
             }
         }
-
-
     }
+
+    
 
 }

@@ -35,7 +35,7 @@ public class Mirror_Tolem : MonoBehaviour
         if (ob.CompareTag("Bullet_Enemy"))
         {
             ob.GetComponent<Bullet_Enemy>().target = null;
-            //ob.GetComponent<Bullet_Enemy>().deadly_to_enemy = true;
+            ob.GetComponent<Bullet_Enemy>().deadly_to_enemy = true;
             ob.GetComponent<Bullet_Enemy>().direction.x *= -1;
         }
     }

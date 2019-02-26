@@ -92,7 +92,6 @@ public class Character_Climb : MonoBehaviour
             if (player.GetButtonDown("A") && !in_Path_end)
             {
                 IsClimbing = false;
-                Debug.Log((Vector2)transform.right);
                 GetComponent<Rigidbody2D>().velocity += (Vector2)transform.right * jump_off_velocity;
             }
         }

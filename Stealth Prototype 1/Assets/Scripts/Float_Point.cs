@@ -24,11 +24,11 @@ public class Float_Point : MonoBehaviour
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
         if (player.GetButton("LT")&& Fairy_Status.status!=Fairy_Status.CLIMBING&&!GetComponent<Check_Onground>().onground)
         {
-            Fairy_Status.status = Fairy_Status.FLOAT;
+            Fairy_Status.status = Fairy_Status.FLOAT_PLATFORM;
         }
         else
         {
-            if (Fairy_Status.status == Fairy_Status.FLOAT)
+            if (Fairy_Status.status == Fairy_Status.FLOAT_PLATFORM)
             {
                 Fairy_Status.status = Fairy_Status.NORMAL;
             }

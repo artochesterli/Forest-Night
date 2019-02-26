@@ -5,17 +5,20 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
 
+    public float speed;
+    public Vector2 direction;
+
     private GameObject collision_object;
     // Start is called before the first frame update
     void Start()
     {
-
+        direction = Vector2.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        transform.position += speed * (Vector3)direction * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
