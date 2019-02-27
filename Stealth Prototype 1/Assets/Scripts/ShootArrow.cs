@@ -36,6 +36,9 @@ public class ShootArrow : MonoBehaviour
         {
             direction.Normalize();
             Fairy_Status.status = Fairy_Status.AIM;
+            GameObject Aim_Line = transform.Find("Aim_Line").gameObject;
+            Aim_Line.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = true;
+            Aim_Line.transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
             if (Connected_Arrow == null)
             {
                 Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
@@ -54,6 +57,8 @@ public class ShootArrow : MonoBehaviour
         }
         else
         {
+            GameObject Aim_Line = transform.Find("Aim_Line").gameObject;
+            Aim_Line.transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
             if (Fairy_Status.status == Fairy_Status.AIM)
             {
                 Fairy_Status.status = Fairy_Status.NORMAL;

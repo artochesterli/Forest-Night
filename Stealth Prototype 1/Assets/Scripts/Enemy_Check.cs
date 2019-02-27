@@ -44,6 +44,10 @@ public class Enemy_Check : MonoBehaviour
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
         if (Enemy_Status.Status == Enemy_Status.ATTENTION_DRAWN)
         {
+            GameObject Indicator = transform.Find("Indicator").gameObject;
+            Indicator.GetComponent<SpriteRenderer>().enabled = true;
+            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/Question Mark", typeof(Sprite)) as Sprite;
+            Indicator.transform.rotation = new Quaternion(0, 0, 0, 0);
             if (Attention_Drawn_Right)
             {
                 transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
@@ -66,8 +70,7 @@ public class Enemy_Check : MonoBehaviour
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("Bullet")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object");
-  
+        int layermask = 1 << LayerMask.NameToLayer("Bullet")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Arrow");
         layermask = ~layermask;
         float angle = -RaycastAngle / 2;
         float Interval = RaycastAngle / (RaycastLines - 1);

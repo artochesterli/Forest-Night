@@ -17,7 +17,14 @@ public class Detect_Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GetComponent<Check_Onground>().onground)
+        {
+            GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+        else
+        {
+            GetComponent<BoxCollider2D>().isTrigger = true;
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)

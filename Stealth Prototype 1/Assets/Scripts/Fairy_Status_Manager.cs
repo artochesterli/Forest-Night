@@ -52,7 +52,7 @@ public class Fairy_Status_Manager : MonoBehaviour
             GetComponent<Rigidbody2D>().gravityScale = 0;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GetComponent<Invisible>().AbleToInvisible = false;
-            GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, current_color.a);
+            GetComponent<SpriteRenderer>().color = new Color(100/255f, 1, 0, current_color.a);
         }
     }
 }
