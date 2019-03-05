@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Mirror_Tolem : MonoBehaviour
 {
-    public GameObject connected_totem;
+    public List<GameObject> connected_mirrors;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,21 +23,22 @@ public class Mirror_Tolem : MonoBehaviour
 
         if (ob.name == "Weapon")
         {
-            var self_status = GetComponent<Totem_Status_Manager>();
-            self_status.Status = self_status.INGROUND;
-            if (connected_totem != null)
+            for (int i = 0; i < connected_mirrors.Count; i++)
             {
-                var connected_status=connected_totem.GetComponent<Totem_Status_Manager>();
-                connected_status.Status = connected_status.APPEAR;
+                var connected_status = connected_mirrors[i].GetComponent<Totem_Status_Manager>();
+                if (connected_status.Status == connected_status.APPEAR)
+                {
+                    connected_status.Status = connected_status.INGROUND;
+                }
+                else if(connected_status.Status == connected_status.INGROUND)
+                {
+                    connected_status.Status = connected_status.APPEAR;
+                }
+                
             }
         }
 
-        if (ob.CompareTag("Bullet_Enemy"))
-        {
-            ob.GetComponent<Bullet_Enemy>().target = null;
-            ob.GetComponent<Bullet_Enemy>().deadly_to_enemy = true;
-            ob.GetComponent<Bullet_Enemy>().direction.x *= -1;
-        }
+        
     }
 
 
