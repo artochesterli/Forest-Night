@@ -7,7 +7,8 @@ public class Check_Onground : MonoBehaviour
 
     public bool onground;
 
-    private const float detect_dis = 0.05f;
+    private const float detect_dis = 0.55f;
+    private const float detect_offset = 0.35f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,10 +25,11 @@ public class Check_Onground : MonoBehaviour
     {
         int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1<<LayerMask.NameToLayer("Invisible_Object")| 1<< LayerMask.NameToLayer("Fairy") | 1<<LayerMask.NameToLayer("Path") | 1<<LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("Totem");
         layermask = ~layermask;
-        RaycastHit2D hit = Physics2D.BoxCast(new Vector2(transform.position.x, transform.position.y), new Vector3(transform.localScale.x*0.7f,transform.localScale.y,transform.localScale.z), 0, Vector2.down, detect_dis, layermask);
-        if (hit.collider != null)
+        RaycastHit2D hit1 = Physics2D.Raycast(new Vector2(transform.position.x-detect_offset, transform.position.y), Vector2.down, detect_dis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(new Vector2(transform.position.x+detect_offset, transform.position.y), Vector2.down, detect_dis, layermask);
+        
+        if (hit1.collider != null || hit2.collider!=null)
         {
-
             onground = true;
         }
         else

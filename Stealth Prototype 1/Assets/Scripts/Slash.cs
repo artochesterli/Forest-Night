@@ -27,8 +27,12 @@ public class Slash : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Check_Input();
-        Check_Status();
+        var character = GetComponent<Main_Character_Status_Manager>();
+        if (character.status != character.TRANSPORTING && character.status!=character.AIMED)
+        {
+            Check_Input();
+            Check_Status();
+        }
     }
 
     private void Check_Input()

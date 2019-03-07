@@ -51,7 +51,7 @@ public class Character_Jump : MonoBehaviour
         else if (gameObject.CompareTag("Main_Character"))
         {
             var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-            if (Main_Character_Status.Status == Main_Character_Status.NORMAL)
+            if (Main_Character_Status.status == Main_Character_Status.NORMAL)
             {
                 AbleToJump = true;
             }

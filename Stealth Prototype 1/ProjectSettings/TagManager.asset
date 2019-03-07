@@ -13,6 +13,9 @@ TagManager:
   - Gem_Tolem
   - Path_Totem
   - Path
+  - Portal
+  - Mirror
+  - Totem_Platform
   layers:
   - Default
   - TransparentFX
@@ -25,7 +28,7 @@ TagManager:
   - PostProcessing
   - Main_Character
   - Fairy
-  - Invisible_Ward
+  - Portal
   - Enemy
   - Arrow
   - Invisible_Object
@@ -33,8 +36,8 @@ TagManager:
   - Totem
   - Path
   - Gem
-  - 
-  - 
+  - Mirror
+  - PlatformTotemTrigger
   - 
   - 
   - 

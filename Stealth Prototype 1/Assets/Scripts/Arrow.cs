@@ -26,20 +26,29 @@ public class Arrow : MonoBehaviour
         collision_object = collision.GetComponent<Collider2D>().gameObject;
         if (collision_object.CompareTag("Enemy"))
         {
-            if (transform.position.x > collision_object.transform.position.x)
+            /*if (transform.position.x > collision_object.transform.position.x)
             {
                 collision_object.GetComponent<Enemy_Check>().Attention_Drawn_Right = true;
             }
             else
             {
                 collision_object.GetComponent<Enemy_Check>().Attention_Drawn_Right = false;
-            }
+            }*/
             collision_object.GetComponent<Enemy_Check>().time_count = 0;
-            collision_object.GetComponent<Enemy_Status_Manager>().Status = collision_object.GetComponent<Enemy_Status_Manager>().ATTENTION_DRAWN;
+            collision_object.GetComponent<Enemy_Status_Manager>().status = collision_object.GetComponent<Enemy_Status_Manager>().STUNNED;
 
         }
 
-        Destroy(gameObject);
+        if (collision_object.CompareTag("Mirror"))
+        {
+            direction.x = -direction.x;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        
 
     }
 }

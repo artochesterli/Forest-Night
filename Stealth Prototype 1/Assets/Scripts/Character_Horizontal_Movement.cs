@@ -11,7 +11,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
 
     private Player player;
 
-    private const float moveVectorThreshold = 0.3f;
+    private const float moveVectorThreshold = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +25,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status != Fairy_Status.CLIMBING&&Fairy_Status.status!=Fairy_Status.FLOAT_PLATFORM)
+            if (Fairy_Status.status != Fairy_Status.CLIMBING&&Fairy_Status.status!=Fairy_Status.FLOAT_PLATFORM&&Fairy_Status.status!=Fairy_Status.TRANSPORTING&&Fairy_Status.status!=Fairy_Status.AIMED)
             {
                 check_input();
             }
@@ -33,7 +33,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         else if(gameObject.CompareTag("Main_Character"))
         {
             var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-            if (Main_Character_Status.Status == Main_Character_Status.NORMAL)
+            if (Main_Character_Status.status == Main_Character_Status.NORMAL)
             {
                 check_input();
             }

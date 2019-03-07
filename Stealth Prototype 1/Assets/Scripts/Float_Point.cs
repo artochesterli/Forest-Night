@@ -16,13 +16,17 @@ public class Float_Point : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Check_Input();
+        var Fairy_Status = GetComponent<Fairy_Status_Manager>();
+        if (Fairy_Status.status != Fairy_Status.AIMED && Fairy_Status.status != Fairy_Status.CLIMBING && !GetComponent<Check_Onground>().onground)
+        {
+            Check_Input();
+        }
     }
 
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (player.GetButton("LT")&& Fairy_Status.status!=Fairy_Status.CLIMBING&&!GetComponent<Check_Onground>().onground)
+        if (player.GetButton("LT"))
         {
             Fairy_Status.status = Fairy_Status.FLOAT_PLATFORM;
         }

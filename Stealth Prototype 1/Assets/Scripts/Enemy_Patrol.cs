@@ -34,7 +34,7 @@ public class Enemy_Patrol : MonoBehaviour
     void Update()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        if (Enemy_Status.Status==Enemy_Status.PATROL)
+        if (Enemy_Status.status==Enemy_Status.PATROL)
         {
             Patrol();
         }

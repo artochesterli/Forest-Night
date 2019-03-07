@@ -26,8 +26,12 @@ public class Dash_To_Fairy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        lock_fairy();
-        Check_Input();
+        var character = GetComponent<Main_Character_Status_Manager>();
+        if (character.status != character.TRANSPORTING && character.status!=character.AIMED)
+        {
+            lock_fairy();
+            Check_Input();
+        }
     }
 
     private void lock_fairy()
@@ -37,7 +41,7 @@ public class Dash_To_Fairy : MonoBehaviour
         {
             return;
         }
-        if (Main_Character_Status.Status==Main_Character_Status.DASHING)
+        if (Main_Character_Status.status==Main_Character_Status.DASHING)
         {
             detect_float_fairy = false;
             return;
@@ -79,7 +83,7 @@ public class Dash_To_Fairy : MonoBehaviour
     private void Check_Input()
     {
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-        if (player.GetButtonDown("RT") && detect_float_fairy && Main_Character_Status.Status != Main_Character_Status.DASHING)
+        if (player.GetButtonDown("RT") && detect_float_fairy && Main_Character_Status.status != Main_Character_Status.DASHING)
         {
             StartCoroutine(Dash());
         }
@@ -88,7 +92,7 @@ public class Dash_To_Fairy : MonoBehaviour
     private IEnumerator Dash()
     {
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-        Main_Character_Status.Status = Main_Character_Status.DASHING;
+        Main_Character_Status.status = Main_Character_Status.DASHING;
 
         Vector2 direction = Character_Manager.Fairy.transform.position - transform.position;
         direction.Normalize();
@@ -118,7 +122,7 @@ public class Dash_To_Fairy : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 //GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-                Main_Character_Status.Status = Main_Character_Status.NORMAL;
+                Main_Character_Status.status = Main_Character_Status.NORMAL;
                 yield break;
             }
         }
@@ -137,13 +141,13 @@ public class Dash_To_Fairy : MonoBehaviour
             {
                 GetComponent<Rigidbody2D>().velocity = Vector2.zero;
                 //GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-                Main_Character_Status.Status = Main_Character_Status.NORMAL;
+                Main_Character_Status.status = Main_Character_Status.NORMAL;
                 yield break;
             }
         }
         current_speed = (1 - over_dash_decelerate_factor) * over_dash_velocity;
 
-        Main_Character_Status.Status = Main_Character_Status.NORMAL;
+        Main_Character_Status.status = Main_Character_Status.NORMAL;
 
         time_count = 0;
         while (time_count < dash_pause_time)

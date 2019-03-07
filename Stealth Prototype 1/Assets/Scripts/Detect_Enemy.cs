@@ -44,9 +44,9 @@ public class Detect_Enemy : MonoBehaviour
             {
                 detected_enemy_list.Add(ob);
                 var status = ob.GetComponent<Enemy_Status_Manager>();
-                if (status.Status ==status.PATROL)
+                if (status.status ==status.PATROL)
                 {
-                    status.Status = status.DRAWN_BY_GEM;
+                    status.status = status.DRAWN_BY_GEM;
                     ob.GetComponent<Chase_Gem>().connected_gem = gameObject;
                     ob.GetComponent<Chase_Gem>().StartCoroutine(ob.GetComponent<Chase_Gem>().Chase());
                 }

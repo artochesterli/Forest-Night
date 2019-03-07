@@ -29,7 +29,24 @@ public class Character_Climb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Check_Input();
+        if (gameObject.CompareTag("Fairy"))
+        {
+            var Status = GetComponent<Fairy_Status_Manager>();
+            if (Status.status != Status.AIMED)
+            {
+                Check_Input();
+            }
+
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            var Status = GetComponent<Main_Character_Status_Manager>();
+            if (Status.status != Status.AIMED)
+            {
+                Check_Input();
+            }
+        }
+        
         Check_Status();
     }
 
@@ -63,7 +80,7 @@ public class Character_Climb : MonoBehaviour
                 {
                     transform.position = new Vector3(connected_path.transform.position.x, transform.position.y - climb_initial_offset, 0);
                 }
-                Status.Status = Status.CLIMBING;
+                Status.status = Status.CLIMBING;
             }
         }
         if (!AbleToClimb)
@@ -119,9 +136,9 @@ public class Character_Climb : MonoBehaviour
             else if (gameObject.CompareTag("Main_Character"))
             {
                 var Status = GetComponent<Main_Character_Status_Manager>();
-                if (Status.Status == Status.CLIMBING)
+                if (Status.status == Status.CLIMBING)
                 {
-                    Status.Status = Status.NORMAL;
+                    Status.status = Status.NORMAL;
                 }
             }
         }

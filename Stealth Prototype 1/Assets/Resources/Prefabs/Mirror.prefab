@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1176620642211340187}
   - component: {fileID: 3263270309105882419}
   - component: {fileID: 5593969219881243062}
-  m_Layer: 16
+  m_Layer: 19
   m_Name: Mirror
-  m_TagString: Mirror_Tolem
+  m_TagString: Mirror
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,7 +107,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.4, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &3263270309105882419
 MonoBehaviour:
@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8938646354471402902}
   - component: {fileID: 2736364224819549741}
-  m_Layer: 16
+  m_Layer: 19
   m_Name: InGroundIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
