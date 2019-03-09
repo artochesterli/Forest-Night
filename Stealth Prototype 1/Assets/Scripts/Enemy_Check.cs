@@ -71,7 +71,7 @@ public class Enemy_Check : MonoBehaviour
         {
             GameObject Indicator = transform.Find("Indicator").gameObject;
             Indicator.GetComponent<SpriteRenderer>().enabled = true;
-            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/Question Mark", typeof(Sprite)) as Sprite;
+            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/Stunned Mark", typeof(Sprite)) as Sprite;
             Indicator.transform.rotation = new Quaternion(0, 0, 0, 0);
             time_count += Time.deltaTime;
             if (time_count > Stunned_Time)
@@ -113,7 +113,7 @@ public class Enemy_Check : MonoBehaviour
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("Bullet")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Arrow") | 1<<LayerMask.NameToLayer("Portal");
+        int layermask = 1 << LayerMask.NameToLayer("Bullet")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Arrow") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger");
         layermask = ~layermask;
         float angle = -RaycastAngle / 2;
         float Interval = RaycastAngle / (RaycastLines - 1);
@@ -226,7 +226,7 @@ public class Enemy_Check : MonoBehaviour
                 if (detected_character != null)
                 {
                     Vector2 StartPoint = transform.position + transform.right * InitialLaserOffset;
-                    Vector2 direction = (detected_character_hit_point+(Vector2)detected_character.transform.position- StartPoint).normalized;
+                    Vector2 direction = ((Vector2)detected_character.transform.position- StartPoint).normalized;
                     GenerateLaserLine(direction, StartPoint);
                 }
                 else
@@ -259,7 +259,7 @@ public class Enemy_Check : MonoBehaviour
             return;
         }
 
-        int layermask = 1 << LayerMask.NameToLayer("Bullet") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal");
+        int layermask = 1 << LayerMask.NameToLayer("Bullet") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("PlatformTotemTrigger");
         layermask = ~layermask;
 
         float mag = 100;

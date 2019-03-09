@@ -23,29 +23,18 @@ public class AttachToPlatform : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.CompareTag("Totem_Platform"))
+        if (ob.CompareTag("Totem_Platform_Trigger"))
         {
-            transform.parent = ob.transform.root;
+            transform.parent = ob.transform;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.CompareTag("Totem_Platform"))
+        if (ob.CompareTag("Totem_Platform_Trigger"))
         {
             transform.parent = null;
         }
-    }
-
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        
     }
 }

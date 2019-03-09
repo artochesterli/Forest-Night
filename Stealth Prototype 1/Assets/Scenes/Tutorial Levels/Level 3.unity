@@ -491,18 +491,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 516990431621321867, guid: 967243e10876d724d9aec4ce3b3a4b66,
         type: 3}
-      propertyPath: SecondPoint.x
-      value: -15
-      objectReference: {fileID: 0}
-    - target: {fileID: 516990431621321867, guid: 967243e10876d724d9aec4ce3b3a4b66,
-        type: 3}
       propertyPath: SecondPoint.y
       value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 516990431621321867, guid: 967243e10876d724d9aec4ce3b3a4b66,
         type: 3}
-      propertyPath: move_period
-      value: 10
+      propertyPath: SecondPoint.x
+      value: -15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 967243e10876d724d9aec4ce3b3a4b66, type: 3}
@@ -3375,6 +3370,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436912808128966260, guid: ba420d28e57a3384dbd93fdba2049f41,
+        type: 3}
+      propertyPath: m_AngularDrag
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6621630440457991297, guid: ba420d28e57a3384dbd93fdba2049f41,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba420d28e57a3384dbd93fdba2049f41, type: 3}

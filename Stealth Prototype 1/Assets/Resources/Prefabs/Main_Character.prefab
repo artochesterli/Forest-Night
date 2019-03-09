@@ -212,6 +212,8 @@ GameObject:
   - component: {fileID: 2976651962471586702}
   - component: {fileID: 2976651962471586697}
   - component: {fileID: 2976651962471586696}
+  - component: {fileID: 2575175391353359249}
+  - component: {fileID: 6088998268241456525}
   m_Layer: 9
   m_Name: Main_Character
   m_TagString: Main_Character
@@ -297,7 +299,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -457,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a6b585402b48e4dac6fba91730ae9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Status: 0
+  status: 0
   NORMAL: 0
   DASHING: 1
   CLIMBING: 2
@@ -499,5 +501,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 444bd061c6f67e34e8b9f72e2131b353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2575175391353359249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d52a3c0f1a049904aaa6316a0d0884a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6088998268241456525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6983885574e7ce644a90fb65db1d4a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

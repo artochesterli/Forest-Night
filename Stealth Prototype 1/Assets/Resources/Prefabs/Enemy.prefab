@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Alert_Time: 2
   Attention_Drawn_Time: 2
-  Stunned_Time: 2
+  Stunned_Time: 3
   Shoot_Time: 0.5
   Attention_Drawn_Right: 0
   Alert_Distance: 8

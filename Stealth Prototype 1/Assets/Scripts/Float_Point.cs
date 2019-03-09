@@ -21,6 +21,13 @@ public class Float_Point : MonoBehaviour
         {
             Check_Input();
         }
+        else
+        {
+            if (Fairy_Status.status == Fairy_Status.FLOAT_PLATFORM)
+            {
+                Fairy_Status.status = Fairy_Status.NORMAL;
+            }
+        }
     }
 
     private void Check_Input()

@@ -53,7 +53,7 @@ public class ShootArrow : MonoBehaviour
             ClearAimLine();
             CreateAimLIne(direction, Connected_Arrow.transform.position);
 
-            if (player.GetButtonDown("RT"))
+            if (player.GetButtonDown("LT"))
             {
                 Connected_Arrow.GetComponent<Arrow>().direction = direction;
 
@@ -78,7 +78,7 @@ public class ShootArrow : MonoBehaviour
 
     private void CreateAimLIne(Vector2 direction, Vector2 StartPoint)
     {
-        int layermask = 1 << LayerMask.NameToLayer("Bullet") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal");
+        int layermask = 1 << LayerMask.NameToLayer("Bullet") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger");
         layermask = ~layermask;
         float mag = 100;
         RaycastHit2D hit= Physics2D.Raycast(StartPoint, direction, mag, layermask);

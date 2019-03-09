@@ -4493,6 +4493,11 @@ PrefabInstance:
       propertyPath: transport_time
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 655564900865881730, guid: f62563ca72d305346940ce430e95a8bd,
+        type: 3}
+      propertyPath: connected_scene
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f62563ca72d305346940ce430e95a8bd, type: 3}
 --- !u!1001 &999031333

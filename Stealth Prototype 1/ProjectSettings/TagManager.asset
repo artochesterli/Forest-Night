@@ -16,6 +16,7 @@ TagManager:
   - Portal
   - Mirror
   - Totem_Platform
+  - Totem_Platform_Trigger
   layers:
   - Default
   - TransparentFX
