@@ -9,6 +9,7 @@ public class ShootArrow : MonoBehaviour
 
     private float current_arrow_velocity;
     private Player player;
+    private Vector2 direction;
 
     private const float Velocity_Charge_Speed = 10;
     private const float Aim_offset = 1;
@@ -35,10 +36,25 @@ public class ShootArrow : MonoBehaviour
 
     private void Check_Input()
     {
-        Vector2 direction = Vector2.zero;
-        direction.x = player.GetAxis("Right Stick X");
-        direction.y = player.GetAxis("Right Stick Y");
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
+        if (Fairy_Status.status != Fairy_Status.FLOAT&& Fairy_Status.status != Fairy_Status.TRANSPORTING && Fairy_Status.status != Fairy_Status.FLOAT_PLATFORM && GetComponent<Check_Onground>().onground && player.GetButtonDown("RT"))
+        {
+            Fairy_Status.status = Fairy_Status.AIM;
+            direction = transform.right;
+            if (Connected_Arrow == null)
+            {
+                Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
+            }
+            Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
+            Connected_Arrow.transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
+        }
+
+            
+
+
+        direction.x = player.GetAxis("Left Stick X");
+        direction.y = player.GetAxis("Left Stick Y");
+        
         if (direction != Vector2.zero&&Fairy_Status.status!=Fairy_Status.FLOAT&&Fairy_Status.status!=Fairy_Status.TRANSPORTING&&Fairy_Status.status!=Fairy_Status.FLOAT_PLATFORM&&GetComponent<Check_Onground>().onground)
         {
             direction.Normalize();

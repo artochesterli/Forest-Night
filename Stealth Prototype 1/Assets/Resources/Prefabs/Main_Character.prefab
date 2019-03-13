@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 2976651962471586696}
   - component: {fileID: 2575175391353359249}
   - component: {fileID: 6088998268241456525}
+  - component: {fileID: 3165109088771236861}
   m_Layer: 9
   m_Name: Main_Character
   m_TagString: Main_Character
@@ -432,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ec3e8d8d3da0a44945e1f743f087e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump_initial_velocity_y: 10
+  jump_initial_velocity_y: 10.5
 --- !u!114 &2976651962471586700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,3 +528,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6983885574e7ce644a90fb65db1d4a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3165109088771236861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9335d0f4206b0a43af85066e6bf72f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RightCollide: 0
+  LeftCollide: 0

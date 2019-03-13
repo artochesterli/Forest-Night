@@ -55,7 +55,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
         else if (status == AIMED)
         {
             GetComponent<Invisible>().AbleToInvisible = false;
-            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
+            GetComponent<Rigidbody2D>().gravityScale = 0;
         }
     }
 
@@ -66,6 +66,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
             AimedTimeCount += Time.deltaTime;
             if (AimedTimeCount > AimedDiedTime)
             {
+                EventManager.instance.Fire(new CharacterDied(gameObject));
                 Destroy(gameObject);
             }
         }

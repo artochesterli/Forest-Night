@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 3436912808128966256}
   - component: {fileID: 6621630440457991297}
   - component: {fileID: 3608332222062454649}
+  - component: {fileID: 2527191512924615422}
   m_Layer: 10
   m_Name: Fairy
   m_TagString: Fairy
@@ -412,6 +413,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d52a3c0f1a049904aaa6316a0d0884a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2527191512924615422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436912808128966255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9335d0f4206b0a43af85066e6bf72f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RightCollide: 0
+  LeftCollide: 0
 --- !u!1001 &3436912807943592427
 PrefabInstance:
   m_ObjectHideFlags: 0

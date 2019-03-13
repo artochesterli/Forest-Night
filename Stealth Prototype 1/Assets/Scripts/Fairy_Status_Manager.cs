@@ -26,8 +26,46 @@ public class Fairy_Status_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SetPhysicsData();
+        SetInvisibility();
+        FloatGoingDown();
         set_status();
         check_aimed();
+    }
+
+    private void SetPhysicsData()
+    {
+        if (!Freeze_Manager.freeze)
+        {
+            if (status == NORMAL || status == AIM || status == TRANSPORTING)
+            {
+                GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
+            }
+            else if (status == FLOAT || status == FLOAT_PLATFORM || status == CLIMBING || status == AIMED)
+            {
+                GetComponent<Rigidbody2D>().gravityScale = 0;
+            }
+        }
+    }
+
+    private void SetInvisibility()
+    {
+        if (status == NORMAL)
+        {
+            GetComponent<Invisible>().AbleToInvisible = true;
+        }
+        else if (status == FLOAT || status == FLOAT_PLATFORM || status == CLIMBING || status == AIM || status == TRANSPORTING || status == AIMED)
+        {
+            GetComponent<Invisible>().AbleToInvisible = false;
+        }
+    }
+
+    private void FloatGoingDown()
+    {
+        if (status == FLOAT&&!Freeze_Manager.freeze)
+        {
+            transform.position += Vector3.down * GetComponent<Gravity_Data>().float_down_speed * Time.deltaTime;
+        }
     }
 
     private void set_status()
@@ -35,52 +73,36 @@ public class Fairy_Status_Manager : MonoBehaviour
         Color current_color = GetComponent<SpriteRenderer>().color;
         if (status == NORMAL)
         {
-            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-            GetComponent<Invisible>().AbleToInvisible = true;
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
         }
         else if (status == FLOAT)
         {
-            GetComponent<Rigidbody2D>().gravityScale = 0;
-            transform.position += Vector3.down * GetComponent<Gravity_Data>().float_down_speed * Time.deltaTime;
-            GetComponent<Invisible>().AbleToInvisible = false;
+            
             GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, current_color.a);
             transform.parent = null;
-
         }
         else if (status == AIM)
         {
-            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-            GetComponent<Invisible>().AbleToInvisible = false;
             GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, current_color.a);
         }
         else if (status == CLIMBING)
         {
-            GetComponent<Rigidbody2D>().gravityScale = 0;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            GetComponent<Invisible>().AbleToInvisible = false;
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
         }
         else if (status == FLOAT_PLATFORM)
         {
-            GetComponent<Rigidbody2D>().gravityScale = 0;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            GetComponent<Invisible>().AbleToInvisible = false;
             GetComponent<SpriteRenderer>().color = new Color(100 / 255f, 1, 0, current_color.a);
             transform.parent = null;
         }
         else if (status == TRANSPORTING)
         {
-            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            GetComponent<Invisible>().AbleToInvisible = false;
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
-            
         }
         else if (status == AIMED)
         {
-            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-            GetComponent<Invisible>().AbleToInvisible = false;
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
             transform.parent = null;
         }
@@ -93,6 +115,7 @@ public class Fairy_Status_Manager : MonoBehaviour
             AimedTimeCount += Time.deltaTime;
             if (AimedTimeCount > AimedDiedTime)
             {
+                EventManager.instance.Fire(new CharacterDied(gameObject));
                 Destroy(gameObject);
             }
         }

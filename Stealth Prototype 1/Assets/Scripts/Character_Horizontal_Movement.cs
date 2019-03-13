@@ -44,6 +44,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
     private void check_input()
     {
         var check_onground = GetComponent<Check_Onground>();
+        var check_horizontal_collider = GetComponent<CheckHorizontalCollider>();
         Vector3 moveVector=Vector3.zero;
         moveVector.x = player.GetAxis("Left Stick X");
         if (Mathf.Abs(moveVector.x) < moveVectorThreshold)
@@ -56,17 +57,23 @@ public class Character_Horizontal_Movement : MonoBehaviour
         }
         if (check_onground.onground)
         {
-            transform.position += moveVector * ground_speed * Time.deltaTime;
+            if (moveVector.x > 0 && !check_horizontal_collider.RightCollide || moveVector.x < 0 && !check_horizontal_collider.LeftCollide)
+            {
+                transform.position += moveVector * ground_speed * Time.deltaTime;
+            }
         }
         else
         {
-            transform.position += moveVector * air_speed * Time.deltaTime;
+            if (moveVector.x > 0 && !check_horizontal_collider.RightCollide || moveVector.x < 0 && !check_horizontal_collider.LeftCollide)
+            {
+                transform.position += moveVector * air_speed * Time.deltaTime;
+            }
         }
         if (moveVector.x > 0)
         {
             transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
         }
-        else if(moveVector.x < 0)
+        else if(moveVector.x < 0&&!check_horizontal_collider.LeftCollide)
         {
             transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
         }
