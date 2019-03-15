@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91110334}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -1.25, z: 0}
+  m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_Children:
   - {fileID: 1787595951537255566}
   - {fileID: 1787595949540228650}
@@ -88,7 +88,7 @@ Transform:
   m_GameObject: {fileID: 1099391401326943275}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2750521750506679128}
   m_RootOrder: 1
@@ -132,8 +132,8 @@ GameObject:
   - component: {fileID: 2750521750506679130}
   - component: {fileID: 516990431621321867}
   m_Layer: 16
-  m_Name: Platform_Tolem
-  m_TagString: Platform_Tolem
+  m_Name: Platform_Totem
+  m_TagString: Platform_Totem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 2750521750506679133}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9, y: -6.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.67, y: 1, z: 1}
   m_Children:
   - {fileID: 91110335}
   - {fileID: 4121884149795411373}
@@ -219,14 +219,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 0.9142857}
+    oldSize: {x: 1.6279069, y: 1.4883721}
     newSize: {x: 0.7, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.5, y: 1.5}
   m_EdgeRadius: 0
 --- !u!114 &516990431621321867
 MonoBehaviour:

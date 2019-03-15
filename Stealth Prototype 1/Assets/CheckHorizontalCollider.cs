@@ -24,7 +24,7 @@ public class CheckHorizontalCollider : MonoBehaviour
 
     private void CheckRight()
     {
-        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger");
+        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1<<LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
         layermask = ~layermask;
         RaycastHit2D hit1 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y+detect_offset), Vector2.right, detect_dis, layermask);
         RaycastHit2D hit2 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y-detect_offset), Vector2.right, detect_dis, layermask);
@@ -41,7 +41,7 @@ public class CheckHorizontalCollider : MonoBehaviour
 
     private void CheckLeft()
     {
-        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger");
+        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
         layermask = ~layermask;
         RaycastHit2D hit1 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y + detect_offset), Vector2.left, detect_dis, layermask);
         RaycastHit2D hit2 = Physics2D.Raycast(new Vector2(transform.position.x, transform.position.y - detect_offset), Vector2.left, detect_dis, layermask);

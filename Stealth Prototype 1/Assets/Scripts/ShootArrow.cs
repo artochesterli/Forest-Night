@@ -7,20 +7,23 @@ public class ShootArrow : MonoBehaviour
 {
     public GameObject Connected_Arrow;
 
-    private float current_arrow_velocity;
     private Player player;
     private Vector2 direction;
+    private List<GameObject> Aim_Line;
 
     private const float Velocity_Charge_Speed = 10;
     private const float Aim_offset = 1;
-    private const float mirroBounceStartPointOffset = 0.01f;
+    private const float mirroBounceStartPointOffset = 0.05f;
     private const float AimLineUnitPerMeter = 2;
-    private List<GameObject> Aim_Line;
+    private const float AimThreshold=0.5f;
+
+    private const float mirrorTopDownOffset = 0.05f;
+
+    
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<PlayerId>().player;
-        current_arrow_velocity = 0;
         Aim_Line = new List<GameObject>();
     }
 
@@ -37,64 +40,63 @@ public class ShootArrow : MonoBehaviour
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != Fairy_Status.FLOAT&& Fairy_Status.status != Fairy_Status.TRANSPORTING && Fairy_Status.status != Fairy_Status.FLOAT_PLATFORM && GetComponent<Check_Onground>().onground && player.GetButtonDown("RT"))
+        if (Fairy_Status.status != Fairy_Status.FLOAT&& Fairy_Status.status != Fairy_Status.TRANSPORTING && Fairy_Status.status != Fairy_Status.FLOAT_PLATFORM && GetComponent<Check_Onground>().onground && player.GetButtonDown("LT"))
         {
             Fairy_Status.status = Fairy_Status.AIM;
+            if (Connected_Arrow == null)
+            {
+                Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
+            }
             direction = transform.right;
-            if (Connected_Arrow == null)
-            {
-                Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
-            }
-            Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
-            Connected_Arrow.transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
-        }
-
-            
-
-
-        direction.x = player.GetAxis("Left Stick X");
-        direction.y = player.GetAxis("Left Stick Y");
-        
-        if (direction != Vector2.zero&&Fairy_Status.status!=Fairy_Status.FLOAT&&Fairy_Status.status!=Fairy_Status.TRANSPORTING&&Fairy_Status.status!=Fairy_Status.FLOAT_PLATFORM&&GetComponent<Check_Onground>().onground)
-        {
-            direction.Normalize();
-            Fairy_Status.status = Fairy_Status.AIM;
-            if (Connected_Arrow == null)
-            {
-                Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
-            }
-            Connected_Arrow.transform.position = transform.position + (Vector3)direction*Aim_offset;
-            Connected_Arrow.transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction),Vector3.forward);
-
             ClearAimLine();
             CreateAimLIne(direction, Connected_Arrow.transform.position);
-
-            if (player.GetButtonDown("LT"))
-            {
-                Connected_Arrow.GetComponent<Arrow>().direction = direction;
-
-                current_arrow_velocity = 0;
-                Connected_Arrow.transform.parent = null;
-                Connected_Arrow = null;
-            }
+            Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
         }
-        else
+
+        if (Fairy_Status.status == Fairy_Status.AIM)
         {
-            ClearAimLine();
-            if (Fairy_Status.status == Fairy_Status.AIM)
+            
+            Vector2 temp = Vector2.zero;
+            temp.x = player.GetAxis("Right Stick X");
+            temp.y = player.GetAxis("Right Stick Y");
+            if (temp.magnitude > AimThreshold)
             {
+                direction = temp;
+                direction.Normalize();
+                ClearAimLine();
+                CreateAimLIne(direction, Connected_Arrow.transform.position);
+
+            }
+            /*else
+            {
+                ClearAimLine();
+                direction = Vector2.zero;
+            }*/
+            Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
+
+            if (player.GetButtonUp("LT"))
+            {
+                ClearAimLine();
+                if (direction.magnitude > 0)
+                {
+                    Connected_Arrow.GetComponent<Arrow>().direction = direction;
+                    Connected_Arrow.GetComponent<Arrow>().emit = true;
+                    Connected_Arrow.transform.parent = null;
+                    Connected_Arrow = null;
+                }
+                else
+                {
+                    Destroy(Connected_Arrow);
+                }
                 Fairy_Status.status = Fairy_Status.NORMAL;
             }
-            if (Connected_Arrow != null)
-            {
-                Destroy(Connected_Arrow.gameObject);
-            }
         }
+
     }
 
     private void CreateAimLIne(Vector2 direction, Vector2 StartPoint)
     {
-        int layermask = 1 << LayerMask.NameToLayer("Bullet") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger");
+        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger");
         layermask = ~layermask;
         float mag = 100;
         RaycastHit2D hit= Physics2D.Raycast(StartPoint, direction, mag, layermask);
@@ -106,9 +108,20 @@ public class ShootArrow : MonoBehaviour
         }
         if (hit.collider.gameObject.CompareTag("Mirror"))
         {
-            StartPoint = hit.point - Vector2.one * direction.x * mirroBounceStartPointOffset;
-            direction.x = -direction.x;
-            CreateAimLIne(direction, StartPoint);
+            float MirrorTopY = hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y * hit.collider.gameObject.transform.localScale.y / 2;
+            if (hit.point.y < MirrorTopY-mirrorTopDownOffset)
+            {
+                if (direction.x > 0)
+                {
+                    StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
+                }
+                else
+                {
+                    StartPoint = hit.point + Vector2.right * mirroBounceStartPointOffset;
+                }
+                direction.x = -direction.x;
+                CreateAimLIne(direction, StartPoint);
+            }
         }
 
     }

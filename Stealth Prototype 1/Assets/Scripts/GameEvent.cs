@@ -12,3 +12,23 @@ public class CharacterDied : GameEvent
         DeadCharacter = C;
     }
 }
+
+public class TutorialOpen : GameEvent
+{
+
+}
+
+public class TutorialClose : GameEvent
+{
+
+}
+
+public class MenuOpen : GameEvent
+{
+
+}
+
+public class MenuClose : GameEvent
+{
+
+}

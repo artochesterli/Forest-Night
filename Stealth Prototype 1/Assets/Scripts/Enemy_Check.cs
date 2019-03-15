@@ -6,7 +6,6 @@ public class Enemy_Check : MonoBehaviour
 {
 
     public float Alert_Time;
-    public float Attention_Drawn_Time;
     public float Stunned_Time;
     public float Shoot_Time;
     public bool Attention_Drawn_Right;
@@ -82,7 +81,7 @@ public class Enemy_Check : MonoBehaviour
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("Bullet")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Arrow") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger");
+        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Arrow") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger");
         layermask = ~layermask;
         float angle = -RaycastAngle / 2;
         float Interval = RaycastAngle / (RaycastLines - 1);
@@ -244,10 +243,22 @@ public class Enemy_Check : MonoBehaviour
             LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
             if (hit.collider.gameObject.CompareTag("Mirror"))
             {
-                laser_hit_mirror = true;
-                StartPoint = hit.point - Vector2.one * direction.x * mirroBounceStartPointOffset;
-                direction.x = -direction.x;
-                GenerateLaserLine(direction ,StartPoint);
+                
+                if (hit.point.y < hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y / 2)
+                {
+                    laser_hit_mirror = true;
+                    if (direction.x > 0)
+                    {
+                        StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
+                    }
+                    else
+                    {
+                        StartPoint = hit.point + Vector2.right * mirroBounceStartPointOffset;
+                    }
+
+                    direction.x = -direction.x;
+                    GenerateLaserLine(direction, StartPoint);
+                }
             }
             else
             {

@@ -9,10 +9,11 @@ public class Dash_To_Fairy : MonoBehaviour
     public float dash_distance;
     public float dash_speed;
     public float over_dash_velocity;
-    public float over_dash_stable_time;
-    public float over_dash_decelerate_time;
-    public float over_dash_decelerate_factor;
-    public float dash_pause_time;
+    public float OverDashForce;
+    public float OverDashUnlockThreshold;
+
+    private bool OverDash;
+    private float OverDashProportion;
 
     private bool collide;
 
@@ -32,6 +33,12 @@ public class Dash_To_Fairy : MonoBehaviour
             lock_fairy();
             Check_Input();
         }
+        CheckOverDashFree();
+    }
+
+    private void FixedUpdate()
+    {
+        CheckOverDashFree();
     }
 
     private void lock_fairy()
@@ -41,7 +48,16 @@ public class Dash_To_Fairy : MonoBehaviour
         {
             return;
         }
-        if (Main_Character_Status.status==Main_Character_Status.DASHING)
+        GameObject Aim_Icon = Character_Manager.Fairy.transform.Find("Aim_Icon").gameObject;
+        if (detect_float_fairy)
+        {
+            Aim_Icon.GetComponent<SpriteRenderer>().enabled = true;
+        }
+        else
+        {
+            Aim_Icon.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        if (Main_Character_Status.status==Main_Character_Status.DASHING || OverDash)
         {
             detect_float_fairy = false;
             return;
@@ -50,7 +66,7 @@ public class Dash_To_Fairy : MonoBehaviour
         float current_dis = ((Vector2)(transform.position) - (Vector2)(fairy.transform.position)).magnitude;
         if (current_dis <= dash_distance && fairy.GetComponent<Fairy_Status_Manager>().status==fairy.GetComponent<Fairy_Status_Manager>().FLOAT_PLATFORM)
         {
-            int layermask = (1 << LayerMask.NameToLayer("Main_Character")) | (1 << LayerMask.NameToLayer("Totem")) | 1<<LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger");
+            int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Totem") | 1<<LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger");
             layermask = ~layermask;
             Vector2 direction = fairy.transform.position - transform.position;
             direction.Normalize();
@@ -69,15 +85,7 @@ public class Dash_To_Fairy : MonoBehaviour
         {
             detect_float_fairy = false;
         }
-        GameObject Aim_Icon = fairy.transform.Find("Aim_Icon").gameObject;
-        if (detect_float_fairy)
-        {
-            Aim_Icon.GetComponent<SpriteRenderer>().enabled = true;
-        }
-        else
-        {
-            Aim_Icon.GetComponent<SpriteRenderer>().enabled = false;
-        }
+        
     }
 
     private void Check_Input()
@@ -93,11 +101,12 @@ public class Dash_To_Fairy : MonoBehaviour
     {
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
         Main_Character_Status.status = Main_Character_Status.DASHING;
+        GetComponent<Rigidbody2D>().gravityScale = 0;
+
 
         Vector2 direction = Character_Manager.Fairy.transform.position - transform.position;
         direction.Normalize();
         Vector2 target = Character_Manager.Fairy.transform.position;
-        //GetComponent<Rigidbody2D>().gravityScale = 0;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         float dis = (target - (Vector2)transform.position).magnitude;
         while (Vector2.Dot(direction, target - (Vector2)transform.position) > 0)
@@ -105,62 +114,60 @@ public class Dash_To_Fairy : MonoBehaviour
             transform.position += (Vector3)(dash_speed*direction * Time.deltaTime);
             yield return null;
         }
-        float over_dash_velocity_x = over_dash_velocity * (direction.x / Mathf.Sqrt(direction.x * direction.x + direction.y * direction.y));
-        float over_dash_velocity_y = over_dash_velocity * (direction.y / Mathf.Sqrt(direction.x * direction.x + direction.y * direction.y));
 
-        //Main_Character_Status.Status = Main_Character_Status.NORMAL;
-        //GetComponent<Rigidbody2D>().velocity = new Vector2(over_dash_velocity_x, 0);
-        float time_count = 0;
-        //float current_speed = over_dash_velocity_y;
         float current_speed = over_dash_velocity;
-        while (time_count < over_dash_stable_time)
+
+        OverDash = true;
+        GetComponent<Rigidbody2D>().velocity = current_speed * direction;
+
+    }
+
+    private void CheckOverDashFree()
+    {
+        if (OverDash)
         {
-            transform.position+= (Vector3)(current_speed * direction* Time.deltaTime);
-            time_count += Time.deltaTime;
-            yield return null;
+            var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
+            var rb = GetComponent<Rigidbody2D>();
             if (collide)
             {
-                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                //GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
+                rb.velocity = Vector2.zero;
                 Main_Character_Status.status = Main_Character_Status.NORMAL;
-                yield break;
+                OverDash = false;
             }
-        }
 
 
-        //GetComponent<Rigidbody2D>().drag = 1;
-        time_count = 0;
-
-        while (time_count < over_dash_decelerate_time)
-        {
-            transform.position += (Vector3)(current_speed* direction * Time.deltaTime);
-            current_speed -= over_dash_decelerate_factor* over_dash_velocity / over_dash_decelerate_time * Time.deltaTime;
-            time_count += Time.deltaTime;
-            yield return null;
-            if (collide)
+            if (rb.velocity.y > 0)
             {
-                GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                //GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-                Main_Character_Status.status = Main_Character_Status.NORMAL;
-                yield break;
+                rb.AddForce(-OverDashForce * rb.velocity.normalized);
             }
+            else
+            {
+                if (rb.velocity.x > 0)
+                {
+                    rb.AddForce(OverDashForce * OverDashProportion * Vector2.left);
+                }
+                else
+                {
+                    rb.AddForce(OverDashForce * OverDashProportion * Vector2.right);
+                }
+                
+            }
+            
+            if (rb.velocity.magnitude < OverDashUnlockThreshold)
+            {
+                if (Main_Character_Status.status == Main_Character_Status.DASHING)
+                {
+                    OverDashProportion = Mathf.Abs(rb.velocity.x) / Mathf.Sqrt(rb.velocity.x * rb.velocity.x + rb.velocity.y * rb.velocity.y);
+                    Main_Character_Status.status = Main_Character_Status.NORMAL;
+                }
+            }
+            if (rb.velocity.magnitude < 0.1f)
+            {
+                rb.velocity = Vector2.zero;
+                OverDash = false;
+            }
+
         }
-        current_speed = (1 - over_dash_decelerate_factor) * over_dash_velocity;
-
-        Main_Character_Status.status = Main_Character_Status.NORMAL;
-
-        time_count = 0;
-        while (time_count < dash_pause_time)
-        {
-            transform.position += (Vector3)(current_speed * direction * Time.deltaTime);
-            time_count += Time.deltaTime;
-            yield return null;
-        }
-        
-        //GetComponent<Rigidbody2D>().drag = 0;
-        //GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-        
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

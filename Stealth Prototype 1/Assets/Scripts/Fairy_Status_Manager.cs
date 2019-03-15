@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class Fairy_Status_Manager : MonoBehaviour
 {
@@ -15,14 +16,24 @@ public class Fairy_Status_Manager : MonoBehaviour
     public int AIMED = 6;
 
     private float AimedTimeCount;
+    private Player player;
 
     private const float AimedDiedTime = 1;
+
+    private const float AimedVibration = 0.1f;
+    private const float DeadVibration = 1.0f;
+    private const float DeadVibrationTime = 0.2f;
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GetComponent<PlayerId>().player;
+        EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -112,6 +123,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     {
         if (status == AIMED)
         {
+            player.SetVibration(0, AimedVibration, Time.deltaTime);
             AimedTimeCount += Time.deltaTime;
             if (AimedTimeCount > AimedDiedTime)
             {
@@ -122,6 +134,14 @@ public class Fairy_Status_Manager : MonoBehaviour
         else
         {
             AimedTimeCount = 0;
+        }
+    }
+
+    private void OnCharacterDied(CharacterDied C)
+    {
+        if (C.DeadCharacter == gameObject)
+        {
+            player.SetVibration(0, DeadVibration, DeadVibrationTime);
         }
     }
 }

@@ -391,10 +391,8 @@ MonoBehaviour:
   dash_distance: 4
   dash_speed: 20
   over_dash_velocity: 20
-  over_dash_stable_time: 0.11
-  over_dash_decelerate_time: 0.04
-  over_dash_decelerate_factor: 0.8
-  dash_pause_time: 0.2
+  OverDashForce: 0
+  OverDashUnlockThreshold: 0
 --- !u!114 &2976651962471586675
 MonoBehaviour:
   m_ObjectHideFlags: 0

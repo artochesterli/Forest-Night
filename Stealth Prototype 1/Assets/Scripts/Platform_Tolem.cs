@@ -5,7 +5,6 @@ using UnityEngine;
 public class Platform_Tolem : MonoBehaviour
 {
     public GameObject Connected_Moving_Platform;
-    public GameObject Connected_Platform_Tolem;
     public Vector3 FirstPoint;
     public Vector3 SecondPoint;
     public float move_period;
@@ -43,7 +42,10 @@ public class Platform_Tolem : MonoBehaviour
         direction.Normalize();
         while (Vector2.Dot(direction, transform.position - EndPoint) < 0)
         {
-            transform.position += (Vector3)(speed * direction * Time.deltaTime);
+            if (!Freeze_Manager.freeze)
+            {
+                transform.position += (Vector3)(speed * direction * Time.deltaTime);
+            }
             yield return null;
         }
         transform.position = EndPoint;

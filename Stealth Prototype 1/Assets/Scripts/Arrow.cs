@@ -7,12 +7,14 @@ public class Arrow : MonoBehaviour
 
     public float speed;
     public Vector2 direction;
+    public bool emit;
 
     private GameObject collision_object;
     // Start is called before the first frame update
     void Start()
     {
         direction = Vector2.zero;
+        emit = false;
     }
 
     // Update is called once per frame
@@ -23,31 +25,25 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision_object = collision.GetComponent<Collider2D>().gameObject;
-        if (collision_object.CompareTag("Enemy"))
+        if (emit)
         {
-            /*if (transform.position.x > collision_object.transform.position.x)
+            collision_object = collision.GetComponent<Collider2D>().gameObject;
+            if (collision_object.CompareTag("Enemy"))
             {
-                collision_object.GetComponent<Enemy_Check>().Attention_Drawn_Right = true;
+                collision_object.GetComponent<Enemy_Check>().time_count = 0;
+                collision_object.GetComponent<Enemy_Status_Manager>().status = collision_object.GetComponent<Enemy_Status_Manager>().STUNNED;
+
+            }
+
+            if (collision_object.CompareTag("Mirror"))
+            {
+                direction.x = -direction.x;
             }
             else
             {
-                collision_object.GetComponent<Enemy_Check>().Attention_Drawn_Right = false;
-            }*/
-            collision_object.GetComponent<Enemy_Check>().time_count = 0;
-            collision_object.GetComponent<Enemy_Status_Manager>().status = collision_object.GetComponent<Enemy_Status_Manager>().STUNNED;
-
+                Destroy(gameObject);
+            }
         }
-
-        if (collision_object.CompareTag("Mirror"))
-        {
-            direction.x = -direction.x;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
         
 
     }

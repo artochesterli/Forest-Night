@@ -6,15 +6,28 @@ public class Freeze_Manager : MonoBehaviour
 {
     public static bool freeze;
 
+    public static bool ShowTutorial;
+    public static bool ShowMenu;
+
     public static Vector2 MainCharacterVelocity;
     public static Vector2 FairyVelocity;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        EventManager.instance.AddHandler<TutorialOpen>(OnTutorialOpen);
+        EventManager.instance.AddHandler<TutorialClose>(OnTutorialClose);
+        EventManager.instance.AddHandler<MenuOpen>(OnMenuOpen);
+        EventManager.instance.AddHandler<MenuClose>(OnMenuClose);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<TutorialOpen>(OnTutorialOpen);
+        EventManager.instance.RemoveHandler<TutorialClose>(OnTutorialClose);
+        EventManager.instance.RemoveHandler<MenuOpen>(OnMenuOpen);
+        EventManager.instance.RemoveHandler<MenuClose>(OnMenuClose);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -63,6 +76,15 @@ public class Freeze_Manager : MonoBehaviour
                 Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = false;
                 Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Chase_Gem>().enabled = false;
             }
+
+            for(int i = 0; i < LevelMechanics_Manager.AllLevelMechanics.transform.childCount; i++)
+            {
+                if (LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
+                {
+                    LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = false;
+                }
+            }
+
         }
         else
         {
@@ -95,6 +117,44 @@ public class Freeze_Manager : MonoBehaviour
                 Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = true;
                 Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Chase_Gem>().enabled = true;
             }
+
+            for (int i = 0; i < LevelMechanics_Manager.AllLevelMechanics.transform.childCount; i++)
+            {
+                if (LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
+                {
+                    LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = true;
+                }
+            }
+        }
+    }
+
+    private void OnTutorialOpen(TutorialOpen T)
+    {
+        ShowTutorial = true;
+        ChangeFreeze();
+    }
+
+    private void OnMenuOpen(MenuOpen M)
+    {
+        ShowMenu = true;
+        if (!ShowTutorial)
+        {
+            ChangeFreeze();
+        }
+    }
+
+    private void OnTutorialClose(TutorialClose T)
+    {
+        ShowTutorial = false;
+        ChangeFreeze();
+    }
+
+    private void OnMenuClose(MenuClose M)
+    {
+        ShowMenu = false;
+        if (!ShowTutorial)
+        {
+            ChangeFreeze();
         }
     }
 }
