@@ -7,7 +7,7 @@ public class CheckHorizontalCollider : MonoBehaviour
     public bool RightCollide;
     public bool LeftCollide;
 
-    private const float detect_dis = 0.6f;
+    private const float detect_dis = 0.55f;
     private const float detect_offset = 0.5f;
     // Start is called before the first frame update
     void Start()

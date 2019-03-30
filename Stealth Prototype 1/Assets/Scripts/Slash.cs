@@ -28,7 +28,7 @@ public class Slash : MonoBehaviour
     void Update()
     {
         var character = GetComponent<Main_Character_Status_Manager>();
-        if (character.status != character.TRANSPORTING && character.status!=character.AIMED)
+        if (character.status != MainCharacterStatus.Transporting && character.status!=MainCharacterStatus.Aimed)
         {
             Check_Input();
             Check_Status();
@@ -37,7 +37,7 @@ public class Slash : MonoBehaviour
 
     private void Check_Input()
     {
-        if (player.GetButtonDown("X")&&!Weapon_Active)
+        if (Input.GetKeyDown(KeyCode.S)||player.GetButtonDown("X")&&!Weapon_Active)
         {
             Weapon_Active = true;
             Weapon.SetActive(true);

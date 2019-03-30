@@ -49,7 +49,7 @@ public class Enemy_Check : MonoBehaviour
     void Update()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        if(Enemy_Status.status != Enemy_Status.STUNNED)
+        if(Enemy_Status.status != EnemyStatus.Stunned)
         {
             Find_Character();
         }
@@ -64,13 +64,13 @@ public class Enemy_Check : MonoBehaviour
     private void Stunned()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        if (Enemy_Status.status == Enemy_Status.STUNNED)
+        if (Enemy_Status.status == EnemyStatus.Stunned)
         {
             time_count += Time.deltaTime;
             if (time_count > Stunned_Time)
             {
                 time_count = 0;
-                Enemy_Status.status = Enemy_Status.PATROL;
+                Enemy_Status.status = EnemyStatus.Patrol;
             }
         }
     }
@@ -87,7 +87,7 @@ public class Enemy_Check : MonoBehaviour
         float Interval = RaycastAngle / (RaycastLines - 1);
         for(int i = 0; i < RaycastLines; i++)
         {
-            Vector2 direction= Rotate((Vector2)transform.right, angle);
+            Vector2 direction= Utility.instance.Rotate((Vector2)transform.right, angle);
             angle += Interval;
             RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction, Alert_Distance, layermask);
             
@@ -96,11 +96,11 @@ public class Enemy_Check : MonoBehaviour
                 GameObject hit_collider = hit.collider.gameObject;
                 if (!hit_collider.GetComponent<Invisible>().invisible)
                 {
-                    if (Enemy_Status.status != Enemy_Status.SHOOT_CHARACTER)
+                    if (Enemy_Status.status != EnemyStatus.ShootCharacter)
                     {
                         if (((Vector2)(hit_collider.transform.position - transform.position)).magnitude <= Shoot_Distance)
                         {
-                            Enemy_Status.status = Enemy_Status.SHOOT_CHARACTER;
+                            Enemy_Status.status = EnemyStatus.ShootCharacter;
                             time_count = 0;
                             detected_character = hit.collider.gameObject;
                             detected_character_hit_point=hit.point-(Vector2)detected_character.transform.position;
@@ -112,7 +112,7 @@ public class Enemy_Check : MonoBehaviour
                         {
                             detected_character = hit.collider.gameObject;
                             detected_character_hit_point = hit.point - (Vector2)detected_character.transform.position;
-                            Enemy_Status.status = Enemy_Status.ALERT;
+                            Enemy_Status.status = EnemyStatus.Alert;
                         }
                         
                     }
@@ -120,9 +120,9 @@ public class Enemy_Check : MonoBehaviour
                 }
             }
         }
-        if (Enemy_Status.status == Enemy_Status.ALERT)
+        if (Enemy_Status.status == EnemyStatus.Alert)
         {
-            Enemy_Status.status = Enemy_Status.ALERT_RELEASE;
+            Enemy_Status.status = EnemyStatus.AlertRelease;
         }
         
             
@@ -132,13 +132,13 @@ public class Enemy_Check : MonoBehaviour
     private void Alert ()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        if (Enemy_Status.status==Enemy_Status.ALERT)
+        if (Enemy_Status.status==EnemyStatus.Alert)
         {
             alert_time_count += Time.deltaTime;
             if (alert_time_count > Alert_Time)
             {
                 alert_time_count = Alert_Time;
-                Enemy_Status.status = Enemy_Status.SHOOT_CHARACTER;
+                Enemy_Status.status = EnemyStatus.ShootCharacter;
                 time_count = 0;
                 laser_not_hit_character = false;
                 laser_hit_mirror=true;
@@ -152,7 +152,7 @@ public class Enemy_Check : MonoBehaviour
         
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
         GameObject Indicator = transform.Find("Indicator").gameObject;
-        if (Enemy_Status.status == Enemy_Status.SHOOT_CHARACTER)
+        if (Enemy_Status.status == EnemyStatus.ShootCharacter)
         {
             Indicator.GetComponent<SpriteRenderer>().enabled = true;
             Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
@@ -161,7 +161,7 @@ public class Enemy_Check : MonoBehaviour
 
             if (detected_character == null)
             {
-                Enemy_Status.status = Enemy_Status.ALERT_RELEASE;
+                Enemy_Status.status = EnemyStatus.AlertRelease;
                 return;
             }
 
@@ -169,7 +169,7 @@ public class Enemy_Check : MonoBehaviour
             {
                 if (LaserLine_disappear_time_count >= LaserLine_disappear_time)
                 {
-                    Enemy_Status.status = Enemy_Status.ALERT_RELEASE;
+                    Enemy_Status.status = EnemyStatus.AlertRelease;
                     if (hit_enemy != null)
                     {
                         Destroy(hit_enemy);
@@ -204,7 +204,7 @@ public class Enemy_Check : MonoBehaviour
         if (detected_character == null)
         {
             var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-            Enemy_Status.status = Enemy_Status.ALERT_RELEASE;
+            Enemy_Status.status = EnemyStatus.AlertRelease;
             return;
         }
 
@@ -220,17 +220,17 @@ public class Enemy_Check : MonoBehaviour
             if (ob.CompareTag("Fairy"))
             {
                 var status = ob.GetComponent<Fairy_Status_Manager>();
-                if (status.status == status.AIMED)
+                if (status.status == FairyStatus.Aimed)
                 {
-                    status.status = status.NORMAL;
+                    status.status = FairyStatus.Normal;
                 }
             }
             else if (ob.CompareTag("Main_Character"))
             {
                 var status = ob.GetComponent<Main_Character_Status_Manager>();
-                if (status.status == status.AIMED)
+                if (status.status == MainCharacterStatus.Aimed)
                 {
-                    status.status = status.NORMAL;
+                    status.status = MainCharacterStatus.Normal;
                 }
             }
 
@@ -274,12 +274,12 @@ public class Enemy_Check : MonoBehaviour
             if (ob.CompareTag("Fairy"))
             {
                 var status = ob.GetComponent<Fairy_Status_Manager>();
-                status.status = status.AIMED;
+                status.status = FairyStatus.Aimed;
             }
             else if (ob.CompareTag("Main_Character"))
             {
                 var status = ob.GetComponent<Main_Character_Status_Manager>();
-                status.status = status.AIMED;
+                status.status = MainCharacterStatus.Aimed;
             }
             float dis = (hit.point - StartPoint).magnitude;
             laser_not_hit_character = false;
@@ -294,29 +294,19 @@ public class Enemy_Check : MonoBehaviour
     private void Alert_Release()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        if (Enemy_Status.status == Enemy_Status.ALERT_RELEASE)
+        if (Enemy_Status.status == EnemyStatus.AlertRelease)
         {
             alert_time_count -= Time.deltaTime;
             if (alert_time_count < 0)
             {
                 alert_time_count = 0;
-                Enemy_Status.status = Enemy_Status.PATROL;
+                Enemy_Status.status = EnemyStatus.Patrol;
             }
             detected_character = null;
         }
     }
 
-    private Vector2 Rotate(Vector2 v, float degrees)
-    {
-        float radians = degrees * Mathf.Deg2Rad;
-        float sin = Mathf.Sin(radians);
-        float cos = Mathf.Cos(radians);
-
-        float tx = v.x;
-        float ty = v.y;
-
-        return new Vector2(cos * tx - sin * ty, sin * tx + cos * ty);
-    }
+    
 
     private void OnCharacterDied(CharacterDied C)
     {

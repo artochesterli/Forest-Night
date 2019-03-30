@@ -17,6 +17,7 @@ TagManager:
   - Totem_Platform_Trigger
   - Platform_Totem
   - Mirror_Totem
+  - Spine
   layers:
   - Default
   - TransparentFX

@@ -3,15 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
+public enum MainCharacterStatus
+{
+    Normal,
+    Dashing,
+    OverDash,
+    Climbing,
+    Transporting,
+    Aimed
+}
+
 public class Main_Character_Status_Manager : MonoBehaviour
 {
-    public int status;
-
-    public int NORMAL = 0;
-    public int DASHING = 1;
-    public int CLIMBING = 2;
-    public int TRANSPORTING = 3;
-    public int AIMED = 4;
+    public MainCharacterStatus status;
 
     private float AimedTimeCount;
     private Player player;
@@ -35,44 +39,49 @@ public class Main_Character_Status_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        set_status();
+        SetInvisibility();
         check_aimed();
+    }
+
+    private void SetInvisibility()
+    {
+        if(status == MainCharacterStatus.Normal && GetComponent<CharacterMove>().OnGround)
+        {
+            GetComponent<Invisible>().AbleToInvisible = true;
+        }
+        else
+        {
+            GetComponent<Invisible>().AbleToInvisible = false;
+        }
     }
 
     private void set_status()
     {
-        if (status == NORMAL)
+        if (status == MainCharacterStatus.Normal)
         {
             GetComponent<Invisible>().AbleToInvisible = true;
-            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
         }
-        else if (status == DASHING)
+        else if (status == MainCharacterStatus.Dashing)
         {
             GetComponent<Invisible>().AbleToInvisible = false;
-           // GetComponent<Rigidbody2D>().gravityScale = 0;
         }
-        else if (status == CLIMBING)
+        else if (status == MainCharacterStatus.Climbing)
         {
             GetComponent<Invisible>().AbleToInvisible = false;
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            GetComponent<Rigidbody2D>().gravityScale = 0;
         }
-        else if (status == TRANSPORTING)
+        else if (status == MainCharacterStatus.Transporting)
         {
             GetComponent<Invisible>().AbleToInvisible = false;
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-            GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
         }
-        else if (status == AIMED)
+        else if (status == MainCharacterStatus.Aimed)
         {
             GetComponent<Invisible>().AbleToInvisible = false;
-            GetComponent<Rigidbody2D>().gravityScale = 0;
         }
     }
 
     private void check_aimed()
     {
-        if (status == AIMED)
+        if (status == MainCharacterStatus.Aimed)
         {
             player.SetVibration(0, AimedVibration, Time.deltaTime);
             AimedTimeCount += Time.deltaTime;
@@ -81,7 +90,6 @@ public class Main_Character_Status_Manager : MonoBehaviour
                 EventManager.instance.Fire(new CharacterDied(gameObject));
                 Destroy(gameObject);
             }
-
         }
         else
         {

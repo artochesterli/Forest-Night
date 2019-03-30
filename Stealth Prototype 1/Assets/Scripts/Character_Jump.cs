@@ -6,7 +6,7 @@ using Rewired;
 public class Character_Jump : MonoBehaviour
 {
 
-    public float jump_initial_velocity_y;
+    public float JumpVerticalSpeed;
 
     private bool AbleToJump;
     private Player player;
@@ -26,10 +26,9 @@ public class Character_Jump : MonoBehaviour
 
     private void check_jump()
     {
-        var check_onground = GetComponent<Check_Onground>();
-        if (player.GetButtonDown("A") && check_onground.onground&&AbleToJump)
+        if (player.GetButtonDown("A") && GetComponent<CharacterMove>().OnGround && AbleToJump)
         {
-            GetComponent<Rigidbody2D>().velocity += new Vector2(0, jump_initial_velocity_y);
+            GetComponent<CharacterMove>().speed.y = JumpVerticalSpeed;
         }
 
     }
@@ -39,7 +38,7 @@ public class Character_Jump : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status == Fairy_Status.NORMAL)
+            if (Fairy_Status.status == FairyStatus.Normal)
             {
                 AbleToJump = true;
             }
@@ -51,7 +50,7 @@ public class Character_Jump : MonoBehaviour
         else if (gameObject.CompareTag("Main_Character"))
         {
             var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-            if (Main_Character_Status.status == Main_Character_Status.NORMAL)
+            if (Main_Character_Status.status == MainCharacterStatus.Normal)
             {
                 AbleToJump = true;
             }

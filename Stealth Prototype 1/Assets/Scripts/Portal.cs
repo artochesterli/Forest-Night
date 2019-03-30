@@ -30,7 +30,7 @@ public class Portal : MonoBehaviour
         {
             var MainCharacter = Character_Manager.Main_Character.GetComponent<Main_Character_Status_Manager>();
             var Fairy = Character_Manager.Fairy.GetComponent<Fairy_Status_Manager>();
-            if (MainCharacter.status == MainCharacter.TRANSPORTING && Fairy.status == Fairy.TRANSPORTING)
+            if (MainCharacter.status == MainCharacterStatus.Transporting && Fairy.status == FairyStatus.Transporting)
             {
                 transform.Rotate(Vector3.forward, RotationSpeed * Time.deltaTime);
                 time_count += Time.deltaTime;

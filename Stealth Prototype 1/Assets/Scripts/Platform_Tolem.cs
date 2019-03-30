@@ -8,7 +8,10 @@ public class Platform_Tolem : MonoBehaviour
     public Vector3 FirstPoint;
     public Vector3 SecondPoint;
     public float move_period;
+    public Vector2 CurrentSpeed;
     public bool moving;
+
+
 
     private bool At_First_Point;
     // Start is called before the first frame update
@@ -40,15 +43,27 @@ public class Platform_Tolem : MonoBehaviour
             EndPoint = FirstPoint;
         }
         direction.Normalize();
-        while (Vector2.Dot(direction, transform.position - EndPoint) < 0)
+        yield return null;
+        CurrentSpeed = speed * direction;
+        while (true)
         {
-            if (!Freeze_Manager.freeze)
+            transform.position += (Vector3)CurrentSpeed * Time.deltaTime;
+            if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
             {
-                transform.position += (Vector3)(speed * direction * Time.deltaTime);
+                Character_Manager.Main_Character.transform.position+= (Vector3)CurrentSpeed * Time.deltaTime; ;
+            }
+            if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+            {
+                Character_Manager.Fairy.transform.position += (Vector3)CurrentSpeed * Time.deltaTime; ;
+            }
+            if (Vector2.Dot(direction, transform.position - EndPoint) > 0)
+            {
+                transform.position = EndPoint;
+                break;
             }
             yield return null;
         }
-        transform.position = EndPoint;
+        CurrentSpeed = Vector2.zero;
         At_First_Point = !At_First_Point;
         moving = false;
     }

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class AttachToPlatform : MonoBehaviour
 {
     
@@ -20,12 +18,14 @@ public class AttachToPlatform : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
+
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.CompareTag("Totem_Platform_Trigger"))
+        if (ob.CompareTag("Totem_Platform_Trigger") && GetComponent<CharacterMove>().OnGround)
         {
-            transform.parent = ob.transform;
+            GetComponent<CharacterMove>().ConnectedMovingPlatform = ob.transform.parent.gameObject;
+            //transform.parent = ob.transform.parent;
         }
     }
 
@@ -34,7 +34,8 @@ public class AttachToPlatform : MonoBehaviour
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
         if (ob.CompareTag("Totem_Platform_Trigger"))
         {
-            transform.parent = null;
+            GetComponent<CharacterMove>().ConnectedMovingPlatform = null;
+            //transform.parent = null;
         }
     }
 }

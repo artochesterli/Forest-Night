@@ -16,7 +16,7 @@ public class Lava_Tile : MonoBehaviour
         
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         GameObject ob = collision.collider.gameObject;
         if (ob.CompareTag("Main_Character") || ob.CompareTag("Fairy"))
@@ -30,4 +30,20 @@ public class Lava_Tile : MonoBehaviour
             Destroy(ob);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject ob = collision.GetComponent<Collider2D>().gameObject;
+        if (ob.CompareTag("Main_Character") || ob.CompareTag("Fairy"))
+        {
+            EventManager.instance.Fire(new CharacterDied(ob));
+            Destroy(ob);
+        }
+
+        if (ob.CompareTag("Enemy"))
+        {
+            Destroy(ob);
+        }
+    }
+
 }

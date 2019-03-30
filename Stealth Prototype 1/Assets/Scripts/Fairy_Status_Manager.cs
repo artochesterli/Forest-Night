@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
+public enum FairyStatus
+{
+    Normal,
+    Float,
+    FloatPlatform,
+    Aiming,
+    Climbing,
+    Transporting,
+    Aimed
+}
+
 public class Fairy_Status_Manager : MonoBehaviour
 {
-    public int status;
-
-    public int NORMAL = 0;
-    public int FLOAT = 1;
-    public int AIM = 2;
-    public int CLIMBING = 3;
-    public int FLOAT_PLATFORM = 4;
-    public int TRANSPORTING = 5;
-    public int AIMED = 6;
+    public FairyStatus status;
 
     private float AimedTimeCount;
     private Player player;
@@ -37,35 +40,19 @@ public class Fairy_Status_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetPhysicsData();
         SetInvisibility();
         FloatGoingDown();
         set_status();
         check_aimed();
     }
 
-    private void SetPhysicsData()
-    {
-        if (!Freeze_Manager.freeze)
-        {
-            if (status == NORMAL || status == AIM || status == TRANSPORTING)
-            {
-                GetComponent<Rigidbody2D>().gravityScale = GetComponent<Gravity_Data>().normal_gravityScale;
-            }
-            else if (status == FLOAT || status == FLOAT_PLATFORM || status == CLIMBING || status == AIMED)
-            {
-                GetComponent<Rigidbody2D>().gravityScale = 0;
-            }
-        }
-    }
-
     private void SetInvisibility()
     {
-        if (status == NORMAL)
+        if (status == FairyStatus.Normal)
         {
             GetComponent<Invisible>().AbleToInvisible = true;
         }
-        else if (status == FLOAT || status == FLOAT_PLATFORM || status == CLIMBING || status == AIM || status == TRANSPORTING || status == AIMED)
+        else if (status == FairyStatus.Float || status == FairyStatus.FloatPlatform || status == FairyStatus.Climbing || status == FairyStatus.Aiming || status == FairyStatus.Transporting || status == FairyStatus.Aimed)
         {
             GetComponent<Invisible>().AbleToInvisible = false;
         }
@@ -73,46 +60,46 @@ public class Fairy_Status_Manager : MonoBehaviour
 
     private void FloatGoingDown()
     {
-        if (status == FLOAT&&!Freeze_Manager.freeze)
+        if (status == FairyStatus.Float&&!Freeze_Manager.freeze)
         {
-            transform.position += Vector3.down * GetComponent<Gravity_Data>().float_down_speed * Time.deltaTime;
+            GetComponent<CharacterMove>().speed.y = -GetComponent<Gravity_Data>().float_down_speed;
         }
     }
 
     private void set_status()
     {
         Color current_color = GetComponent<SpriteRenderer>().color;
-        if (status == NORMAL)
+        if (status == FairyStatus.Normal)
         {
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
         }
-        else if (status == FLOAT)
+        else if (status == FairyStatus.Float)
         {
             
             GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, current_color.a);
             transform.parent = null;
         }
-        else if (status == AIM)
+        else if (status == FairyStatus.Aiming)
         {
             GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, current_color.a);
         }
-        else if (status == CLIMBING)
+        else if (status == FairyStatus.Climbing)
         {
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            GetComponent<CharacterMove>().speed = Vector2.zero;
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
         }
-        else if (status == FLOAT_PLATFORM)
+        else if (status == FairyStatus.FloatPlatform)
         {
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            GetComponent<CharacterMove>().speed = Vector2.zero;
             GetComponent<SpriteRenderer>().color = new Color(100 / 255f, 1, 0, current_color.a);
             transform.parent = null;
         }
-        else if (status == TRANSPORTING)
+        else if (status == FairyStatus.Transporting)
         {
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            GetComponent<CharacterMove>().speed = Vector2.zero;
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
         }
-        else if (status == AIMED)
+        else if (status == FairyStatus.Aimed)
         {
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
             transform.parent = null;
@@ -121,9 +108,9 @@ public class Fairy_Status_Manager : MonoBehaviour
 
     private void check_aimed()
     {
-        if (status == AIMED)
+        if (status == FairyStatus.Aimed)
         {
-            player.SetVibration(0, AimedVibration, Time.deltaTime);
+            player.SetVibration(1, AimedVibration, Time.deltaTime);
             AimedTimeCount += Time.deltaTime;
             if (AimedTimeCount > AimedDiedTime)
             {
@@ -141,7 +128,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     {
         if (C.DeadCharacter == gameObject)
         {
-            player.SetVibration(0, DeadVibration, DeadVibrationTime);
+            player.SetVibration(1, DeadVibration, DeadVibrationTime);
         }
     }
 }

@@ -26,7 +26,7 @@ public class Transport : MonoBehaviour
             if (gameObject.CompareTag("Fairy"))
             {
                 var Status = GetComponent<Fairy_Status_Manager>();
-                if (Status.status == Status.NORMAL || Status.status==Status.TRANSPORTING)
+                if (Status.status == FairyStatus.Normal || Status.status==FairyStatus.Transporting)
                 {
                     CheckInput();
                 }
@@ -34,7 +34,7 @@ public class Transport : MonoBehaviour
             else if (gameObject.CompareTag("Main_Character"))
             {
                 var Status = GetComponent<Main_Character_Status_Manager>();
-                if (Status.status == Status.NORMAL||Status.status==Status.TRANSPORTING)
+                if (Status.status == MainCharacterStatus.Normal||Status.status==MainCharacterStatus.Transporting)
                 {
                     CheckInput();
                 }
@@ -49,12 +49,12 @@ public class Transport : MonoBehaviour
             if (gameObject.CompareTag("Fairy"))
             {
                 var Status = GetComponent<Fairy_Status_Manager>();
-                Status.status = Status.TRANSPORTING;
+                Status.status = FairyStatus.Transporting;
             }
             else if (gameObject.CompareTag("Main_Character"))
             {
                 var Status = GetComponent<Main_Character_Status_Manager>();
-                Status.status = Status.TRANSPORTING;
+                Status.status = MainCharacterStatus.Transporting;
             }
         }
         else
@@ -62,12 +62,12 @@ public class Transport : MonoBehaviour
             if (gameObject.CompareTag("Fairy"))
             {
                 var Status = GetComponent<Fairy_Status_Manager>();
-                Status.status = Status.NORMAL;
+                Status.status = FairyStatus.Normal;
             }
             else if (gameObject.CompareTag("Main_Character"))
             {
                 var Status = GetComponent<Main_Character_Status_Manager>();
-                Status.status = Status.NORMAL;
+                Status.status = MainCharacterStatus.Normal;
             }
         }
     }

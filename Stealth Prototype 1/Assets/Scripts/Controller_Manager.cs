@@ -18,6 +18,7 @@ public class Controller_Manager : MonoBehaviour
 
         foreach (Joystick j in ReInput.controllers.Joysticks)
         {
+            
             if (MainCharacterJoystick == null)
             {
                 MainCharacterJoystick = j;
@@ -28,6 +29,7 @@ public class Controller_Manager : MonoBehaviour
                 FairyJoystick = j;
                 GameObject.Find("Fairy").GetComponent<PlayerId>().player.controllers.AddController(FairyJoystick, false);
             }
+
         }
     }
 

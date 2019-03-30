@@ -17,7 +17,7 @@ public class Detect_Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<Check_Onground>().onground)
+        if (GetComponent<CharacterMove>().OnGround)
         {
             GetComponent<BoxCollider2D>().isTrigger = false;
         }
@@ -33,7 +33,7 @@ public class Detect_Enemy : MonoBehaviour
         int layermask = 1 << LayerMask.NameToLayer("Default");
         float dis = GetComponent<CircleCollider2D>().radius;
 
-        if (ob.CompareTag("Enemy")&&GetComponent<Check_Onground>().onground&&Vector2.Dot(ob.transform.right,transform.position-ob.transform.position)>0)
+        if (ob.CompareTag("Enemy")&&GetComponent<CharacterMove>().OnGround&&Vector2.Dot(ob.transform.right,transform.position-ob.transform.position)>0)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position+detect_offset*Vector3.up, (ob.transform.position - transform.position ), dis, layermask);
             if (hit)
@@ -44,9 +44,9 @@ public class Detect_Enemy : MonoBehaviour
             {
                 detected_enemy_list.Add(ob);
                 var status = ob.GetComponent<Enemy_Status_Manager>();
-                if (status.status ==status.PATROL)
+                if (status.status ==EnemyStatus.Patrol)
                 {
-                    status.status = status.DRAWN_BY_GEM;
+                    status.status = EnemyStatus.DrawnByGem;
                     ob.GetComponent<Chase_Gem>().connected_gem = gameObject;
                     ob.GetComponent<Chase_Gem>().StartCoroutine(ob.GetComponent<Chase_Gem>().Chase());
                 }

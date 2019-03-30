@@ -5,9 +5,8 @@ using Rewired;
 
 public class Character_Horizontal_Movement : MonoBehaviour
 {
-
-    public float ground_speed;
-    public float air_speed;
+    public float HorizontalSpeed;
+    public float AirAcceleration;
 
     private Player player;
 
@@ -25,7 +24,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status != Fairy_Status.CLIMBING&&Fairy_Status.status!=Fairy_Status.FLOAT_PLATFORM&&Fairy_Status.status!=Fairy_Status.TRANSPORTING&&Fairy_Status.status!=Fairy_Status.AIMED)
+            if (Fairy_Status.status != FairyStatus.Climbing&&Fairy_Status.status!=FairyStatus.FloatPlatform&&Fairy_Status.status!=FairyStatus.Transporting&&Fairy_Status.status!=FairyStatus.Aimed)
             {
                 check_input();
             }
@@ -33,7 +32,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         else if(gameObject.CompareTag("Main_Character"))
         {
             var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-            if (Main_Character_Status.status == Main_Character_Status.NORMAL)
+            if (Main_Character_Status.status == MainCharacterStatus.Normal || Main_Character_Status.status==MainCharacterStatus.OverDash)
             {
                 check_input();
             }
@@ -43,8 +42,9 @@ public class Character_Horizontal_Movement : MonoBehaviour
 
     private void check_input()
     {
-        var check_onground = GetComponent<Check_Onground>();
         var check_horizontal_collider = GetComponent<CheckHorizontalCollider>();
+        var CharacterMove = GetComponent<CharacterMove>();
+
         Vector3 moveVector=Vector3.zero;
         moveVector.x = player.GetAxis("Left Stick X");
         if (Mathf.Abs(moveVector.x) < moveVectorThreshold)
@@ -55,27 +55,66 @@ public class Character_Horizontal_Movement : MonoBehaviour
         {
             moveVector.Normalize();
         }
-        if (check_onground.onground)
+
+
+        if (Mathf.Abs(moveVector.x) > 0 && (!CharacterMove.HitWall || moveVector.x > 0 && CharacterMove.WallDirection.x < 0 || moveVector.x < 0 && CharacterMove.WallDirection.x > 0))
         {
-            if (moveVector.x > 0 && !check_horizontal_collider.RightCollide || moveVector.x < 0 && !check_horizontal_collider.LeftCollide)
+            if (CharacterMove.OnGround)
             {
-                transform.position += moveVector * ground_speed * Time.deltaTime;
+                if (moveVector.x > 0)
+                {
+                    CharacterMove.speed.x = HorizontalSpeed;
+                }
+                else
+                {
+                    CharacterMove.speed.x = -HorizontalSpeed;
+                }
+
+            }
+            else
+            {
+                if (moveVector.x > 0)
+                {
+                    if (CharacterMove.speed.x < 0)
+                    {
+                        CharacterMove.speed.x = 0;
+                    }
+                    CharacterMove.speed.x += AirAcceleration * Time.deltaTime;
+                    if (CharacterMove.speed.x > HorizontalSpeed)
+                    {
+                        CharacterMove.speed.x = HorizontalSpeed;
+                    }
+                }
+                else
+                {
+                    if (CharacterMove.speed.x > 0)
+                    {
+                        CharacterMove.speed.x = 0;
+                    }
+                    CharacterMove.speed.x -= AirAcceleration * Time.deltaTime;
+                    if (CharacterMove.speed.x < -HorizontalSpeed)
+                    {
+                        CharacterMove.speed.x = -HorizontalSpeed;
+                    }
+                }
+
+            }
+
+            if (!(gameObject.CompareTag("Fairy") && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aiming))
+            {
+                if (moveVector.x > 0)
+                {
+                    transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+                }
+                else if (moveVector.x < 0)
+                {
+                    transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+                }
             }
         }
         else
         {
-            if (moveVector.x > 0 && !check_horizontal_collider.RightCollide || moveVector.x < 0 && !check_horizontal_collider.LeftCollide)
-            {
-                transform.position += moveVector * air_speed * Time.deltaTime;
-            }
-        }
-        if (moveVector.x > 0)
-        {
-            transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
-        }
-        else if(moveVector.x < 0&&!check_horizontal_collider.LeftCollide)
-        {
-            transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+            GetComponent<CharacterMove>().speed.x = 0;
         }
 
     }

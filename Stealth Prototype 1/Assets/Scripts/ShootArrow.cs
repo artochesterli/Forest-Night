@@ -15,7 +15,14 @@ public class ShootArrow : MonoBehaviour
     private const float Aim_offset = 1;
     private const float mirroBounceStartPointOffset = 0.05f;
     private const float AimLineUnitPerMeter = 2;
-    private const float AimThreshold=0.5f;
+
+    private const float AimDirectionSlowRotationSpeed = 2;
+    private const float AimDirectionFastRotationSpeed = 60;
+    
+    private const float AimDirectionSlowChangeThreshold = 0.2f;
+    private const float AimDirectionFastChangeThreshold = 0.8f;
+
+    private const float AimRotationLimit = 150;
 
     private const float mirrorTopDownOffset = 0.05f;
 
@@ -30,8 +37,9 @@ public class ShootArrow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         var status = GetComponent<Fairy_Status_Manager>();
-        if (status.status != status.TRANSPORTING&&status.status!=status.AIMED)
+        if (status.status != FairyStatus.Transporting&&status.status!=FairyStatus.Aimed)
         {
             Check_Input();
         }
@@ -40,55 +48,81 @@ public class ShootArrow : MonoBehaviour
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != Fairy_Status.FLOAT&& Fairy_Status.status != Fairy_Status.TRANSPORTING && Fairy_Status.status != Fairy_Status.FLOAT_PLATFORM && GetComponent<Check_Onground>().onground && player.GetButtonDown("LT"))
+        if (Fairy_Status.status != FairyStatus.Float&& Fairy_Status.status != FairyStatus.Transporting && Fairy_Status.status != FairyStatus.FloatPlatform && GetComponent<CharacterMove>().OnGround && player.GetButton("LT"))
         {
-            Fairy_Status.status = Fairy_Status.AIM;
+            Fairy_Status.status = FairyStatus.Aiming;
             if (Connected_Arrow == null)
             {
                 Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
-            }
-            direction = transform.right;
-            ClearAimLine();
-            CreateAimLIne(direction, Connected_Arrow.transform.position);
-            Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
-        }
-
-        if (Fairy_Status.status == Fairy_Status.AIM)
-        {
-            
-            Vector2 temp = Vector2.zero;
-            temp.x = player.GetAxis("Right Stick X");
-            temp.y = player.GetAxis("Right Stick Y");
-            if (temp.magnitude > AimThreshold)
-            {
-                direction = temp;
-                direction.Normalize();
+                Connected_Arrow.transform.parent = transform;
+                direction = Vector2.up;
+                Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
                 ClearAimLine();
                 CreateAimLIne(direction, Connected_Arrow.transform.position);
-
             }
-            /*else
+        }
+
+        if (Fairy_Status.status == FairyStatus.Aiming)
+        {
+            if (!GetComponent<CharacterMove>().OnGround)
             {
-                ClearAimLine();
-                direction = Vector2.zero;
-            }*/
+                Fairy_Status.status = FairyStatus.Normal;
+                Debug.Log("hehe");
+                return;
+            }
+            float RightStickX = player.GetAxis("Right Stick X");
+            if (Mathf.Abs(RightStickX) > AimDirectionFastChangeThreshold)
+            {
+                if (RightStickX > 0)
+                {
+                    direction = Utility.instance.Rotate(direction, -AimDirectionFastRotationSpeed * Time.deltaTime);
+                    
+                }
+                else
+                {
+                    direction = Utility.instance.Rotate(direction, AimDirectionFastRotationSpeed * Time.deltaTime);
+                }
+            }
+            else if (Mathf.Abs(RightStickX) > AimDirectionSlowChangeThreshold)
+            {
+                if (RightStickX > 0)
+                {
+                    direction = Utility.instance.Rotate(direction, -AimDirectionSlowRotationSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    direction = Utility.instance.Rotate(direction, AimDirectionSlowRotationSpeed * Time.deltaTime);
+                }
+            }
+            if (Vector2.Angle(Vector2.up, direction) > AimRotationLimit)
+            {
+                if (direction.x > 0)
+                {
+                    direction = Utility.instance.Rotate(Vector2.up, -AimRotationLimit);
+                }
+                else
+                {
+                    direction = Utility.instance.Rotate(Vector2.up, AimRotationLimit);
+                }
+                
+            }
+
+            direction.Normalize();
+
+            ChangeFairyDirection();
+
+            ClearAimLine();
+            CreateAimLIne(direction, Connected_Arrow.transform.position);
             Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
 
             if (player.GetButtonUp("LT"))
             {
                 ClearAimLine();
-                if (direction.magnitude > 0)
-                {
-                    Connected_Arrow.GetComponent<Arrow>().direction = direction;
-                    Connected_Arrow.GetComponent<Arrow>().emit = true;
-                    Connected_Arrow.transform.parent = null;
-                    Connected_Arrow = null;
-                }
-                else
-                {
-                    Destroy(Connected_Arrow);
-                }
-                Fairy_Status.status = Fairy_Status.NORMAL;
+                Connected_Arrow.GetComponent<Arrow>().direction = direction;
+                Connected_Arrow.GetComponent<Arrow>().emit = true;
+                Connected_Arrow.transform.parent = null;
+                Connected_Arrow = null;
+                Fairy_Status.status = FairyStatus.Normal;
             }
         }
 
@@ -134,4 +168,15 @@ public class ShootArrow : MonoBehaviour
         }
     }
 
+    private void ChangeFairyDirection()
+    {
+        if (direction.x > 0)
+        {
+            transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+        }
+        else
+        {
+            transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+        }
+    }
 }

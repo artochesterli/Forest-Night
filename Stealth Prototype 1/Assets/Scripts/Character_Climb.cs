@@ -32,7 +32,7 @@ public class Character_Climb : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Status = GetComponent<Fairy_Status_Manager>();
-            if (Status.status != Status.AIMED)
+            if (Status.status != FairyStatus.Aimed)
             {
                 Check_Input();
             }
@@ -41,7 +41,7 @@ public class Character_Climb : MonoBehaviour
         else if (gameObject.CompareTag("Main_Character"))
         {
             var Status = GetComponent<Main_Character_Status_Manager>();
-            if (Status.status != Status.AIMED)
+            if (Status.status != MainCharacterStatus.Aimed)
             {
                 Check_Input();
             }
@@ -66,7 +66,7 @@ public class Character_Climb : MonoBehaviour
                 {
                     transform.position = new Vector3(connected_path.transform.position.x, transform.position.y - climb_initial_offset, 0);
                 }
-                Status.status = Status.CLIMBING;
+                Status.status = FairyStatus.Climbing;
 
             }
             else if (gameObject.CompareTag("Main_Character"))
@@ -80,7 +80,7 @@ public class Character_Climb : MonoBehaviour
                 {
                     transform.position = new Vector3(connected_path.transform.position.x, transform.position.y - climb_initial_offset, 0);
                 }
-                Status.status = Status.CLIMBING;
+                Status.status = MainCharacterStatus.Climbing;
             }
         }
         if (!AbleToClimb)
@@ -119,26 +119,26 @@ public class Character_Climb : MonoBehaviour
         if (IsClimbing)
         {
 
-            GetComponent<BoxCollider2D>().isTrigger = true;
+
         }
         else
         {
-            GetComponent<BoxCollider2D>().isTrigger = false;
+
             if (gameObject.CompareTag("Fairy"))
             {
                 var Status = GetComponent<Fairy_Status_Manager>();
-                if (Status.status == Status.CLIMBING)
+                if (Status.status == FairyStatus.Climbing)
                 {
-                    Status.status = Status.NORMAL;
+                    Status.status = FairyStatus.Normal;
                 }
 
             }
             else if (gameObject.CompareTag("Main_Character"))
             {
                 var Status = GetComponent<Main_Character_Status_Manager>();
-                if (Status.status == Status.CLIMBING)
+                if (Status.status == MainCharacterStatus.Climbing)
                 {
-                    Status.status = Status.NORMAL;
+                    Status.status = MainCharacterStatus.Normal;
                 }
             }
         }
@@ -149,7 +149,7 @@ public class Character_Climb : MonoBehaviour
         else
         {
             
-            if (GetComponent<Check_Onground>().onground)
+            if (GetComponent<CharacterMove>().OnGround)
             {
                 IsClimbing = false;
             }

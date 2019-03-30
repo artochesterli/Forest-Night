@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-
     public float speed;
     public Vector2 direction;
     public bool emit;
 
-    private GameObject collision_object;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,17 +23,23 @@ public class Arrow : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (transform.parent != null)
+        {
+            Character_Manager.Fairy.GetComponent<Fairy_Status_Manager>().status = FairyStatus.Normal;
+            Destroy(gameObject);
+        }
+
         if (emit)
         {
-            collision_object = collision.GetComponent<Collider2D>().gameObject;
-            if (collision_object.CompareTag("Enemy"))
+            GameObject ob = collision.GetComponent<Collider2D>().gameObject;
+            if (ob.CompareTag("Enemy"))
             {
-                collision_object.GetComponent<Enemy_Check>().time_count = 0;
-                collision_object.GetComponent<Enemy_Status_Manager>().status = collision_object.GetComponent<Enemy_Status_Manager>().STUNNED;
+                ob.GetComponent<Enemy_Check>().time_count = 0;
+                ob.GetComponent<Enemy_Status_Manager>().status = EnemyStatus.Stunned;
 
             }
 
-            if (collision_object.CompareTag("Mirror"))
+            if (ob.CompareTag("Mirror"))
             {
                 direction.x = -direction.x;
             }
@@ -44,7 +48,6 @@ public class Arrow : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        
-
     }
+
 }
