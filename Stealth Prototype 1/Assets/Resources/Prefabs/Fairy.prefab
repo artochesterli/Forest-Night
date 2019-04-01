@@ -235,8 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583afec6aac6e5144828ca49eadd7d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground_speed: 5
-  air_speed: 4
+  HorizontalSpeed: 5
+  AirAcceleration: 20
 --- !u!114 &3436912808128966268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,8 +342,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be0cbeeb5437b3499a5876726325203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  jump_off_velocity: 3
+  ClimbSpeed: 2
+  JumpOffSpeed: {x: 5, y: 5}
+  ThroughPathEndDuration: 0.3
+  PathEndThrough: 0
+  ConnectedPath: {fileID: 0}
 --- !u!114 &3436912808128966257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 0}
+  DashSpeed: {x: 0, y: 0}
   Gravity: 0
   HitWall: 0
   WallDis: 0
@@ -413,8 +417,7 @@ MonoBehaviour:
   TopDis: 0
   OnGround: 0
   GroundDis: 0
-  AttachedPlatform: {fileID: 0}
-  PlatformSpeed: {x: 0, y: 0}
+  ConnectedMovingPlatform: {fileID: 0}
 --- !u!1001 &3436912807943592427
 PrefabInstance:
   m_ObjectHideFlags: 0

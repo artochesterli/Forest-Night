@@ -85,7 +85,6 @@ public class Fairy_Status_Manager : MonoBehaviour
         }
         else if (status == FairyStatus.Climbing)
         {
-            GetComponent<CharacterMove>().speed = Vector2.zero;
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
         }
         else if (status == FairyStatus.FloatPlatform)
@@ -96,7 +95,7 @@ public class Fairy_Status_Manager : MonoBehaviour
         }
         else if (status == FairyStatus.Transporting)
         {
-            GetComponent<CharacterMove>().speed = Vector2.zero;
+            
             GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
         }
         else if (status == FairyStatus.Aimed)
@@ -110,6 +109,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     {
         if (status == FairyStatus.Aimed)
         {
+            GetComponent<CharacterMove>().speed = Vector2.zero;
             player.SetVibration(1, AimedVibration, Time.deltaTime);
             AimedTimeCount += Time.deltaTime;
             if (AimedTimeCount > AimedDiedTime)

@@ -11,6 +11,8 @@ public class Platform_Tolem : MonoBehaviour
     public Vector2 CurrentSpeed;
     public bool moving;
 
+    private int MainCharacterMoveFrameCount;
+    private int FairyMoveFrameCount;
 
 
     private bool At_First_Point;
@@ -18,8 +20,13 @@ public class Platform_Tolem : MonoBehaviour
     void Start()
     {
         At_First_Point = true;
+        EventManager.instance.AddHandler<CharacterMoveWithPlatform>(OnCharacterMoveWithPlatform);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<CharacterMoveWithPlatform>(OnCharacterMoveWithPlatform);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -44,24 +51,56 @@ public class Platform_Tolem : MonoBehaviour
         }
         direction.Normalize();
         yield return null;
-        CurrentSpeed = speed * direction;
-        while (true)
+        if(Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && MainCharacterMoveFrameCount == Time.frameCount)
         {
+            Debug.Log("hehe");
+            //Debug.Log(direction.y * speed * Time.deltaTime);
+            Character_Manager.Main_Character.transform.position += (Vector3)direction * speed* Time.deltaTime;
+            //Debug.Log(direction.y * speed * Time.deltaTime);
+        }
+        if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && FairyMoveFrameCount >= Time.frameCount)
+        {
+            Character_Manager.Fairy.transform.position += (Vector3)direction * speed * Time.deltaTime;
+        }
+
+        CurrentSpeed = speed * direction;
+        while (Vector2.Dot(direction, transform.position - EndPoint) < 0)
+        {
+            //Debug.Log(CurrentSpeed.y * Time.deltaTime);
+            //Debug.Log(Time.frameCount);
             transform.position += (Vector3)CurrentSpeed * Time.deltaTime;
-            if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+            EventManager.instance.Fire(new ConnectedPlatformMoved(Time.frameCount, gameObject));
+            //Debug.Log((transform.position - Character_Manager.Main_Character.transform.position).y);
+            //Debug.Log(Time.frameCount);
+            /*if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
             {
                 Character_Manager.Main_Character.transform.position+= (Vector3)CurrentSpeed * Time.deltaTime; ;
             }
             if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
             {
                 Character_Manager.Fairy.transform.position += (Vector3)CurrentSpeed * Time.deltaTime; ;
-            }
-            if (Vector2.Dot(direction, transform.position - EndPoint) > 0)
-            {
-                transform.position = EndPoint;
-                break;
-            }
+            }*/
             yield return null;
+        }
+        
+        /*if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+        {
+            Character_Manager.Main_Character.transform.position += EndPoint - transform.position;
+        }
+        if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+        {
+            Character_Manager.Fairy.transform.position += EndPoint - transform.position;
+        }*/
+        //transform.position = EndPoint;
+        if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && MainCharacterMoveFrameCount == Time.frameCount)
+        {
+            Character_Manager.Main_Character.transform.position -= (Vector3)CurrentSpeed * Time.deltaTime;
+            Debug.Log("hehe");
+            //Debug.Log((transform.position - Character_Manager.Main_Character.transform.position).y);
+        }
+        if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && FairyMoveFrameCount >= Time.frameCount)
+        {
+            Character_Manager.Fairy.transform.position -= (Vector3)CurrentSpeed * Time.deltaTime;
         }
         CurrentSpeed = Vector2.zero;
         At_First_Point = !At_First_Point;
@@ -77,6 +116,21 @@ public class Platform_Tolem : MonoBehaviour
             if (Connected_Moving_Platform != null)
             {
                 Connected_Moving_Platform.GetComponent<Platform_Tolem>().StartCoroutine(Connected_Moving_Platform.GetComponent<Platform_Tolem>().Move());
+            }
+        }
+    }
+
+    private void OnCharacterMoveWithPlatform(CharacterMoveWithPlatform C)
+    {
+        if (C.Object.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+        {
+            if (C.Object == Character_Manager.Main_Character)
+            {
+                MainCharacterMoveFrameCount = Time.frameCount;
+            }
+            else if(C.Object == Character_Manager.Fairy)
+            {
+                FairyMoveFrameCount = Time.frameCount;
             }
         }
     }

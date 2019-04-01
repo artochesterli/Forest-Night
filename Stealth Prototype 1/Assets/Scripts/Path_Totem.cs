@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Path_Totem : MonoBehaviour
 {
-    public GameObject connected_totem;
     public float Path_Length;
 
     private float Path_Collider_Width = 0.5f;
@@ -33,12 +32,6 @@ public class Path_Totem : MonoBehaviour
             var self_status = GetComponent<Totem_Status_Manager>();
             self_status.Status = self_status.INGROUND;
             Create_Path();
-            if (connected_totem != null)
-            {
-                var connected_status = connected_totem.GetComponent<Totem_Status_Manager>();
-                connected_status.Status = connected_status.APPEAR;
-                connected_totem.GetComponent<Path_Totem>().Clear_Path();
-            }
         }
     }
 

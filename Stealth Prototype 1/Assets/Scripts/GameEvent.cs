@@ -13,8 +13,27 @@ public class CharacterDied : GameEvent
     }
 }
 
+public class CharacterMoveWithPlatform : GameEvent
+{
+    public int FrameCount;
+    public GameObject Object;
+    public CharacterMoveWithPlatform(int C, GameObject ob)
+    {
+        FrameCount = C;
+        Object = ob;
+    }
+}
 
-
+public class ConnectedPlatformMoved : GameEvent
+{
+    public int FrameCount;
+    public GameObject Platform;
+    public ConnectedPlatformMoved(int C,GameObject ob)
+    {
+        Platform = ob;
+        FrameCount = C;
+    }
+}
 public class TutorialOpen : GameEvent
 {
 

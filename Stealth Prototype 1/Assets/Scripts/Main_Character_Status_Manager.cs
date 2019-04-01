@@ -83,6 +83,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
     {
         if (status == MainCharacterStatus.Aimed)
         {
+            GetComponent<CharacterMove>().speed = Vector2.zero;
             player.SetVibration(0, AimedVibration, Time.deltaTime);
             AimedTimeCount += Time.deltaTime;
             if (AimedTimeCount > AimedDiedTime)

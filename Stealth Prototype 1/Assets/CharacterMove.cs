@@ -6,6 +6,7 @@ public class CharacterMove : MonoBehaviour
 {
     public Vector2 speed;
     public Vector2 DashSpeed;
+    public Vector2 PlatformSpeed;
     public float Gravity;
 
     public bool HitWall;
@@ -22,6 +23,7 @@ public class CharacterMove : MonoBehaviour
     private GameObject Ground;
 
     public GameObject ConnectedMovingPlatform;
+    private int ConnectedPlatformMoveFrameCount;
 
     private const float OnGroundThreshold = 0.5f;
     private const float OnGroundDetectOffset = 0.4f;
@@ -38,12 +40,12 @@ public class CharacterMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        EventManager.instance.AddHandler<ConnectedPlatformMoved>(OnConnectedPlatformMoved);
     }
 
     private void OnDestroy()
     {
-        
+        EventManager.instance.RemoveHandler<ConnectedPlatformMoved>(OnConnectedPlatformMoved);
     }
 
     // Update is called once per frame
@@ -57,15 +59,28 @@ public class CharacterMove : MonoBehaviour
         CheckTopHitting();
         CheckCollide();
 
+        if (!OnGround)
+        {
+            //Debug.Log(Time.frameCount);
+            Debug.Log("Over");
+            //Debug.Log(GroundDis);
+            //Debug.Log(ConnectedMovingPlatform.transform.position.y - transform.position.y);
+        }
+        else
+        {
+            //Debug.Log("ooo");
+        }
+
         SetGravity();
         GravityEffect();
         SurfaceHittingSpeedChange();
         Move();
+        RectifyPos();
     }
 
     private void CheckCollide()
     {
-        if (Wall && Wall.CompareTag("Spine") || Ground&& Ground.CompareTag("Spine") || Top&&Top.CompareTag("Spine"))
+        if (HitWall && Wall.CompareTag("Spine") || OnGround&& Ground.CompareTag("Spine") || HitTop&&Top.CompareTag("Spine"))
         {
             EventManager.instance.Fire(new CharacterDied(gameObject));
             Destroy(gameObject);
@@ -131,18 +146,26 @@ public class CharacterMove : MonoBehaviour
 
     public void Move()
     {
-        Vector2 temp = speed+DashSpeed;
+        Vector2 temp = speed+DashSpeed + PlatformSpeed;
         if (!IsMainCharacterDashing())
         {
             if (temp.y > 0 && TopDis >= 0 && temp.y * Time.deltaTime > TopDis)
             {
                 temp.y = TopDis / Time.deltaTime;
+                if (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform"))
+                {
+                    temp.y += PlatformSpeed.y;
+                }
                 DashSpeed = Vector2.zero;
             }
 
             if (temp.y < 0 && GroundDis >= 0 && temp.y * Time.deltaTime < -GroundDis)
             {
                 temp.y = -GroundDis / Time.deltaTime;
+                if (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform"))
+                {
+                    temp.y += PlatformSpeed.y;
+                }
                 DashSpeed = Vector2.zero;
             }
 
@@ -151,6 +174,10 @@ public class CharacterMove : MonoBehaviour
                 if (temp.x * Time.deltaTime > WallDis && WallDis >= 0 && WallDirection.x > 0)
                 {
                     temp.x = WallDis / Time.deltaTime;
+                    if (Wall.CompareTag("Totem_Platform"))
+                    {
+                        temp.x += PlatformSpeed.x;
+                    }
                     DashSpeed = Vector2.zero;
                 }
             }
@@ -159,15 +186,28 @@ public class CharacterMove : MonoBehaviour
                 if (temp.x * Time.deltaTime < -WallDis && WallDis >= 0 && WallDirection.x < 0)
                 {
                     temp.x = -WallDis / Time.deltaTime;
+                    if (Wall.CompareTag("Totem_Platform"))
+                    {
+                        temp.x += PlatformSpeed.x;
+                    }
                     DashSpeed = Vector2.zero;
                 }
             }
         }
-        transform.position += (Vector3)temp * Time.deltaTime;
+        transform.position += (Vector3)temp* Time.deltaTime;
+        if (ConnectedMovingPlatform != null)
+        {
+            //Debug.Log(Time.frameCount);
+            //Debug.Log(temp);
+            //Debug.Log(temp.y * Time.deltaTime);
+            EventManager.instance.Fire(new CharacterMoveWithPlatform(Time.frameCount, gameObject));
+        }
     }
 
     public void CheckGroundDis()
     {
+        
+
         int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
         layermask = ~layermask;
 
@@ -207,13 +247,22 @@ public class CharacterMove : MonoBehaviour
 
     private void CheckGroundHitting()
     {
-        if (GroundDis <= CheckOffset)
+        float Dis = CheckOffset;
+        if (ConnectedMovingPlatform != null)
+        {
+            if (Time.frameCount == ConnectedPlatformMoveFrameCount)
+            {
+                Debug.Log("qqq");
+                Dis -= PlatformSpeed.y * Time.deltaTime;
+            }
+        }
+
+        if (GroundDis <= Dis)
         {
             OnGround = true;
         }
         else
         {
-            Ground = null;
             OnGround = false;
         }
     }
@@ -265,7 +314,6 @@ public class CharacterMove : MonoBehaviour
         else
         {
             HitTop = false;
-            Top = null;
         }
     }
 
@@ -274,10 +322,24 @@ public class CharacterMove : MonoBehaviour
         int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
         layermask = ~layermask;
 
-        WallDirection = transform.right;
-        if (gameObject.CompareTag("Fairy") && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aiming)
+        if (speed.x + DashSpeed.x + PlatformSpeed.x== 0)
         {
-            WallDirection = -transform.right;
+            WallDirection = transform.right;
+            if (gameObject.CompareTag("Fairy") && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aiming)
+            {
+                WallDirection = -transform.right;
+            }
+        }
+        else
+        {
+            if (speed.x + DashSpeed.x + PlatformSpeed.x > 0)
+            {
+                WallDirection = Vector2.right;
+            }
+            else
+            {
+                WallDirection = Vector2.left;
+            }
         }
 
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, WallDirection, DetectDis, layermask);
@@ -321,12 +383,30 @@ public class CharacterMove : MonoBehaviour
         else
         {
             HitWall = false;
-            Wall = null;
         }
     }
 
     private bool IsMainCharacterDashing()
     {
         return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Dashing;
+    }
+
+    private void OnConnectedPlatformMoved(ConnectedPlatformMoved C)
+    {
+        if (C.Platform == ConnectedMovingPlatform)
+        {
+            ConnectedPlatformMoveFrameCount = C.FrameCount;
+        }
+    }
+
+    private void RectifyPos()
+    {
+        if (PlatformSpeed.y == 0)
+        {
+            if (GroundDis < 0 || GroundDis>0 &&GroundDis<=CheckOffset)
+            {
+                transform.position -= Vector3.up * GroundDis;
+            }
+        }
     }
 }

@@ -114,7 +114,29 @@ public class Character_Horizontal_Movement : MonoBehaviour
         }
         else
         {
-            GetComponent<CharacterMove>().speed.x = 0;
+            if (CharacterMove.OnGround)
+            {
+                CharacterMove.speed.x = 0;
+            }
+            else
+            {
+                if (CharacterMove.speed.x > 0)
+                {
+                    CharacterMove.speed.x -= AirAcceleration * Time.deltaTime;
+                    if (CharacterMove.speed.x < 0)
+                    {
+                        CharacterMove.speed.x = 0;
+                    }
+                }
+                else
+                {
+                    CharacterMove.speed.x += AirAcceleration * Time.deltaTime;
+                    if (CharacterMove.speed.x > 0)
+                    {
+                        CharacterMove.speed.x = 0;
+                    }
+                }
+            }
         }
 
     }
