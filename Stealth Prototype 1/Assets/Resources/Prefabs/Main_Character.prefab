@@ -376,7 +376,7 @@ MonoBehaviour:
   dash_distance: 4
   dash_speed: 20
   over_dash_velocity: 20
-  OverDashDeceleration: 70
+  OverDashDeceleration: 80
 --- !u!114 &2976651962471586674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,6 +509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 0}
   DashSpeed: {x: 0, y: 0}
+  PlatformSpeed: {x: 0, y: 0}
   Gravity: 0
   HitWall: 0
   WallDis: 0
