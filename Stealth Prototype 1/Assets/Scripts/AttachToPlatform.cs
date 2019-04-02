@@ -26,7 +26,7 @@ public class AttachToPlatform : MonoBehaviour
         {
             GetComponent<CharacterMove>().ConnectedMovingPlatform = ob.transform.parent.gameObject;
             GetComponent<CharacterMove>().PlatformSpeed = ob.transform.parent.GetComponent<Platform_Tolem>().CurrentSpeed;
-            //transform.parent = ob.transform.parent;
+
         }
     }
 
@@ -37,7 +37,6 @@ public class AttachToPlatform : MonoBehaviour
         {
             GetComponent<CharacterMove>().ConnectedMovingPlatform = null;
             GetComponent<CharacterMove>().PlatformSpeed = Vector2.zero;
-            //transform.parent = null;
         }
     }
 }

@@ -38,7 +38,7 @@ public class Character_Climb : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Status = GetComponent<Fairy_Status_Manager>();
-            if (Status.status != FairyStatus.Aimed && !PathEndThrough)
+            if (Status.status!=FairyStatus.KnockBack&& Status.status != FairyStatus.Aimed && !PathEndThrough)
             {
                 Check_Input();
             }
@@ -47,7 +47,7 @@ public class Character_Climb : MonoBehaviour
         else if (gameObject.CompareTag("Main_Character"))
         {
             var Status = GetComponent<Main_Character_Status_Manager>();
-            if (Status.status != MainCharacterStatus.Aimed && !PathEndThrough)
+            if (Status.status!=MainCharacterStatus.KnockBack&& Status.status != MainCharacterStatus.Aimed && !PathEndThrough)
             {
                 Check_Input();
             }

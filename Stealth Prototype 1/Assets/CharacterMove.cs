@@ -12,15 +12,15 @@ public class CharacterMove : MonoBehaviour
     public bool HitWall;
     public float WallDis;
     public Vector2 WallDirection;
-    private GameObject Wall;
+    public GameObject Wall;
 
     public bool HitTop;
     public float TopDis;
-    private GameObject Top;
+    public GameObject Top;
 
     public bool OnGround;
     public float GroundDis;
-    private GameObject Ground;
+    public GameObject Ground;
 
     public GameObject ConnectedMovingPlatform;
     private int ConnectedPlatformMoveFrameCount;
@@ -59,18 +59,6 @@ public class CharacterMove : MonoBehaviour
         CheckTopHitting();
         CheckCollide();
 
-        if (!OnGround)
-        {
-            //Debug.Log(Time.frameCount);
-            Debug.Log("Over");
-            //Debug.Log(GroundDis);
-            //Debug.Log(ConnectedMovingPlatform.transform.position.y - transform.position.y);
-        }
-        else
-        {
-            //Debug.Log("ooo");
-        }
-
         SetGravity();
         GravityEffect();
         SurfaceHittingSpeedChange();
@@ -94,7 +82,7 @@ public class CharacterMove : MonoBehaviour
             if (gameObject.CompareTag("Main_Character"))
             {
                 MainCharacterStatus status = GetComponent<Main_Character_Status_Manager>().status;
-                if (status == MainCharacterStatus.Normal && !OnGround)
+                if ((status == MainCharacterStatus.Normal || status==MainCharacterStatus.KnockBack) && !OnGround)
                 {
                     Gravity = GetComponent<Gravity_Data>().normal_gravityScale;
                 }
@@ -106,7 +94,7 @@ public class CharacterMove : MonoBehaviour
             else if (gameObject.CompareTag("Fairy"))
             {
                 FairyStatus status = GetComponent<Fairy_Status_Manager>().status;
-                if (status == FairyStatus.Normal && !OnGround)
+                if ((status == FairyStatus.Normal || status==FairyStatus.KnockBack) && !OnGround)
                 {
                     Gravity = GetComponent<Gravity_Data>().normal_gravityScale;
                 }
@@ -197,9 +185,6 @@ public class CharacterMove : MonoBehaviour
         transform.position += (Vector3)temp* Time.deltaTime;
         if (ConnectedMovingPlatform != null)
         {
-            //Debug.Log(Time.frameCount);
-            //Debug.Log(temp);
-            //Debug.Log(temp.y * Time.deltaTime);
             EventManager.instance.Fire(new CharacterMoveWithPlatform(Time.frameCount, gameObject));
         }
     }
@@ -252,7 +237,6 @@ public class CharacterMove : MonoBehaviour
         {
             if (Time.frameCount == ConnectedPlatformMoveFrameCount)
             {
-                Debug.Log("qqq");
                 Dis -= PlatformSpeed.y * Time.deltaTime;
             }
         }

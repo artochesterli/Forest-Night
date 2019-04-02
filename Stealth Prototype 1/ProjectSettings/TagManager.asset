@@ -18,6 +18,8 @@ TagManager:
   - Platform_Totem
   - Mirror_Totem
   - Spine
+  - SpineLethal
+  - SpineKnockBack
   layers:
   - Default
   - TransparentFX

@@ -39,7 +39,7 @@ public class ShootArrow : MonoBehaviour
     {
         
         var status = GetComponent<Fairy_Status_Manager>();
-        if (status.status != FairyStatus.Transporting&&status.status!=FairyStatus.Aimed)
+        if (status.status != FairyStatus.Transporting&&status.status!=FairyStatus.Aimed && status.status!=FairyStatus.KnockBack)
         {
             Check_Input();
         }
@@ -67,7 +67,6 @@ public class ShootArrow : MonoBehaviour
             if (!GetComponent<CharacterMove>().OnGround)
             {
                 Fairy_Status.status = FairyStatus.Normal;
-                Debug.Log("hehe");
                 return;
             }
             float RightStickX = player.GetAxis("Right Stick X");
