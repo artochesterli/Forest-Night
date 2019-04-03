@@ -213,6 +213,8 @@ GameObject:
   - component: {fileID: 2575175391353359249}
   - component: {fileID: 6088998268241456525}
   - component: {fileID: 778641764}
+  - component: {fileID: 856160150}
+  - component: {fileID: 856160167}
   m_Layer: 9
   m_Name: Main_Character
   m_TagString: Main_Character
@@ -514,8 +516,38 @@ MonoBehaviour:
   HitWall: 0
   WallDis: 0
   WallDirection: {x: 0, y: 0}
+  Wall: {fileID: 0}
   HitTop: 0
   TopDis: 0
+  Top: {fileID: 0}
   OnGround: 0
   GroundDis: 0
+  Ground: {fileID: 0}
   ConnectedMovingPlatform: {fileID: 0}
+--- !u!114 &856160150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6d735a2718254ea5fc8908821ea2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &856160167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65c800311cb76d47a0738f90af18724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KnockBackSpeed: {x: 4, y: 5}
+  FreeHeight: 0
+  KnockBackDirection: {x: 0, y: 0}

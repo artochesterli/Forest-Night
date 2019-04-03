@@ -17,7 +17,7 @@ public class Float_Point : MonoBehaviour
     void Update()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status != FairyStatus.Climbing && !GetComponent<CharacterMove>().OnGround)
+        if (Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack && Fairy_Status.status != FairyStatus.Climbing && !GetComponent<CharacterMove>().OnGround)
         {
             Check_Input();
         }

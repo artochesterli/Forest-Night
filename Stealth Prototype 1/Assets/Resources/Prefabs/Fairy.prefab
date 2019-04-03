@@ -105,6 +105,8 @@ GameObject:
   - component: {fileID: 6621630440457991297}
   - component: {fileID: 3608332222062454649}
   - component: {fileID: 8008829222336686084}
+  - component: {fileID: 1288555189}
+  - component: {fileID: 1288555190}
   m_Layer: 10
   m_Name: Fairy
   m_TagString: Fairy
@@ -409,15 +411,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: {x: 0, y: 0}
   DashSpeed: {x: 0, y: 0}
+  PlatformSpeed: {x: 0, y: 0}
   Gravity: 0
   HitWall: 0
   WallDis: 0
   WallDirection: {x: 0, y: 0}
+  Wall: {fileID: 0}
   HitTop: 0
   TopDis: 0
+  Top: {fileID: 0}
   OnGround: 0
   GroundDis: 0
+  Ground: {fileID: 0}
   ConnectedMovingPlatform: {fileID: 0}
+--- !u!114 &1288555189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436912808128966255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d65c800311cb76d47a0738f90af18724, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  KnockBackSpeed: {x: 4, y: 5}
+  FreeHeight: 0
+  KnockBackDirection: {x: 0, y: 0}
+--- !u!114 &1288555190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436912808128966255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6d735a2718254ea5fc8908821ea2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3436912807943592427
 PrefabInstance:
   m_ObjectHideFlags: 0

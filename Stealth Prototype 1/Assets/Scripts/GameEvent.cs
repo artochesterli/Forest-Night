@@ -34,6 +34,16 @@ public class ConnectedPlatformMoved : GameEvent
         FrameCount = C;
     }
 }
+
+public class CharacterHitSpineEdge : GameEvent
+{
+    public GameObject Character;
+    public CharacterHitSpineEdge(GameObject C)
+    {
+        Character = C;
+    }
+}
+
 public class TutorialOpen : GameEvent
 {
 

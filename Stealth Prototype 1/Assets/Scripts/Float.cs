@@ -21,7 +21,7 @@ public class Float : MonoBehaviour
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Climbing&&!GetComponent<CharacterMove>().OnGround&&GetComponent<CharacterMove>().speed.y<=0)
+        if (Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack&& Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Climbing&&!GetComponent<CharacterMove>().OnGround&&GetComponent<CharacterMove>().speed.y<=0)
         {
             if (player.GetButton("A"))
             {

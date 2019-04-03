@@ -24,7 +24,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status != FairyStatus.Climbing&&Fairy_Status.status!=FairyStatus.FloatPlatform&&Fairy_Status.status!=FairyStatus.Transporting&&Fairy_Status.status!=FairyStatus.Aimed)
+            if (Fairy_Status.status != FairyStatus.Climbing&&Fairy_Status.status!=FairyStatus.FloatPlatform&&Fairy_Status.status!=FairyStatus.Transporting&&Fairy_Status.status!=FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack)
             {
                 check_input();
             }
