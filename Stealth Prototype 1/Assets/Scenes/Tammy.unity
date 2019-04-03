@@ -2441,7 +2441,7 @@ SpriteRenderer:
   m_SortingLayerID: -1241049507
   m_SortingLayer: 1
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: d769481576a0afe439e9da8a81a86fa4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a09f74642474f6a46a9ae35a8e2062db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2460,7 +2460,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 274084834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.90999985, y: -8.17, z: 0}
+  m_LocalPosition: {x: -12.47, y: -7.808, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1053058307}
@@ -2485,7 +2485,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.73, y: 0.73}
+    oldSize: {x: 0.751, y: 1.456}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -2527,8 +2527,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583afec6aac6e5144828ca49eadd7d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground_speed: 3
-  air_speed: 2
+  HorizontalSpeed: 0
+  AirAcceleration: 0
 --- !u!114 &274084840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2541,7 +2541,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eff95acb9bc73c43b4a45fd2d900d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onground: 0
 --- !u!114 &274084841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2569,7 +2568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5686d980731d9c744a074239af5cbef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Fairy: {fileID: 0}
 --- !u!114 &274084843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2586,10 +2584,7 @@ MonoBehaviour:
   dash_distance: 4
   dash_speed: 20
   over_dash_velocity: 20
-  over_dash_stable_time: 0.11
-  over_dash_decelerate_time: 0.04
-  over_dash_decelerate_factor: 0.8
-  dash_pause_time: 0.2
+  OverDashDeceleration: 0
 --- !u!114 &274084844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2615,7 +2610,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ec3e8d8d3da0a44945e1f743f087e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump_initial_velocity_y: 10
+  JumpVerticalSpeed: 0
 --- !u!114 &274084846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2643,11 +2638,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  NORMAL: 0
-  DASHING: 1
-  CLIMBING: 2
-  TRANSPORTING: 3
-  AIMED: 4
 --- !u!114 &274084848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2672,8 +2662,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be0cbeeb5437b3499a5876726325203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  jump_off_velocity: 3
+  ClimbSpeed: 0
+  JumpOffSpeed: {x: 0, y: 0}
+  ThroughPathEndDuration: 0
+  PathEndThrough: 0
+  ConnectedPath: {fileID: 0}
 --- !u!1 &276593404
 GameObject:
   m_ObjectHideFlags: 0
@@ -4274,8 +4267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 583afec6aac6e5144828ca49eadd7d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground_speed: 5
-  air_speed: 4
+  HorizontalSpeed: 0
+  AirAcceleration: 0
 --- !u!61 &439539328
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4335,7 +4328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eff95acb9bc73c43b4a45fd2d900d02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onground: 0
 --- !u!114 &439539331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4348,7 +4340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ec3e8d8d3da0a44945e1f743f087e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jump_initial_velocity_y: 13.5
+  JumpVerticalSpeed: 0
 --- !u!114 &439539332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4429,13 +4421,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 0
-  NORMAL: 0
-  FLOAT: 1
-  AIM: 2
-  CLIMBING: 3
-  FLOAT_PLATFORM: 4
-  TRANSPORTING: 5
-  AIMED: 6
 --- !u!114 &439539338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4448,8 +4433,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be0cbeeb5437b3499a5876726325203, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  jump_off_velocity: 3
+  ClimbSpeed: 0
+  JumpOffSpeed: {x: 0, y: 0}
+  ThroughPathEndDuration: 0
+  PathEndThrough: 0
+  ConnectedPath: {fileID: 0}
 --- !u!114 &439539339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5908,7 +5896,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &606326383
 Transform:
   m_ObjectHideFlags: 0
@@ -10036,7 +10024,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053058306}
   m_LocalRotation: {x: 0, y: 0, z: -0.42261827, w: 0.9063079}
-  m_LocalPosition: {x: 0.677, y: 0, z: 0}
+  m_LocalPosition: {x: 0.621, y: -0.048, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 274084836}
@@ -10078,7 +10066,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1241049507
   m_SortingLayer: 1
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 799785ddf39fb404097f5e9425bcb90f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -12701,16 +12689,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 439539326}
     m_Modifications:
-    - target: {fileID: 955224493133793567, guid: 49531cf442c546a449b188a614abd79a,
-        type: 3}
-      propertyPath: m_Name
-      value: Aim_Icon
-      objectReference: {fileID: 0}
-    - target: {fileID: 955224493133793567, guid: 49531cf442c546a449b188a614abd79a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 955224493133793553, guid: 49531cf442c546a449b188a614abd79a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -12765,6 +12743,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 955224493133793567, guid: 49531cf442c546a449b188a614abd79a,
+        type: 3}
+      propertyPath: m_Name
+      value: Aim_Icon
+      objectReference: {fileID: 0}
+    - target: {fileID: 955224493133793567, guid: 49531cf442c546a449b188a614abd79a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 955224493133793552, guid: 49531cf442c546a449b188a614abd79a,
         type: 3}
