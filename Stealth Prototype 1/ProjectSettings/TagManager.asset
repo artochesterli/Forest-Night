@@ -7,15 +7,19 @@ TagManager:
   - Fairy
   - Main_Character
   - Enemy
-  - Mirror_Tolem
   - Bullet_Enemy
-  - Platform_Tolem
   - Gem_Tolem
   - Path_Totem
   - Path
   - Portal
   - Mirror
   - Totem_Platform
+  - Totem_Platform_Trigger
+  - Platform_Totem
+  - Mirror_Totem
+  - Spine
+  - SpineLethal
+  - SpineKnockBack
   layers:
   - Default
   - TransparentFX
@@ -38,7 +42,7 @@ TagManager:
   - Gem
   - Mirror
   - PlatformTotemTrigger
-  - 
+  - TutorialTrigger
   - 
   - 
   - 

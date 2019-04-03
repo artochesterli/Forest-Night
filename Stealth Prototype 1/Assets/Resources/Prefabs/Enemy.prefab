@@ -197,8 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Alert_Time: 2
-  Attention_Drawn_Time: 2
-  Stunned_Time: 2
+  Stunned_Time: 3
   Shoot_Time: 0.5
   Attention_Drawn_Right: 0
   Alert_Distance: 8
@@ -267,7 +266,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: 0
   PATROL: 0
-  ATTENTION_DRAWN: 1
   ALERT: 2
   SHOOT_CHARACTER: 4
   ALERT_RELEASE: 5
@@ -353,8 +351,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1241049507
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c311fa9050109bc49a054a493acf41aa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

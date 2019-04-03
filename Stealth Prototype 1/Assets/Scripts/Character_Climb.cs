@@ -6,23 +6,29 @@ using Rewired;
 public class Character_Climb : MonoBehaviour
 {
 
-    public float speed;
-    public float jump_off_velocity;
+    public float ClimbSpeed;
+    public Vector2 JumpOffSpeed;
+    public float ThroughPathEndDuration;
 
     private Player player;
     private bool IsClimbing;
-    private bool in_Path_end;
+    public bool PathEndThrough;
+
+
+    private bool InPathEnd;
     private bool AbleToClimb;
-    private GameObject connected_path;
-    private const float climb_initial_offset = 0.2f;
+    public GameObject ConnectedPath;
+
+
+
     private const float climb_threshold = 0.5f;
     private const float climb_jump_threshold = 0.3f;
     // Start is called before the first frame update
     void Start()
     {
         player = GetComponent<PlayerId>().player;
-        connected_path = null;
-        in_Path_end = false;
+        ConnectedPath = null;
+        InPathEnd = false;
         IsClimbing = false;
     }
 
@@ -32,7 +38,7 @@ public class Character_Climb : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Status = GetComponent<Fairy_Status_Manager>();
-            if (Status.status != Status.AIMED)
+            if (Status.status!=FairyStatus.KnockBack&& Status.status != FairyStatus.Aimed && !PathEndThrough)
             {
                 Check_Input();
             }
@@ -41,7 +47,7 @@ public class Character_Climb : MonoBehaviour
         else if (gameObject.CompareTag("Main_Character"))
         {
             var Status = GetComponent<Main_Character_Status_Manager>();
-            if (Status.status != Status.AIMED)
+            if (Status.status!=MainCharacterStatus.KnockBack&& Status.status != MainCharacterStatus.Aimed && !PathEndThrough)
             {
                 Check_Input();
             }
@@ -50,9 +56,12 @@ public class Character_Climb : MonoBehaviour
         Check_Status();
     }
 
+
+
+
     private void Check_Input()
     {
-        if ( AbleToClimb && !IsClimbing && (player.GetAxis("Left Stick Y") > climb_threshold && connected_path.transform.position.y>transform.position.y|| player.GetAxis("Left Stick Y") < -climb_threshold && connected_path.transform.position.y < transform.position.y))
+        if ( AbleToClimb && !IsClimbing && (player.GetAxis("Left Stick Y") > climb_threshold && ConnectedPath.transform.position.y>transform.position.y|| player.GetAxis("Left Stick Y") < -climb_threshold && ConnectedPath.transform.position.y < transform.position.y))
         {
             IsClimbing = true;
             if (gameObject.CompareTag("Fairy"))
@@ -60,13 +69,13 @@ public class Character_Climb : MonoBehaviour
                 var Status = GetComponent<Fairy_Status_Manager>();
                 if (player.GetAxis("Left Stick Y") > 0)
                 {
-                    transform.position = new Vector3(connected_path.transform.position.x, transform.position.y + climb_initial_offset, 0);
+                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
                 }
                 else
                 {
-                    transform.position = new Vector3(connected_path.transform.position.x, transform.position.y - climb_initial_offset, 0);
+                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
                 }
-                Status.status = Status.CLIMBING;
+                Status.status = FairyStatus.Climbing;
 
             }
             else if (gameObject.CompareTag("Main_Character"))
@@ -74,13 +83,25 @@ public class Character_Climb : MonoBehaviour
                 var Status = GetComponent<Main_Character_Status_Manager>();
                 if (player.GetAxis("Left Stick Y") > 0)
                 {
-                    transform.position = new Vector3(connected_path.transform.position.x, transform.position.y + climb_initial_offset, 0);
+                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
                 }
                 else
                 {
-                    transform.position = new Vector3(connected_path.transform.position.x, transform.position.y - climb_initial_offset, 0);
+                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
                 }
-                Status.status = Status.CLIMBING;
+                Status.status = MainCharacterStatus.Climbing;
+            }
+            if (InPathEnd)
+            {
+                if(player.GetAxis("Left Stick Y") > 0)
+                {
+                    StartCoroutine(ThroughPathEnd(true));
+                }
+                else
+                {
+                    StartCoroutine(ThroughPathEnd(false));
+                }
+                return;
             }
         }
         if (!AbleToClimb)
@@ -88,12 +109,37 @@ public class Character_Climb : MonoBehaviour
             IsClimbing = false;
         }
 
-        if(IsClimbing&&Mathf.Abs(player.GetAxis("Left Stick Y")) > climb_threshold)
+        if(IsClimbing)
         {
-            Vector2 moveVector = Vector2.zero;
-            moveVector.y = player.GetAxis("Left Stick Y");
-            moveVector.Normalize();
-            transform.position += (Vector3)moveVector * speed * Time.deltaTime;
+            transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, transform.position.z);
+            GetComponent<CharacterMove>().speed.x = 0;
+            if (Mathf.Abs(player.GetAxis("Left Stick Y")) > climb_threshold)
+            {
+                if (player.GetAxis("Left Stick Y") > 0)
+                {
+                    GetComponent<CharacterMove>().speed.y = ClimbSpeed;
+                }
+                else
+                {
+                    GetComponent<CharacterMove>().speed.y = -ClimbSpeed;
+                }
+                if (InPathEnd)
+                {
+                    if (player.GetAxis("Left Stick Y") > 0)
+                    {
+                        StartCoroutine(ThroughPathEnd(true));
+                    }
+                    else
+                    {
+                        StartCoroutine(ThroughPathEnd(false));
+                    }
+                    return;
+                }
+            }
+            else
+            {
+                GetComponent<CharacterMove>().speed.y = 0;
+            }
         }
 
         if (IsClimbing)
@@ -106,10 +152,18 @@ public class Character_Climb : MonoBehaviour
             {
                 transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
             }
-            if (player.GetButtonDown("A") && !in_Path_end)
+            if (player.GetButtonDown("A"))
             {
                 IsClimbing = false;
-                GetComponent<Rigidbody2D>().velocity += (Vector2)transform.right * jump_off_velocity;
+                if (transform.right.x > 0)
+                {
+                    GetComponent<CharacterMove>().speed = new Vector2(JumpOffSpeed.x, JumpOffSpeed.y);
+                }
+                else
+                {
+                    GetComponent<CharacterMove>().speed = new Vector2(-JumpOffSpeed.x, JumpOffSpeed.y);
+                }
+                
             }
         }
     }
@@ -119,37 +173,37 @@ public class Character_Climb : MonoBehaviour
         if (IsClimbing)
         {
 
-            GetComponent<BoxCollider2D>().isTrigger = true;
+
         }
         else
         {
-            GetComponent<BoxCollider2D>().isTrigger = false;
+
             if (gameObject.CompareTag("Fairy"))
             {
                 var Status = GetComponent<Fairy_Status_Manager>();
-                if (Status.status == Status.CLIMBING)
+                if (Status.status == FairyStatus.Climbing)
                 {
-                    Status.status = Status.NORMAL;
+                    Status.status = FairyStatus.Normal;
                 }
 
             }
             else if (gameObject.CompareTag("Main_Character"))
             {
                 var Status = GetComponent<Main_Character_Status_Manager>();
-                if (Status.status == Status.CLIMBING)
+                if (Status.status == MainCharacterStatus.Climbing)
                 {
-                    Status.status = Status.NORMAL;
+                    Status.status = MainCharacterStatus.Normal;
                 }
             }
         }
-        if (in_Path_end)
+        if (InPathEnd)
         {
 
         }
         else
         {
             
-            if (GetComponent<Check_Onground>().onground)
+            if (GetComponent<CharacterMove>().OnGround)
             {
                 IsClimbing = false;
             }
@@ -158,17 +212,55 @@ public class Character_Climb : MonoBehaviour
 
     }
 
+    private IEnumerator ThroughPathEnd(bool up)
+    {
+        GameObject PathEnd = ConnectedPath.transform.Find("Path_End").gameObject;
+        if(up && PathEnd.transform.position.y<transform.position.y || !up && PathEnd.transform.position.y > transform.position.y)
+        {
+            yield break;
+        }
+
+        PathEndThrough = true;
+        GetComponent<CharacterMove>().speed = Vector2.zero;
+        Vector3 Target;
+        if (up)
+        {
+            Target = PathEnd.transform.position + Vector3.up;
+        }
+        else
+        {
+            Target = PathEnd.transform.position + Vector3.down;
+        }
+        Vector3 speed = (Target - transform.position) / ThroughPathEndDuration;
+        float timecount = 0;
+        while (timecount < ThroughPathEndDuration)
+        {
+            transform.position += speed * Time.deltaTime;
+            timecount += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = Target;
+        if (up)
+        {
+            IsClimbing = false;
+        }
+        PathEndThrough = false;
+    }
+
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
         if (ob.CompareTag("Path"))
         {
-            connected_path = ob;
+            ConnectedPath = ob;
             AbleToClimb = true;
         }
         if (ob.name == "Path_End")
         {
-            in_Path_end = true;
+            ConnectedPath = ob.transform.parent.gameObject;
+            AbleToClimb = true;
+            InPathEnd = true;
         }
     }
 
@@ -177,12 +269,12 @@ public class Character_Climb : MonoBehaviour
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
         if (ob.CompareTag("Path"))
         {
-            connected_path = null;
+            ConnectedPath = null;
             AbleToClimb = false;
         }
         if (ob.name == "Path_End")
         {
-            in_Path_end = false;
+            InPathEnd = false;
         }
     }
 }

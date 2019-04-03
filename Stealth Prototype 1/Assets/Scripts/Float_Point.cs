@@ -17,9 +17,16 @@ public class Float_Point : MonoBehaviour
     void Update()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != Fairy_Status.AIMED && Fairy_Status.status != Fairy_Status.CLIMBING && !GetComponent<Check_Onground>().onground)
+        if (Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack && Fairy_Status.status != FairyStatus.Climbing && !GetComponent<CharacterMove>().OnGround)
         {
             Check_Input();
+        }
+        else
+        {
+            if (Fairy_Status.status == FairyStatus.FloatPlatform)
+            {
+                Fairy_Status.status = FairyStatus.Normal;
+            }
         }
     }
 
@@ -28,13 +35,13 @@ public class Float_Point : MonoBehaviour
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
         if (player.GetButton("LT"))
         {
-            Fairy_Status.status = Fairy_Status.FLOAT_PLATFORM;
+            Fairy_Status.status = FairyStatus.FloatPlatform;
         }
         else
         {
-            if (Fairy_Status.status == Fairy_Status.FLOAT_PLATFORM)
+            if (Fairy_Status.status == FairyStatus.FloatPlatform)
             {
-                Fairy_Status.status = Fairy_Status.NORMAL;
+                Fairy_Status.status = FairyStatus.Normal;
             }
         }
     }

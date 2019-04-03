@@ -24,7 +24,7 @@ public class Invisible : MonoBehaviour
     {
         if (CompareTag("Main_Character"))
         {
-            if (GetComponent<Main_Character_Status_Manager>().status == GetComponent<Main_Character_Status_Manager>().NORMAL&&GetComponent<Check_Onground>().onground)
+            if (GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Normal&&GetComponent<CharacterMove>().OnGround)
             {
                 AbleToInvisible = true;
             }
@@ -35,7 +35,7 @@ public class Invisible : MonoBehaviour
         }
         else if(CompareTag("Fairy"))
         {
-            if (GetComponent<Fairy_Status_Manager>().status == GetComponent<Fairy_Status_Manager>().NORMAL && GetComponent<Check_Onground>().onground)
+            if (GetComponent<Fairy_Status_Manager>().status == FairyStatus.Normal && GetComponent<CharacterMove>().OnGround)
             {
                 AbleToInvisible = true;
             }

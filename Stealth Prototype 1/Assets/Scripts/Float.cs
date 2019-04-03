@@ -21,29 +21,29 @@ public class Float : MonoBehaviour
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != Fairy_Status.AIMED && Fairy_Status.status != Fairy_Status.FLOAT_PLATFORM && Fairy_Status.status != Fairy_Status.CLIMBING&&!GetComponent<Check_Onground>().onground&&GetComponent<Rigidbody2D>().velocity.y<=0)
+        if (Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack&& Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Climbing&&!GetComponent<CharacterMove>().OnGround&&GetComponent<CharacterMove>().speed.y<=0)
         {
             if (player.GetButton("A"))
             {
-                if(Fairy_Status.status != Fairy_Status.FLOAT)
+                if(Fairy_Status.status != FairyStatus.Float)
                 {
-                    GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, 0);
+                    GetComponent<CharacterMove>().speed.y = 0;
                 }
-                Fairy_Status.status = Fairy_Status.FLOAT;
+                Fairy_Status.status = FairyStatus.Float;
             }
             else
             {
-                if (Fairy_Status.status == Fairy_Status.FLOAT)
+                if (Fairy_Status.status == FairyStatus.Float)
                 {
-                    Fairy_Status.status = Fairy_Status.NORMAL;
+                    Fairy_Status.status = FairyStatus.Normal;
                 }
             }
         }
         else
         {
-            if (Fairy_Status.status == Fairy_Status.FLOAT)
+            if (Fairy_Status.status == FairyStatus.Float)
             {
-                Fairy_Status.status = Fairy_Status.NORMAL;
+                Fairy_Status.status = FairyStatus.Normal;
             }
         }
     }

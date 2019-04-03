@@ -5,34 +5,70 @@ using Rewired;
 
 public class Controller_Manager : MonoBehaviour
 {
-    List<Joystick> list = new List<Joystick>();
+    Joystick MainCharacterJoystick;
+    Joystick FairyJoystick;
     // Start is called before the first frame update
 
     void Start()
     {
-        GameObject Main_Character = GameObject.Find("Main_Character").gameObject;
-        GameObject Fairy = GameObject.Find("Fairy").gameObject;
-        
+        MainCharacterJoystick = null;
+        FairyJoystick = null;
+        ReInput.ControllerConnectedEvent += OnControllerConnect;
+        ReInput.ControllerDisconnectedEvent += OnControllerDisconnect;
 
         foreach (Joystick j in ReInput.controllers.Joysticks)
         {
-            list.Add(j);
-        }
-        if (list.Count > 0)
-        {
-            Main_Character.GetComponent<PlayerId>().player.controllers.AddController(list[0], false);
-        }
-        if (list.Count > 1)
-        {
-            Fairy.GetComponent<PlayerId>().player.controllers.AddController(list[1], false);
-        }
-        
+            
+            if (MainCharacterJoystick == null)
+            {
+                MainCharacterJoystick = j;
+                GameObject.Find("Main_Character").GetComponent<PlayerId>().player.controllers.AddController(MainCharacterJoystick, false);
+            }
+            else if (FairyJoystick == null)
+            {
+                FairyJoystick = j;
+                GameObject.Find("Fairy").GetComponent<PlayerId>().player.controllers.AddController(FairyJoystick, false);
+            }
 
+        }
+    }
+
+    private void OnDestroy()
+    {
+        ReInput.ControllerConnectedEvent -= OnControllerConnect;
+        ReInput.ControllerDisconnectedEvent -= OnControllerDisconnect;
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+
+    private void OnControllerConnect(ControllerStatusChangedEventArgs args)
+    {
+        if (MainCharacterJoystick == null)
+        {
+            MainCharacterJoystick = ReInput.controllers.GetController<Joystick>(args.controllerId);
+            Character_Manager.Main_Character.GetComponent<PlayerId>().player.controllers.AddController(MainCharacterJoystick, false);
+        }
+        else if (FairyJoystick == null)
+        {
+            FairyJoystick = ReInput.controllers.GetController<Joystick>(args.controllerId);
+            Character_Manager.Fairy.GetComponent<PlayerId>().player.controllers.AddController(FairyJoystick, false);
+        }
+    }
+
+    private void OnControllerDisconnect(ControllerStatusChangedEventArgs args)
+    {
+        if (MainCharacterJoystick != null && MainCharacterJoystick.id == args.controllerId)
+        {
+            MainCharacterJoystick = null;
+        }
+        else if(FairyJoystick!=null && FairyJoystick.id == args.controllerId)
+        {
+            FairyJoystick = null;
+        }
     }
 }
