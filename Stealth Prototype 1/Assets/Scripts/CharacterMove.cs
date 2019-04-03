@@ -149,6 +149,7 @@ public class CharacterMove : MonoBehaviour
 
             if (temp.y < 0 && GroundDis >= 0 && temp.y * Time.deltaTime < -GroundDis)
             {
+                
                 temp.y = -GroundDis / Time.deltaTime;
                 if (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform"))
                 {
@@ -375,6 +376,29 @@ public class CharacterMove : MonoBehaviour
         return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Dashing;
     }
 
+    private bool AbleToRectifyPos()
+    {
+        if(PlatformSpeed.y != 0)
+        {
+            return false;
+        }
+        if (gameObject == Character_Manager.Main_Character)
+        {
+            if (GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Normal || GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Transporting)
+            {
+                return true;
+            }
+        }
+        else if (gameObject == Character_Manager.Fairy)
+        {
+            if(GetComponent<Fairy_Status_Manager>().status==FairyStatus.Normal || GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aiming)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void OnConnectedPlatformMoved(ConnectedPlatformMoved C)
     {
         if (C.Platform == ConnectedMovingPlatform)
@@ -385,7 +409,7 @@ public class CharacterMove : MonoBehaviour
 
     private void RectifyPos()
     {
-        if (PlatformSpeed.y == 0)
+        if (AbleToRectifyPos())
         {
             if (GroundDis < 0 || GroundDis>0 &&GroundDis<=CheckOffset)
             {
