@@ -297,5 +297,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af3aecbba7c420499896db7f1ebde2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KnockBackDirection: {x: -1, y: 1}
+  KnockBackDirection: {x: 1, y: 1}
   FreeHeightOffset: 0.3
