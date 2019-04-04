@@ -120,13 +120,6 @@ public class Dash_To_Fairy : MonoBehaviour
         var CharacterMove = GetComponent<CharacterMove>();
         if (Main_Character_Status.status == MainCharacterStatus.OverDash)
         {
-            
-            if (CharacterMove.HitWall || CharacterMove.HitTop || CharacterMove.OnGround)
-            {
-                CharacterMove.DashSpeed = Vector2.zero;
-                Main_Character_Status.status = MainCharacterStatus.Normal;
-                return;
-            }
 
             Vector2 OriDashSpeed = new Vector2(CharacterMove.DashSpeed.x, CharacterMove.DashSpeed.y);
             CharacterMove.DashSpeed -= CharacterMove.DashSpeed.normalized * OverDashDeceleration * Time.deltaTime;

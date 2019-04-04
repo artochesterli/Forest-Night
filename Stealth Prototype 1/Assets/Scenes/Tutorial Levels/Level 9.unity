@@ -748,12 +748,12 @@ PrefabInstance:
     - target: {fileID: 3436912808128966271, guid: ba420d28e57a3384dbd93fdba2049f41,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13
+      value: -11
       objectReference: {fileID: 0}
     - target: {fileID: 3436912808128966271, guid: ba420d28e57a3384dbd93fdba2049f41,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 3436912808128966271, guid: ba420d28e57a3384dbd93fdba2049f41,
         type: 3}
@@ -805,11 +805,6 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3436912808128966264, guid: ba420d28e57a3384dbd93fdba2049f41,
-        type: 3}
-      propertyPath: Id
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3436912808128966269, guid: ba420d28e57a3384dbd93fdba2049f41,
         type: 3}
       propertyPath: HorizontalSpeed
@@ -819,6 +814,11 @@ PrefabInstance:
         type: 3}
       propertyPath: AirAcceleration
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436912808128966264, guid: ba420d28e57a3384dbd93fdba2049f41,
+        type: 3}
+      propertyPath: Id
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba420d28e57a3384dbd93fdba2049f41, type: 3}
@@ -1489,15 +1489,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2976651962471586672, guid: 6fd1ea64e115b264fb730773f3e36c73,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2976651962471586672, guid: 6fd1ea64e115b264fb730773f3e36c73,
+        type: 3}
+      propertyPath: OverDashDeceleration
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2976651962471586676, guid: 6fd1ea64e115b264fb730773f3e36c73,
         type: 3}
       propertyPath: m_IsTrigger
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2976651962471586674, guid: 6fd1ea64e115b264fb730773f3e36c73,
-        type: 3}
-      propertyPath: Id
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2976651962471586679, guid: 6fd1ea64e115b264fb730773f3e36c73,
         type: 3}
@@ -1514,15 +1519,10 @@ PrefabInstance:
       propertyPath: AirAcceleration
       value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 2976651962471586672, guid: 6fd1ea64e115b264fb730773f3e36c73,
+    - target: {fileID: 2976651962471586674, guid: 6fd1ea64e115b264fb730773f3e36c73,
         type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2976651962471586672, guid: 6fd1ea64e115b264fb730773f3e36c73,
-        type: 3}
-      propertyPath: OverDashDeceleration
-      value: 30
+      propertyPath: Id
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 778641764, guid: 6fd1ea64e115b264fb730773f3e36c73, type: 3}
       propertyPath: m_Enabled

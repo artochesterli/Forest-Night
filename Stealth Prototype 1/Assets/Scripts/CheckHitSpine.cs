@@ -50,13 +50,44 @@ public class CheckHitSpine : MonoBehaviour
     {
         GameObject Spine = null;
         var CharacterMove = GetComponent<CharacterMove>();
-        if (CharacterMove.HitWall)
+        if (CharacterMove.HitLeftWall)
         {
-            Spine = CharacterMove.Wall;
+            if (CharacterMove.LeftWall.CompareTag("SpineLethal"))
+            {
+                Spine = CharacterMove.LeftWall;
+                return Spine;
+            }
+            if (CharacterMove.LeftWall.CompareTag("SpineKnockBack"))
+            {
+                Spine = CharacterMove.LeftWall;
+                return Spine;
+            }
         }
-        else if(CharacterMove.OnGround)
+        if (CharacterMove.HitRightWall)
         {
-            Spine = CharacterMove.Ground;
+            if (CharacterMove.RightWall.CompareTag("SpineLethal"))
+            {
+                Spine = CharacterMove.RightWall;
+                return Spine;
+            }
+            if (CharacterMove.RightWall.CompareTag("SpineKnockBack"))
+            {
+                Spine = CharacterMove.RightWall;
+                return Spine;
+            }
+        }
+        if(CharacterMove.OnGround)
+        {
+            if (CharacterMove.Ground.CompareTag("SpineLethal"))
+            {
+                Spine = CharacterMove.Ground;
+                return Spine;
+            }
+            if (CharacterMove.Ground.CompareTag("SpineKnockBack"))
+            {
+                Spine = CharacterMove.Ground;
+                return Spine;
+            }
         }
 
         return Spine;

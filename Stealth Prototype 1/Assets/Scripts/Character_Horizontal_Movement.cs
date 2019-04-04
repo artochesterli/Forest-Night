@@ -57,7 +57,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         }
 
 
-        if (Mathf.Abs(moveVector.x) > 0 && (!CharacterMove.HitWall || moveVector.x > 0 && CharacterMove.WallDirection.x < 0 || moveVector.x < 0 && CharacterMove.WallDirection.x > 0))
+        if (Mathf.Abs(moveVector.x) > 0 && (!(CharacterMove.HitLeftWall && CharacterMove.HitRightWall) || moveVector.x > 0 && !CharacterMove.HitRightWall|| moveVector.x < 0 && !CharacterMove.HitLeftWall))
         {
             if (CharacterMove.OnGround)
             {
@@ -104,11 +104,11 @@ public class Character_Horizontal_Movement : MonoBehaviour
             {
                 if (moveVector.x > 0)
                 {
-                    transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
                 }
                 else if (moveVector.x < 0)
                 {
-                    transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
                 }
             }
         }

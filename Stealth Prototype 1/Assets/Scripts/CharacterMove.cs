@@ -9,10 +9,14 @@ public class CharacterMove : MonoBehaviour
     public Vector2 PlatformSpeed;
     public float Gravity;
 
-    public bool HitWall;
-    public float WallDis;
-    public Vector2 WallDirection;
-    public GameObject Wall;
+    public bool HitRightWall;
+    public float RightWallDis;
+    public GameObject RightWall;
+
+    public bool HitLeftWall;
+    public float LeftWallDis;
+    public GameObject LeftWall;
+
 
     public bool HitTop;
     public float TopDis;
@@ -26,14 +30,14 @@ public class CharacterMove : MonoBehaviour
     private int ConnectedPlatformMoveFrameCount;
 
     private const float OnGroundThreshold = 0.5f;
-    private const float OnGroundDetectOffset = 0.4f;
+    private const float OnGroundDetectOffset = 0.3f;
 
     private const float HitWallThreshold = 0.5f;
-    private const float HitWallDetectOffset = 0.4f;
+    private const float HitWallDetectOffset = 0.3f;
 
 
     private const float HitTopThreshold = 0.5f;
-    private const float HitTopDetectOffset = 0.4f;
+    private const float HitTopDetectOffset = 0.3f;
 
     private const float DetectDis = 2;
     private const float CheckOffset = 0.05f;
@@ -49,30 +53,23 @@ public class CharacterMove : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         CheckGroundDis();
-        CheckWallDis();
+        CheckLeftWallDis();
+        CheckRightWallDis();
         CheckTopDis();
         CheckGroundHitting();
-        CheckWallHitting();
+        CheckLeftWallHitting();
+        CheckRightWallHitting();
         CheckTopHitting();
-        CheckCollide();
+
 
         SetGravity();
         GravityEffect();
         SurfaceHittingSpeedChange();
         Move();
         RectifyPos();
-    }
-
-    private void CheckCollide()
-    {
-        if (HitWall && Wall.CompareTag("Spine") || OnGround&& Ground.CompareTag("Spine") || HitTop&&Top.CompareTag("Spine"))
-        {
-            EventManager.instance.Fire(new CharacterDied(gameObject));
-            Destroy(gameObject);
-        }
     }
 
     private void SetGravity()
@@ -115,7 +112,7 @@ public class CharacterMove : MonoBehaviour
     {
         if (!IsMainCharacterDashing())
         {
-            if (HitWall)
+            if (HitRightWall && speed.x>0 || HitLeftWall && speed.x<0)
             {
                 speed.x = 0;
             }
@@ -134,65 +131,87 @@ public class CharacterMove : MonoBehaviour
 
     public void Move()
     {
+        if (PlatformSpeed.x != 0)
+        {
+            if (LeftWall != null)
+            {
+                Debug.Log(LeftWallDis);
+            }
+            if (RightWall != null)
+            {
+                Debug.Log(RightWallDis);
+            }
+        }
         Vector2 temp = speed+DashSpeed + PlatformSpeed;
         if (!IsMainCharacterDashing())
         {
             if (temp.y > 0 && TopDis >= 0 && temp.y * Time.deltaTime > TopDis)
             {
                 temp.y = TopDis / Time.deltaTime;
-                if (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform"))
+                /*if (Ground!=null && ( Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform")))
                 {
                     temp.y += PlatformSpeed.y;
+                }*/
+                if (IsMainCharacterOverDashing())
+                {
+                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
                 }
                 DashSpeed = Vector2.zero;
             }
 
             if (temp.y < 0 && GroundDis >= 0 && temp.y * Time.deltaTime < -GroundDis)
             {
-                
                 temp.y = -GroundDis / Time.deltaTime;
-                if (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform"))
+                /*if (Ground!=null && (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform")))
                 {
                     temp.y += PlatformSpeed.y;
+                }*/
+                if (IsMainCharacterOverDashing())
+                {
+                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
                 }
                 DashSpeed = Vector2.zero;
             }
 
-            if (temp.x > 0)
+            if(temp.x > 0 && RightWallDis>=0 && temp.x * Time.deltaTime > RightWallDis)
             {
-                if (temp.x * Time.deltaTime > WallDis && WallDis >= 0 && WallDirection.x > 0)
+                temp.x = RightWallDis/Time.deltaTime;
+                /*if(RightWall!=null && RightWall.CompareTag("Platform_Totem"))
                 {
-                    temp.x = WallDis / Time.deltaTime;
-                    if (Wall.CompareTag("Totem_Platform"))
-                    {
-                        temp.x += PlatformSpeed.x;
-                    }
-                    DashSpeed = Vector2.zero;
+                    temp.x += PlatformSpeed.x;
+                }*/
+                if (IsMainCharacterOverDashing())
+                {
+                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
                 }
+                DashSpeed = Vector2.zero;
             }
-            else
+
+            if(temp.x<0 && LeftWallDis>=0 && temp.x * Time.deltaTime < -LeftWallDis)
             {
-                if (temp.x * Time.deltaTime < -WallDis && WallDis >= 0 && WallDirection.x < 0)
+                temp.x = -LeftWallDis / Time.deltaTime;
+                /*if(LeftWall!=null && LeftWall.CompareTag("Platform_Totem"))
                 {
-                    temp.x = -WallDis / Time.deltaTime;
-                    if (Wall.CompareTag("Totem_Platform"))
-                    {
-                        temp.x += PlatformSpeed.x;
-                    }
-                    DashSpeed = Vector2.zero;
+                    temp.x = PlatformSpeed.x;
+                }*/
+                if (IsMainCharacterOverDashing())
+                {
+                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
                 }
+                DashSpeed = Vector2.zero;
             }
         }
+        
         transform.position += (Vector3)temp* Time.deltaTime;
         if (ConnectedMovingPlatform != null)
         {
+            //Debug.Log(temp);
             EventManager.instance.Fire(new CharacterMoveWithPlatform(Time.frameCount, gameObject));
         }
     }
 
     public void CheckGroundDis()
     {
-        
 
         int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
         layermask = ~layermask;
@@ -228,20 +247,41 @@ public class CharacterMove : MonoBehaviour
             GroundDis = System.Int32.MaxValue;
             Ground = null;
         }
+        if (Ground != null && (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform")))
+        {
+            
+            GroundDis -= PlatformSpeed.y * Time.deltaTime;
+            if (PlatformSpeed.y != 0)
+            {
+                Debug.Log(transform.position.y);
+                Debug.Log(Ground.transform.position.y);
+                Debug.Log(GroundDis);
+                Debug.Log(PlatformSpeed.y * Time.deltaTime);
+                
+            }
+        }
+        /*if (Ground!=null&&ConnectedMovingPlatform != null)
+        {
+            Debug.Log(GroundDis);
+            if (Time.frameCount == ConnectedPlatformMoveFrameCount)
+            {
+                Debug.Log(transform.position.y);
+                Debug.Log(hit1.point.y);
+                //GroundDis += PlatformSpeed.y * Time.deltaTime;
+            }
+           
+        }*/
         
+
     }
 
     private void CheckGroundHitting()
     {
         float Dis = CheckOffset;
-        if (ConnectedMovingPlatform != null)
+        if (Ground != null && (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform")))
         {
-            if (Time.frameCount == ConnectedPlatformMoveFrameCount)
-            {
-                Dis -= PlatformSpeed.y * Time.deltaTime;
-            }
+            Dis -= PlatformSpeed.y * Time.deltaTime;
         }
-
         if (GroundDis <= Dis)
         {
             OnGround = true;
@@ -302,72 +342,119 @@ public class CharacterMove : MonoBehaviour
         }
     }
 
-    public void CheckWallDis()
+    public void CheckLeftWallDis()
     {
         int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
         layermask = ~layermask;
 
-        if (speed.x + DashSpeed.x + PlatformSpeed.x== 0)
-        {
-            WallDirection = transform.right;
-            if (gameObject.CompareTag("Fairy") && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aiming)
-            {
-                WallDirection = -transform.right;
-            }
-        }
-        else
-        {
-            if (speed.x + DashSpeed.x + PlatformSpeed.x > 0)
-            {
-                WallDirection = Vector2.right;
-            }
-            else
-            {
-                WallDirection = Vector2.left;
-            }
-        }
-
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, WallDirection, DetectDis, layermask);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.down * HitWallDetectOffset, WallDirection, DetectDis, layermask);
+        RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.down * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
         if (hit1 && hit2)
         {
-            if(Mathf.Abs(hit1.point.x - transform.position.x)< Mathf.Abs(hit2.point.x - transform.position.x))
+            if (Mathf.Abs(hit1.point.x - transform.position.x) < Mathf.Abs(hit2.point.x - transform.position.x))
             {
-                WallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
-                Wall = hit1.collider.gameObject;
+                LeftWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+                LeftWall = hit1.collider.gameObject;
             }
             else
             {
-                WallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
-                Wall = hit2.collider.gameObject;
+                LeftWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+                LeftWall = hit2.collider.gameObject;
             }
         }
         else if (hit1)
         {
-            WallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
-            Wall = hit1.collider.gameObject;
+            LeftWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+            LeftWall = hit1.collider.gameObject;
         }
         else if (hit2)
         {
-            WallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
-            Wall = hit2.collider.gameObject;
+            LeftWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+            LeftWall = hit2.collider.gameObject;
         }
         else
         {
-            WallDis = System.Int32.MaxValue;
-            Wall = null;
+            LeftWallDis = System.Int32.MaxValue;
+            LeftWall = null;
+        }
+        if (LeftWall != null && LeftWall.CompareTag("Platform_Totem"))
+        {
+            LeftWallDis -= PlatformSpeed.x * Time.deltaTime;
         }
     }
 
-    private void CheckWallHitting()
+    private void CheckLeftWallHitting()
     {
-        if (WallDis <= CheckOffset)
+        float Dis = CheckOffset;
+        if (LeftWall != null && LeftWall.CompareTag("Platform_Totem"))
         {
-            HitWall = true;
+            Dis -= PlatformSpeed.x * Time.deltaTime;
+        }
+        if (LeftWallDis <= Dis)
+        {
+            HitLeftWall = true;
         }
         else
         {
-            HitWall = false;
+            HitLeftWall = false;
+        }
+    }
+
+    public void CheckRightWallDis()
+    {
+        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
+        layermask = ~layermask;
+
+        RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.down * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
+        if (hit1 && hit2)
+        {
+            if(Mathf.Abs(hit1.point.x - transform.position.x)< Mathf.Abs(hit2.point.x - transform.position.x))
+            {
+                RightWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+                RightWall = hit1.collider.gameObject;
+            }
+            else
+            {
+                RightWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+                RightWall = hit2.collider.gameObject;
+            }
+        }
+        else if (hit1)
+        {
+            RightWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+            RightWall = hit1.collider.gameObject;
+        }
+        else if (hit2)
+        {
+            RightWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+            RightWall = hit2.collider.gameObject;
+        }
+        else
+        {
+            RightWallDis = System.Int32.MaxValue;
+            RightWall = null;
+        }
+        if (RightWall != null && RightWall.CompareTag("Platform_Totem"))
+        {
+            RightWallDis += PlatformSpeed.x * Time.deltaTime;
+        }
+    }
+
+    private void CheckRightWallHitting()
+    {
+        float Dis = CheckOffset;
+        if (RightWall != null && RightWall.CompareTag("Platform_Totem"))
+        {
+            Dis += PlatformSpeed.x * Time.deltaTime;
+        }
+        if (RightWallDis <= Dis)
+        {
+            HitRightWall = true;
+        }
+        else
+        {
+            HitRightWall = false;
         }
     }
 
@@ -376,9 +463,18 @@ public class CharacterMove : MonoBehaviour
         return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Dashing;
     }
 
+    private bool IsMainCharacterOverDashing()
+    {
+        return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.OverDash;
+    }
+
     private bool AbleToRectifyPos()
     {
         if(PlatformSpeed.y != 0)
+        {
+            return false;
+        }
+        if (PlatformSpeed.x != 0)
         {
             return false;
         }
@@ -411,7 +507,15 @@ public class CharacterMove : MonoBehaviour
     {
         if (AbleToRectifyPos())
         {
-            if (GroundDis < 0 || GroundDis>0 &&GroundDis<=CheckOffset)
+            if (LeftWallDis < 0)
+            {
+                transform.position += Vector3.left * LeftWallDis;
+            }
+            if (RightWallDis < 0)
+            {
+                transform.position += Vector3.right * RightWallDis;
+            }
+            if (GroundDis < 0 || (GroundDis>0 &&GroundDis<=CheckOffset))
             {
                 transform.position -= Vector3.up * GroundDis;
             }

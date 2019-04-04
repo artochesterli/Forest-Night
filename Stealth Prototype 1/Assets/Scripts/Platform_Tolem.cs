@@ -51,24 +51,24 @@ public class Platform_Tolem : MonoBehaviour
         }
         direction.Normalize();
         yield return null;
-        if(Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && MainCharacterMoveFrameCount == Time.frameCount)
-        {
-            Character_Manager.Main_Character.transform.position += (Vector3)direction * speed* Time.deltaTime;
-        }
-        if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && FairyMoveFrameCount >= Time.frameCount)
-        {
-            Character_Manager.Fairy.transform.position += (Vector3)direction * speed * Time.deltaTime;
-        }
+        
 
         CurrentSpeed = speed * direction;
+        if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+        {
+            Character_Manager.Main_Character.GetComponent<CharacterMove>().PlatformSpeed = new Vector2(CurrentSpeed.x, CurrentSpeed.y);
+        }
+        if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+        {
+            Character_Manager.Fairy.GetComponent<CharacterMove>().PlatformSpeed = new Vector2(CurrentSpeed.x, CurrentSpeed.y);
+        }
         while (Vector2.Dot(direction, transform.position - EndPoint) < 0)
         {
+
             transform.position += (Vector3)CurrentSpeed * Time.deltaTime;
             EventManager.instance.Fire(new ConnectedPlatformMoved(Time.frameCount, gameObject));
-
             yield return null;
         }
-        
         if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
         {
             Character_Manager.Main_Character.transform.position += EndPoint - transform.position;
@@ -78,15 +78,15 @@ public class Platform_Tolem : MonoBehaviour
             Character_Manager.Fairy.transform.position += EndPoint - transform.position;
         }
         transform.position = EndPoint;
-        if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && MainCharacterMoveFrameCount == Time.frameCount)
-        {
-            Character_Manager.Main_Character.transform.position -= (Vector3)CurrentSpeed * Time.deltaTime;
-        }
-        if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject && FairyMoveFrameCount >= Time.frameCount)
-        {
-            Character_Manager.Fairy.transform.position -= (Vector3)CurrentSpeed * Time.deltaTime;
-        }
         CurrentSpeed = Vector2.zero;
+        if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+        {
+            Character_Manager.Main_Character.GetComponent<CharacterMove>().PlatformSpeed = Vector2.zero;
+        }
+        if (Character_Manager.Fairy.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
+        {
+            Character_Manager.Fairy.GetComponent<CharacterMove>().PlatformSpeed = Vector2.zero;
+        }
         At_First_Point = !At_First_Point;
         moving = false;
     }
@@ -110,11 +110,11 @@ public class Platform_Tolem : MonoBehaviour
         {
             if (C.Object == Character_Manager.Main_Character)
             {
-                MainCharacterMoveFrameCount = Time.frameCount;
+                MainCharacterMoveFrameCount = C.FrameCount;
             }
             else if(C.Object == Character_Manager.Fairy)
             {
-                FairyMoveFrameCount = Time.frameCount;
+                FairyMoveFrameCount = C.FrameCount;
             }
         }
     }
