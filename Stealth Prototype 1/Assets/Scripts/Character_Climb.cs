@@ -144,11 +144,14 @@ public class Character_Climb : MonoBehaviour
         {
             if(player.GetAxis("Left Stick X") > climb_jump_threshold)
             {
-                transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
             }
             else if(player.GetAxis("Left Stick X") < -climb_jump_threshold)
             {
-                transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+
             }
             if (player.GetButtonDown("A"))
             {

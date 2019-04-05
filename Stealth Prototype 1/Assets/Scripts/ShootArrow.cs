@@ -171,11 +171,13 @@ public class ShootArrow : MonoBehaviour
     {
         if (direction.x > 0)
         {
-            transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
         }
         else
         {
-            transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }

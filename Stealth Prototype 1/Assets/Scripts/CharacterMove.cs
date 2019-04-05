@@ -29,15 +29,16 @@ public class CharacterMove : MonoBehaviour
     public GameObject ConnectedMovingPlatform;
     private int ConnectedPlatformMoveFrameCount;
 
-    private const float OnGroundThreshold = 0.5f;
-    private const float OnGroundDetectOffset = 0.3f;
 
-    private const float HitWallThreshold = 0.5f;
-    private const float HitWallDetectOffset = 0.3f;
+    public float OnGroundThreshold;
+    public float OnGroundDetectOffset;
+
+    public float HitWallThreshold;
+    public float HitWallDetectOffset;
 
 
-    private const float HitTopThreshold = 0.5f;
-    private const float HitTopDetectOffset = 0.3f;
+    public float HitTopThreshold;
+    public float HitTopDetectOffset;
 
     private const float DetectDis = 2;
     private const float CheckOffset = 0.05f;
@@ -110,6 +111,7 @@ public class CharacterMove : MonoBehaviour
 
     private void SurfaceHittingSpeedChange()
     {
+        
         if (!IsMainCharacterDashing())
         {
             if (HitRightWall && speed.x>0 || HitLeftWall && speed.x<0)
@@ -121,7 +123,12 @@ public class CharacterMove : MonoBehaviour
                 speed.y = 0;
             }
         }
-        
+        if (IsCharacterAimed())
+        {
+            speed = Vector2.zero;
+            DashSpeed = Vector2.zero;
+            PlatformSpeed = Vector2.zero;
+        }
     }
 
     private void GravityEffect()
@@ -131,27 +138,12 @@ public class CharacterMove : MonoBehaviour
 
     public void Move()
     {
-        if (PlatformSpeed.x != 0)
-        {
-            if (LeftWall != null)
-            {
-                Debug.Log(LeftWallDis);
-            }
-            if (RightWall != null)
-            {
-                Debug.Log(RightWallDis);
-            }
-        }
         Vector2 temp = speed+DashSpeed + PlatformSpeed;
         if (!IsMainCharacterDashing())
         {
             if (temp.y > 0 && TopDis >= 0 && temp.y * Time.deltaTime > TopDis)
             {
                 temp.y = TopDis / Time.deltaTime;
-                /*if (Ground!=null && ( Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform")))
-                {
-                    temp.y += PlatformSpeed.y;
-                }*/
                 if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
@@ -162,10 +154,6 @@ public class CharacterMove : MonoBehaviour
             if (temp.y < 0 && GroundDis >= 0 && temp.y * Time.deltaTime < -GroundDis)
             {
                 temp.y = -GroundDis / Time.deltaTime;
-                /*if (Ground!=null && (Ground.CompareTag("Platform_Totem") || Ground.CompareTag("Totem_Platform")))
-                {
-                    temp.y += PlatformSpeed.y;
-                }*/
                 if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
@@ -176,10 +164,6 @@ public class CharacterMove : MonoBehaviour
             if(temp.x > 0 && RightWallDis>=0 && temp.x * Time.deltaTime > RightWallDis)
             {
                 temp.x = RightWallDis/Time.deltaTime;
-                /*if(RightWall!=null && RightWall.CompareTag("Platform_Totem"))
-                {
-                    temp.x += PlatformSpeed.x;
-                }*/
                 if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
@@ -190,10 +174,6 @@ public class CharacterMove : MonoBehaviour
             if(temp.x<0 && LeftWallDis>=0 && temp.x * Time.deltaTime < -LeftWallDis)
             {
                 temp.x = -LeftWallDis / Time.deltaTime;
-                /*if(LeftWall!=null && LeftWall.CompareTag("Platform_Totem"))
-                {
-                    temp.x = PlatformSpeed.x;
-                }*/
                 if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
@@ -215,7 +195,7 @@ public class CharacterMove : MonoBehaviour
 
         int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
         layermask = ~layermask;
-
+        
 
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.right * OnGroundDetectOffset, Vector2.down, DetectDis, layermask);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * OnGroundDetectOffset, Vector2.down, DetectDis, layermask);
@@ -223,12 +203,12 @@ public class CharacterMove : MonoBehaviour
         {
             if (Mathf.Abs(hit1.point.y - transform.position.y) < Mathf.Abs(hit2.point.y - transform.position.y))
             {
-                GroundDis = Mathf.Abs(hit1.point.y - transform.position.y) - HitWallThreshold;
+                GroundDis = Mathf.Abs(hit1.point.y - transform.position.y) - OnGroundThreshold;
                 Ground = hit1.collider.gameObject;
             }
             else
             {
-                GroundDis = Mathf.Abs(hit2.point.y - transform.position.y) - HitWallThreshold;
+                GroundDis = Mathf.Abs(hit2.point.y - transform.position.y) - OnGroundThreshold;
                 Ground = hit2.collider.gameObject;
             }
         }
@@ -251,27 +231,7 @@ public class CharacterMove : MonoBehaviour
         {
             
             GroundDis -= PlatformSpeed.y * Time.deltaTime;
-            if (PlatformSpeed.y != 0)
-            {
-                Debug.Log(transform.position.y);
-                Debug.Log(Ground.transform.position.y);
-                Debug.Log(GroundDis);
-                Debug.Log(PlatformSpeed.y * Time.deltaTime);
-                
-            }
         }
-        /*if (Ground!=null&&ConnectedMovingPlatform != null)
-        {
-            Debug.Log(GroundDis);
-            if (Time.frameCount == ConnectedPlatformMoveFrameCount)
-            {
-                Debug.Log(transform.position.y);
-                Debug.Log(hit1.point.y);
-                //GroundDis += PlatformSpeed.y * Time.deltaTime;
-            }
-           
-        }*/
-        
 
     }
 
@@ -303,12 +263,12 @@ public class CharacterMove : MonoBehaviour
         {
             if (Mathf.Abs(hit1.point.y - transform.position.y) < Mathf.Abs(hit2.point.y - transform.position.y))
             {
-                TopDis = Mathf.Abs(hit1.point.y - transform.position.y) - HitWallThreshold;
+                TopDis = Mathf.Abs(hit1.point.y - transform.position.y) - HitTopThreshold;
                 Top = hit1.collider.gameObject;
             }
             else
             {
-                TopDis = Mathf.Abs(hit2.point.y - transform.position.y) - HitWallThreshold;
+                TopDis = Mathf.Abs(hit2.point.y - transform.position.y) - HitTopThreshold;
                 Top = hit2.collider.gameObject;
             }
             
@@ -468,6 +428,12 @@ public class CharacterMove : MonoBehaviour
         return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.OverDash;
     }
 
+    private bool IsCharacterAimed()
+    {
+        return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Aimed ||
+            gameObject == Character_Manager.Fairy && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aimed;
+    }
+
     private bool AbleToRectifyPos()
     {
         if(PlatformSpeed.y != 0)
@@ -494,6 +460,8 @@ public class CharacterMove : MonoBehaviour
         }
         return false;
     }
+
+
 
     private void OnConnectedPlatformMoved(ConnectedPlatformMoved C)
     {

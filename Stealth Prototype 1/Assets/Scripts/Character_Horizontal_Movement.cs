@@ -105,10 +105,12 @@ public class Character_Horizontal_Movement : MonoBehaviour
                 if (moveVector.x > 0)
                 {
                     transform.rotation = Quaternion.Euler(0, 0, 0);
+                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
                 }
                 else if (moveVector.x < 0)
                 {
                     transform.rotation = Quaternion.Euler(0, 180, 0);
+                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
                 }
             }
         }

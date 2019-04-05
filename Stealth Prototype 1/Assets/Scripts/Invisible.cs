@@ -61,6 +61,7 @@ public class Invisible : MonoBehaviour
             Color current_color = GetComponent<SpriteRenderer>().color;
             GetComponent<SpriteRenderer>().color = new Color(current_color.r, current_color.g, current_color.b, invisible_alpha);
             gameObject.layer = LayerMask.NameToLayer("Invisible_Object");
+            transform.Find("2D Light").GetComponent<MeshRenderer>().enabled = false;
         }
         else
         {
@@ -74,6 +75,7 @@ public class Invisible : MonoBehaviour
             {
                 gameObject.layer = LayerMask.NameToLayer("Fairy");
             }
+            transform.Find("2D Light").GetComponent<MeshRenderer>().enabled = true;
         }
     }
     
