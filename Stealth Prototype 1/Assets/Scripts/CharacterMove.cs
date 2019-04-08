@@ -68,7 +68,7 @@ public class CharacterMove : MonoBehaviour
 
         SetGravity();
         GravityEffect();
-        SurfaceHittingSpeedChange();
+        RectifySpeed();
         Move();
         RectifyPos();
     }
@@ -109,7 +109,7 @@ public class CharacterMove : MonoBehaviour
 
     }
 
-    private void SurfaceHittingSpeedChange()
+    private void RectifySpeed()
     {
         
         if (!IsMainCharacterDashing())
@@ -127,6 +127,10 @@ public class CharacterMove : MonoBehaviour
         {
             speed = Vector2.zero;
             DashSpeed = Vector2.zero;
+            PlatformSpeed = Vector2.zero;
+        }
+        if (IsFairyIgnorePlatformSpeed())
+        {
             PlatformSpeed = Vector2.zero;
         }
     }
@@ -185,7 +189,6 @@ public class CharacterMove : MonoBehaviour
         transform.position += (Vector3)temp* Time.deltaTime;
         if (ConnectedMovingPlatform != null)
         {
-            //Debug.Log(temp);
             EventManager.instance.Fire(new CharacterMoveWithPlatform(Time.frameCount, gameObject));
         }
     }
@@ -432,6 +435,12 @@ public class CharacterMove : MonoBehaviour
     {
         return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Aimed ||
             gameObject == Character_Manager.Fairy && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aimed;
+    }
+
+    private bool IsFairyIgnorePlatformSpeed()
+    {
+        return gameObject == Character_Manager.Fairy && (GetComponent<Fairy_Status_Manager>().status == FairyStatus.FloatPlatform ||
+            GetComponent<Fairy_Status_Manager>().status == FairyStatus.Float);
     }
 
     private bool AbleToRectifyPos()

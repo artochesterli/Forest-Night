@@ -8,16 +8,12 @@ public class Character_Manager : MonoBehaviour
     public static GameObject Fairy;
 
     public float Invisible_Dis_Theshold;
-    private void Awake()
-    {
-        Main_Character = GameObject.Find("Main_Character").gameObject;
-        Fairy = GameObject.Find("Fairy").gameObject;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        Main_Character = GameObject.Find("Main_Character").gameObject;
+        Fairy = GameObject.Find("Fairy").gameObject;
     }
 
     // Update is called once per frame

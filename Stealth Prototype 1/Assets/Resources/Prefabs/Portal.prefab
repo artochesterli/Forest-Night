@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connected_scene: 0
-  transport_time: 5
+  transport_time: 3
 --- !u!58 &1933962535764999459
 CircleCollider2D:
   m_ObjectHideFlags: 0

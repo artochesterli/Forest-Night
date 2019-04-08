@@ -73,40 +73,42 @@ public class Fairy_Status_Manager : MonoBehaviour
 
     private void set_status()
     {
-        Color current_color = GetComponent<SpriteRenderer>().color;
+        var FairySprite = GetComponent<SpriteRenderer>();
         if (status == FairyStatus.Normal)
         {
-            GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
+            if (GetComponent<CharacterMove>().OnGround)
+            {
+                FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
+            }
+            else
+            {
+                FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalJump", typeof(Sprite)) as Sprite;
+            }
         }
         else if (status == FairyStatus.Float)
         {
-            
-            GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, current_color.a);
-            transform.parent = null;
+            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyGlide", typeof(Sprite)) as Sprite;
         }
         else if (status == FairyStatus.Aiming)
         {
-            GetComponent<SpriteRenderer>().color = new Color(0, 1, 1, current_color.a);
+            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
         }
         else if (status == FairyStatus.Climbing)
         {
-            GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
+            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
         }
         else if (status == FairyStatus.FloatPlatform)
         {
             GetComponent<CharacterMove>().speed = Vector2.zero;
-            GetComponent<SpriteRenderer>().color = new Color(100 / 255f, 1, 0, current_color.a);
-            transform.parent = null;
+            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyFloat", typeof(Sprite)) as Sprite;
         }
         else if (status == FairyStatus.Transporting)
         {
-            
-            GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
+            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
         }
         else if (status == FairyStatus.Aimed)
         {
-            GetComponent<SpriteRenderer>().color = new Color(38 / 255f, 197 / 255f, 243 / 255f, current_color.a);
-            transform.parent = null;
+            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
         }
     }
 

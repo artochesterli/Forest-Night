@@ -68,11 +68,19 @@ public class Enemy_Status_Manager : MonoBehaviour
         GameObject view = transform.Find("View").gameObject;
         if (status == EnemyStatus.ShootCharacter || status==EnemyStatus.Stunned)
         {
-            view.GetComponent<SpriteRenderer>().enabled = false;
+            view.GetComponent<MeshRenderer>().enabled = false;
         }
         else
         {
-            view.GetComponent<SpriteRenderer>().enabled = true;
+            view.GetComponent<MeshRenderer>().enabled = true;
+            if (transform.right.x > 0)
+            {
+                view.transform.rotation = Quaternion.Euler(0, 0, -90);
+            }
+            else
+            {
+                view.transform.rotation = Quaternion.Euler(0, 0, 90);
+            }
         }
     }
 
