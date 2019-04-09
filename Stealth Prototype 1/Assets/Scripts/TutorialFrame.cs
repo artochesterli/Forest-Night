@@ -29,12 +29,10 @@ public class TutorialFrame : MonoBehaviour
         if (Open)
         {
             GetComponent<SpriteRenderer>().enabled = true;
-            transform.Find("Canvas").GetComponent<Canvas>().enabled = true;
         }
         else
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            transform.Find("Canvas").GetComponent<Canvas>().enabled = false;
         }
     }
 

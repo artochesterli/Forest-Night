@@ -21,13 +21,11 @@ public class Totem_Status_Manager : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<BoxCollider2D>().enabled = true;
-            transform.Find("InGroundIcon").GetComponent<SpriteRenderer>().enabled = false;
         }
         else if (Status == INGROUND)
         {
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<BoxCollider2D>().enabled = false;
-            transform.Find("InGroundIcon").GetComponent<SpriteRenderer>().enabled = true;
         }
     }
 }

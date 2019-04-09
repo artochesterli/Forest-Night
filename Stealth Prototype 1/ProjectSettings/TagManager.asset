@@ -63,3 +63,6 @@ TagManager:
   - name: Icon_On_Objects
     uniqueID: 3125356939
     locked: 0
+  - name: Tutorial
+    uniqueID: 1907753963
+    locked: 0

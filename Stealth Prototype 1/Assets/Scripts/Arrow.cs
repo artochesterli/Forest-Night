@@ -21,13 +21,13 @@ public class Arrow : MonoBehaviour
         transform.position += speed * (Vector3)direction * Time.deltaTime;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (transform.parent != null)
+        /*if (transform.parent != null)
         {
             Character_Manager.Fairy.GetComponent<Fairy_Status_Manager>().status = FairyStatus.Normal;
             Destroy(gameObject);
-        }
+        }*/
 
         if (emit)
         {

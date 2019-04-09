@@ -8,7 +8,6 @@ public enum EnemyStatus
     Alert,
     ShootCharacter,
     AlertRelease,
-    DrawnByGem,
     Stunned
 }
 
@@ -42,10 +41,6 @@ public class Enemy_Status_Manager : MonoBehaviour
             Indicator.GetComponent<SpriteRenderer>().enabled = true;
             Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
             Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1 - EnemyCheck.alert_time_count / EnemyCheck.Alert_Time, 1 - EnemyCheck.alert_time_count / EnemyCheck.Alert_Time);
-        }
-        else if (status == EnemyStatus.DrawnByGem)
-        {
-            Indicator.GetComponent<SpriteRenderer>().enabled = false;
         }
         else if (status == EnemyStatus.ShootCharacter)
         {

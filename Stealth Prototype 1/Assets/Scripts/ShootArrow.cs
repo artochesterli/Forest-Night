@@ -48,14 +48,14 @@ public class ShootArrow : MonoBehaviour
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != FairyStatus.Float&& Fairy_Status.status != FairyStatus.Transporting && Fairy_Status.status != FairyStatus.FloatPlatform && GetComponent<CharacterMove>().OnGround && player.GetButton("LT"))
+        if (Fairy_Status.status != FairyStatus.Float&& Fairy_Status.status != FairyStatus.Transporting && Fairy_Status.status != FairyStatus.FloatPlatform && GetComponent<CharacterMove>().OnGround && player.GetButton("RT"))
         {
             Fairy_Status.status = FairyStatus.Aiming;
             if (Connected_Arrow == null)
             {
                 Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
                 Connected_Arrow.transform.parent = transform;
-                direction = Vector2.up;
+                direction = transform.right;
                 Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
                 ClearAimLine();
                 CreateAimLIne(direction, Connected_Arrow.transform.position);

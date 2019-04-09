@@ -33,7 +33,7 @@ public class Float_Point : MonoBehaviour
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (player.GetButton("LT"))
+        if (player.GetButton("RT"))
         {
             Fairy_Status.status = FairyStatus.FloatPlatform;
         }

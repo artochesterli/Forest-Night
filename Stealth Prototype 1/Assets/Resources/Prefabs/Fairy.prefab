@@ -343,7 +343,6 @@ GameObject:
   - component: {fileID: 3436912808128966257}
   - component: {fileID: 3436912808128966256}
   - component: {fileID: 6621630440457991297}
-  - component: {fileID: 3608332222062454649}
   - component: {fileID: 8008829222336686084}
   - component: {fileID: 1288555190}
   - component: {fileID: 1288555189}
@@ -628,18 +627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6983885574e7ce644a90fb65db1d4a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3608332222062454649
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3436912808128966255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d52a3c0f1a049904aaa6316a0d0884a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8008829222336686084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -821,11 +808,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3436912808128966271}
     m_Modifications:
-    - target: {fileID: 955224493133793567, guid: 49531cf442c546a449b188a614abd79a,
-        type: 3}
-      propertyPath: m_Name
-      value: Aim_Icon
-      objectReference: {fileID: 0}
     - target: {fileID: 955224493133793553, guid: 49531cf442c546a449b188a614abd79a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -880,6 +862,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 955224493133793567, guid: 49531cf442c546a449b188a614abd79a,
+        type: 3}
+      propertyPath: m_Name
+      value: Aim_Icon
       objectReference: {fileID: 0}
     - target: {fileID: 955224493133793552, guid: 49531cf442c546a449b188a614abd79a,
         type: 3}
