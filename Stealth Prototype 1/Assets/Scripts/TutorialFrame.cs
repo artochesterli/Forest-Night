@@ -10,7 +10,7 @@ public class TutorialFrame : MonoBehaviour
     private Player FairyPlayer;
 
     private bool Opening;
-    private const float OpenCloseTime = 0.5f;
+    private const float OpenCloseTime = 0.3f;
 
 
     // Start is called before the first frame update
@@ -21,6 +21,12 @@ public class TutorialFrame : MonoBehaviour
 
         EventManager.instance.AddHandler<TutorialOpen>(OnTutorialOpen);
         EventManager.instance.AddHandler<TutorialClose>(OnTutorialClose);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<TutorialOpen>(OnTutorialOpen);
+        EventManager.instance.RemoveHandler<TutorialClose>(OnTutorialClose);
     }
 
     // Update is called once per frame
