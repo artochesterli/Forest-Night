@@ -75,8 +75,7 @@ public class TutorialTrigger : MonoBehaviour
         {
             RequireMainCharacter = false;
             RequireFairy = false;
-            transform.parent.GetComponent<TutorialFrame>().Open = true;
-            EventManager.instance.Fire(new TutorialOpen());
+            EventManager.instance.Fire(new TutorialOpen(transform.parent.gameObject));
         }
     }
 }

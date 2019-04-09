@@ -52,7 +52,7 @@ public class Enemy_Status_Manager : MonoBehaviour
         else if (status == EnemyStatus.Stunned)
         {
             Indicator.GetComponent<SpriteRenderer>().enabled = true;
-            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/Stunned Mark", typeof(Sprite)) as Sprite;
+            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/StunIcon", typeof(Sprite)) as Sprite;
             Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
         }
     }

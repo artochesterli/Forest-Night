@@ -114,7 +114,7 @@ public class ShootArrow : MonoBehaviour
             CreateAimLIne(direction, Connected_Arrow.transform.position);
             Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
 
-            if (player.GetButtonUp("LT"))
+            if (player.GetButtonUp("RT"))
             {
                 ClearAimLine();
                 Connected_Arrow.GetComponent<Arrow>().direction = direction;
@@ -136,7 +136,7 @@ public class ShootArrow : MonoBehaviour
         int num = Mathf.FloorToInt((hit.point - StartPoint).magnitude*AimLineUnitPerMeter)+1;
         for(int i = 0; i < num; i++)
         {
-            GameObject unit = (GameObject)Instantiate(Resources.Load("Prefabs/AimLineUnit"), StartPoint + direction * (1.0f/AimLineUnitPerMeter)*i, new Quaternion(0, 0, 0, 0));
+            GameObject unit = (GameObject)Instantiate(Resources.Load("Prefabs/AimLineUnit"), StartPoint + direction * (1.0f/AimLineUnitPerMeter)*i, Quaternion.Euler(0,0,Vector2.SignedAngle(Vector2.right ,direction)));
             Aim_Line.Add(unit);
         }
         if (hit.collider.gameObject.CompareTag("Mirror"))
