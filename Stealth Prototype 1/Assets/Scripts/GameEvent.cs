@@ -46,12 +46,20 @@ public class CharacterHitSpineEdge : GameEvent
 
 public class TutorialOpen : GameEvent
 {
-
+    public GameObject Tutorial;
+    public TutorialOpen(GameObject T)
+    {
+        Tutorial = T;
+    }
 }
 
 public class TutorialClose : GameEvent
 {
-
+    public GameObject Tutorial;
+    public TutorialClose(GameObject T)
+    {
+        Tutorial = T;
+    }
 }
 
 public class MenuOpen : GameEvent
