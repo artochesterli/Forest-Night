@@ -23,7 +23,7 @@ public class Dash_To_Fairy : MonoBehaviour
     void Update()
     {
         var character = GetComponent<Main_Character_Status_Manager>();
-        if (character.status != MainCharacterStatus.Transporting && character.status!=MainCharacterStatus.Aimed && character.status!=MainCharacterStatus.KnockBack)
+        if (character.status==MainCharacterStatus.Normal)
         {
             lock_fairy();
             Check_Input();

@@ -35,10 +35,16 @@ public class Float_Point : MonoBehaviour
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
         if (player.GetButton("RT"))
         {
+            if(Fairy_Status.status != FairyStatus.FloatPlatform)
+            {
+                ActivateFieldParticle();
+            }
             Fairy_Status.status = FairyStatus.FloatPlatform;
+            
         }
         else
         {
+            DeactivateFieldParticle();
             if (Fairy_Status.status == FairyStatus.FloatPlatform)
             {
                 Fairy_Status.status = FairyStatus.Normal;
@@ -46,5 +52,21 @@ public class Float_Point : MonoBehaviour
         }
     }
 
+    private void ActivateFieldParticle()
+    {
+        GameObject FairyField = transform.Find("FairyField").gameObject;
+        foreach(Transform child in FairyField.transform)
+        {
+            child.GetComponent<ParticleSystem>().Play();
+        }
+    }
 
+    private void DeactivateFieldParticle()
+    {
+        GameObject FairyField = transform.Find("FairyField").gameObject;
+        foreach (Transform child in FairyField.transform)
+        {
+            child.GetComponent<ParticleSystem>().Stop();
+        }
+    }
 }

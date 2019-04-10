@@ -28,6 +28,7 @@ public class CharacterMove : MonoBehaviour
 
     public GameObject ConnectedMovingPlatform;
     private int ConnectedPlatformMoveFrameCount;
+    private int layermask;
 
 
     public float OnGroundThreshold;
@@ -45,6 +46,8 @@ public class CharacterMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow");
+        layermask = ~layermask;
         EventManager.instance.AddHandler<ConnectedPlatformMoved>(OnConnectedPlatformMoved);
     }
 
@@ -123,6 +126,10 @@ public class CharacterMove : MonoBehaviour
                 speed.y = 0;
             }
         }
+        else
+        {
+            PlatformSpeed = Vector2.zero;
+        }
         if (IsCharacterAimed())
         {
             speed = Vector2.zero;
@@ -195,9 +202,6 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckGroundDis()
     {
-
-        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
-        layermask = ~layermask;
         
 
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.right * OnGroundDetectOffset, Vector2.down, DetectDis, layermask);
@@ -257,8 +261,6 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckTopDis()
     {
-        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
-        layermask = ~layermask;
 
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.right * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
@@ -307,8 +309,6 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckLeftWallDis()
     {
-        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
-        layermask = ~layermask;
 
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.down * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
@@ -365,9 +365,6 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckRightWallDis()
     {
-        int layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal");
-        layermask = ~layermask;
-
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.down * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
         if (hit1 && hit2)

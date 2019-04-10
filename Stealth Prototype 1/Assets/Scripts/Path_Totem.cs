@@ -40,7 +40,9 @@ public class Path_Totem : MonoBehaviour
 
     private void Create_Path()
     {
+
         GameObject Path = transform.Find("Path").gameObject;
+        Path.transform.Find("Path_End").GetComponent<BoxCollider2D>().enabled = true;
         Path.GetComponent<BoxCollider2D>().enabled = true;
         Path.GetComponent<BoxCollider2D>().size = new Vector2(Path_Collider_Width, Path_Length+1);
         Path.GetComponent<BoxCollider2D>().offset = new Vector2(0, -Path_Length / 2-Path_Vertical_Offset);

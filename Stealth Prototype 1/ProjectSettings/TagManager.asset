@@ -60,6 +60,9 @@ TagManager:
   - name: GameObjects
     uniqueID: 3053917789
     locked: 0
+  - name: Character
+    uniqueID: 1005493855
+    locked: 0
   - name: Icon_On_Objects
     uniqueID: 3125356939
     locked: 0

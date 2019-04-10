@@ -7,11 +7,9 @@ public class Enemy_Check : MonoBehaviour
 
     public float Alert_Time;
     public float Stunned_Time;
-    public float Shoot_Time;
     public bool Attention_Drawn_Right;
 
     public float Alert_Distance;
-    public float Aim_Distance;
     public float Shoot_Distance;
     public float time_count;
     public float alert_time_count;
