@@ -23,7 +23,7 @@ public class Dash_To_Fairy : MonoBehaviour
     void Update()
     {
         var character = GetComponent<Main_Character_Status_Manager>();
-        if (character.status==MainCharacterStatus.Normal)
+        if (character.status==MainCharacterStatus.Normal || (character.status==MainCharacterStatus.Climbing && !GetComponent<Character_Climb>().PathEndThrough))
         {
             lock_fairy();
             Check_Input();
@@ -58,7 +58,7 @@ public class Dash_To_Fairy : MonoBehaviour
         float current_dis = ((Vector2)(transform.position) - (Vector2)(fairy.transform.position)).magnitude;
         if (current_dis <= dash_distance && fairy.GetComponent<Fairy_Status_Manager>().status == FairyStatus.FloatPlatform)
         {
-            int layermask = 1 << LayerMask.NameToLayer("Main_Character")  | 1<<LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger");
+            int layermask = 1 << LayerMask.NameToLayer("Main_Character")  | 1<<LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1<<LayerMask.NameToLayer("Path");
             layermask = ~layermask;
             Vector2 direction = fairy.transform.position - transform.position;
             direction.Normalize();

@@ -134,7 +134,6 @@ public class CharacterMove : MonoBehaviour
         {
             speed = Vector2.zero;
             DashSpeed = Vector2.zero;
-            PlatformSpeed = Vector2.zero;
         }
         if (IsFairyIgnorePlatformSpeed())
         {

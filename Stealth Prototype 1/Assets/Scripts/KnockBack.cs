@@ -42,7 +42,7 @@ public class KnockBack : MonoBehaviour
                     Grounded = true;
                 }
             }
-            if (Grounded)
+            if (Grounded || GetComponent<CharacterMove>().HitLeftWall || GetComponent<CharacterMove>().HitRightWall || GetComponent<CharacterMove>().HitTop || GetComponent<CharacterMove>().OnGround)
             {
                 GetComponent<CharacterMove>().speed.x = 0;
                 LeaveGround = false;
