@@ -122,7 +122,7 @@ public class Fairy_Status_Manager : MonoBehaviour
             if (AimedTimeCount > AimedDiedTime)
             {
                 EventManager.instance.Fire(new CharacterDied(gameObject));
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
         else

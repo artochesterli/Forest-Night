@@ -23,7 +23,7 @@ public class CheckHitEnemy : MonoBehaviour
             ||CharacterMove.OnGround&&CharacterMove.Ground.CompareTag("Enemy") || CharacterMove.HitTop && CharacterMove.Top.CompareTag("Enemy"))
         {
             EventManager.instance.Fire(new CharacterDied(gameObject));
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

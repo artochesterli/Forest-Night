@@ -31,10 +31,7 @@ public class Freeze_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ChangeFreeze();
-        }
+
     }
 
     public void ChangeFreeze()

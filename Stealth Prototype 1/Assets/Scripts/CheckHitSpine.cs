@@ -25,7 +25,7 @@ public class CheckHitSpine : MonoBehaviour
             if (Spine.CompareTag("SpineLethal"))
             {
                 EventManager.instance.Fire(new CharacterDied(gameObject));
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             else if (Spine.CompareTag("SpineKnockBack"))
             {

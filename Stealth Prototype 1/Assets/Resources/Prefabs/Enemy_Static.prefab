@@ -282,7 +282,7 @@ MonoBehaviour:
   Patrol_Right_pos_x: 2
   Patrol_Left_pos_x: -1
   Observation_Right_Time: 0
-  Observation_Left_Time: 2
+  Observation_Left_Time: 1
   Patrol_Right: 1
 --- !u!114 &3454969244412204974
 MonoBehaviour:
