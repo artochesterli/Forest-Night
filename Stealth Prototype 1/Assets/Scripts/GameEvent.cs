@@ -44,6 +44,15 @@ public class CharacterHitSpineEdge : GameEvent
     }
 }
 
+public class FinishClick : GameEvent
+{
+    public ButtonType type;
+    public FinishClick(ButtonType t)
+    {
+        type = t;
+    }
+}
+
 public class TutorialOpen : GameEvent
 {
     public GameObject Tutorial;
