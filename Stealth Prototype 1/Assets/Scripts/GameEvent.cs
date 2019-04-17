@@ -24,17 +24,6 @@ public class CharacterMoveWithPlatform : GameEvent
     }
 }
 
-public class ConnectedPlatformMoved : GameEvent
-{
-    public int FrameCount;
-    public GameObject Platform;
-    public ConnectedPlatformMoved(int C,GameObject ob)
-    {
-        Platform = ob;
-        FrameCount = C;
-    }
-}
-
 public class CharacterHitSpineEdge : GameEvent
 {
     public GameObject Character;
@@ -42,6 +31,16 @@ public class CharacterHitSpineEdge : GameEvent
     {
         Character = C;
     }
+}
+
+public class LoadLevel : GameEvent
+{
+
+}
+
+public class MemoryActivate : GameEvent
+{
+
 }
 
 public class FinishClick : GameEvent

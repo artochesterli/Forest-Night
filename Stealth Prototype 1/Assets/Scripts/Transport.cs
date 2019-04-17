@@ -8,9 +8,7 @@ public class Transport : MonoBehaviour
     private bool NearPortal;
     private Player player;
     
-
-
-    private const float stick_y_threshold = 0.5f;
+    private const float stick_y_threshold = 0.8f;
 
     // Start is called before the first frame update
     void Start()

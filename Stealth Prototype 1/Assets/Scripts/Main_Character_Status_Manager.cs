@@ -11,7 +11,7 @@ public enum MainCharacterStatus
     Climbing,
     Transporting,
     Aimed,
-    KnockBack
+    KnockBack,
 }
 
 public class Main_Character_Status_Manager : MonoBehaviour
@@ -34,12 +34,14 @@ public class Main_Character_Status_Manager : MonoBehaviour
         player= GetComponent<PlayerId>().player;
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.RemoveHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
     // Update is called once per frame
     void Update()
@@ -93,5 +95,10 @@ public class Main_Character_Status_Manager : MonoBehaviour
         {
             player.SetVibration(0, DeadVibration, DeadVibrationTime);
         }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        status = MainCharacterStatus.Normal;
     }
 }

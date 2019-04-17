@@ -2,38 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum LaserState
+{
+    Null,
+    HitCharacter,
+    HitMirror,
+    HitOther
+}
+
 public class Enemy_Check : MonoBehaviour
 {
 
     public float Alert_Time;
     public float Stunned_Time;
-    public bool Attention_Drawn_Right;
 
     public float Alert_Distance;
     public float Shoot_Distance;
-    public float time_count;
+    public float Shoot_Star_Distance;
+    public float stun_time_count;
+    public float shoot_star_time_count;
     public float alert_time_count;
 
+    private GameObject detected_star;
     private GameObject detected_character;
-    private Vector2 detected_character_hit_point;
     private List<GameObject> LaserLines;
     private GameObject hit_enemy;
     private float LaserLine_disappear_time_count;
-    private bool laser_hit_mirror;
-    private bool laser_not_hit_character;
+    private LaserState CurrentLaserState;
 
-    private const float RaycastAngle=60;
-    private const float RaycastLines = 10;
+    private const float RaycastAngle = 60;
+    private const float RaycastLines = 60;
+    private const float ShootStartTime = 0.1f;
     private const float LaserLine_disappear_time = 0.2f;
     private const float mirroBounceStartPointOffset = 0.01f;
-    private const float InitialLaserOffset=0.6f;
+    private const float InitialLaserOffset=0.4f;
 
     // Start is called before the first frame update
     void Start()
     {
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
         detected_character = null;
-        time_count = 0;
+        detected_star = null;
+        CurrentLaserState = LaserState.Null;
         LaserLines = new List<GameObject>();
     }
 
@@ -56,6 +66,7 @@ public class Enemy_Check : MonoBehaviour
         Alert();
         Alert_Release();
         Shoot_Character();
+        Shoot_Star();
 
     }
 
@@ -64,66 +75,125 @@ public class Enemy_Check : MonoBehaviour
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
         if (Enemy_Status.status == EnemyStatus.Stunned)
         {
-            time_count += Time.deltaTime;
-            if (time_count > Stunned_Time)
+            stun_time_count += Time.deltaTime;
+            if (stun_time_count > Stunned_Time)
             {
-                time_count = 0;
+                stun_time_count = 0;
                 Enemy_Status.status = EnemyStatus.Patrol;
             }
         }
     }
 
-
-    
-
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Arrow") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger");
+        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger");
+        if (Enemy_Status.status == EnemyStatus.ShootCharacter)
+        {
+            if (detected_character.CompareTag("Main_Character"))
+            {
+                layermask = layermask | 1 << LayerMask.NameToLayer("Fairy");
+            }
+            else if (detected_character.CompareTag("Fairy"))
+            {
+                layermask = layermask | 1 << LayerMask.NameToLayer("Main_Character");
+            }
+        }
+
         layermask = ~layermask;
         float angle = -RaycastAngle / 2;
         float Interval = RaycastAngle / (RaycastLines - 1);
+
+        bool DetectedCharacterInSight = false;
+        bool DetectAnyCharacter = false;
+
         for(int i = 0; i < RaycastLines; i++)
         {
+            
             Vector2 direction= Utility.instance.Rotate((Vector2)transform.right, angle);
             angle += Interval;
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction, Alert_Distance, layermask);
-            
+            Vector2 Offset = transform.Find("View").localPosition;
+            if (transform.right.x < 0)
+            {
+                Offset.x = -Offset.x;
+            }
+            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + Offset, direction, Alert_Distance, layermask);
+
             if (hit&&(hit.collider.gameObject.CompareTag("Main_Character") || hit.collider.gameObject.CompareTag("Fairy")))
             {
-                GameObject hit_collider = hit.collider.gameObject;
-                if (!hit_collider.GetComponent<Invisible>().invisible)
+                DetectAnyCharacter = true;
+                GameObject CurrentDetectedCharacter = hit.collider.gameObject;
+                if (!CurrentDetectedCharacter.GetComponent<Invisible>().invisible)
                 {
                     if (Enemy_Status.status != EnemyStatus.ShootCharacter)
                     {
-                        if (((Vector2)(hit_collider.transform.position - transform.position)).magnitude <= Shoot_Distance)
+                        if (detected_character==null || (CurrentDetectedCharacter.transform.position - transform.position).magnitude < (detected_character.transform.position - transform.position).magnitude)
                         {
+                            detected_character = CurrentDetectedCharacter;
+                        }
+
+                        if (((Vector2)(CurrentDetectedCharacter.transform.position - transform.position)).magnitude <= Shoot_Distance)
+                        {
+                            DetectedCharacterInSight = true;
                             Enemy_Status.status = EnemyStatus.ShootCharacter;
-                            time_count = 0;
-                            detected_character = hit.collider.gameObject;
-                            detected_character_hit_point=hit.point-(Vector2)detected_character.transform.position;
-                            laser_not_hit_character = false;
-                            laser_hit_mirror = false;
+                            CurrentLaserState = LaserState.Null;
                             hit_enemy = null;
                         }
                         else
                         {
-                            detected_character = hit.collider.gameObject;
-                            detected_character_hit_point = hit.point - (Vector2)detected_character.transform.position;
                             Enemy_Status.status = EnemyStatus.Alert;
                         }
-                        
+                    }
+                    else
+                    {
+                        if (detected_character.CompareTag(CurrentDetectedCharacter.tag))
+                        {
+                            DetectedCharacterInSight = true;
+                        }
+                    }
+                }
+            }
+            if(hit && hit.collider.gameObject.CompareTag("Arrow"))
+            {
+                if (Enemy_Status.status != EnemyStatus.ShootCharacter)
+                {
+                    GameObject hit_collider = hit.collider.gameObject;
+                    if (((Vector2)(hit_collider.transform.position - transform.position)).magnitude <= Shoot_Star_Distance)
+                    {
+                        Enemy_Status.status = EnemyStatus.ShootStar;
+                        detected_star = hit_collider;
+                        detected_star.GetComponent<Arrow>().Aimed = true;
                     }
                     return;
                 }
+                
+            }
+
+        }
+        if (Enemy_Status.status == EnemyStatus.ShootCharacter)
+        {
+            if (!DetectedCharacterInSight)
+            {
+                Vector2 Offset = transform.Find("View").localPosition;
+                if (transform.right.x < 0)
+                {
+                    Offset.x = -Offset.x;
+                }
+                RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + Offset, (detected_character.transform.position-transform.position).normalized, Alert_Distance, layermask);
+                if(!(hit && hit.collider.gameObject.CompareTag("Mirror")))
+                {
+                    detected_character = null;
+                    Enemy_Status.status = EnemyStatus.AlertRelease;
+                }
+                
             }
         }
-        if (Enemy_Status.status == EnemyStatus.Alert)
+
+        if (Enemy_Status.status == EnemyStatus.Alert && !DetectAnyCharacter)
         {
+            detected_character = null;
             Enemy_Status.status = EnemyStatus.AlertRelease;
         }
-        
-            
 
     }
 
@@ -137,17 +207,32 @@ public class Enemy_Check : MonoBehaviour
             {
                 alert_time_count = Alert_Time;
                 Enemy_Status.status = EnemyStatus.ShootCharacter;
-                time_count = 0;
-                laser_not_hit_character = false;
-                laser_hit_mirror=true;
+                CurrentLaserState = LaserState.Null;
                 hit_enemy = null;
             }
         }
     }
 
+    private void Shoot_Star()
+    {
+        var Enemy_Status = GetComponent<Enemy_Status_Manager>();
+        if (Enemy_Status.status == EnemyStatus.ShootStar)
+        {
+            if (shoot_star_time_count > ShootStartTime)
+            {
+                shoot_star_time_count = 0;
+                Enemy_Status.status = EnemyStatus.AlertRelease;
+                Destroy(detected_star);
+                return;
+            }
+            shoot_star_time_count += Time.deltaTime;
+            ClearLaserLine();
+            LaserLineShootStar(transform.position + transform.right * InitialLaserOffset);
+        }
+    }
+
     private void Shoot_Character()
     {
-        
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
         GameObject Indicator = transform.Find("Indicator").gameObject;
         if (Enemy_Status.status == EnemyStatus.ShootCharacter)
@@ -157,13 +242,14 @@ public class Enemy_Check : MonoBehaviour
             alert_time_count = Alert_Time;
             Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1 - alert_time_count / Alert_Time, 1 - alert_time_count / Alert_Time);
 
-            if (detected_character == null)
+            if(CurrentLaserState==LaserState.Null || CurrentLaserState == LaserState.HitOther || CurrentLaserState == LaserState.HitCharacter)
             {
-                Enemy_Status.status = EnemyStatus.AlertRelease;
-                return;
+                ClearLaserLine();
+                Vector2 StartPoint = transform.position + transform.right * InitialLaserOffset;
+                Vector2 direction = ((Vector2)detected_character.transform.position - StartPoint).normalized;
+                GenerateLaserLine(direction, StartPoint);
             }
-
-            if (laser_not_hit_character)
+            else if(CurrentLaserState == LaserState.HitMirror)
             {
                 if (LaserLine_disappear_time_count >= LaserLine_disappear_time)
                 {
@@ -175,13 +261,7 @@ public class Enemy_Check : MonoBehaviour
                 }
                 LaserLine_disappear_time_count += Time.deltaTime;
             }
-            else
-            {
-                ClearLaserLine();
-                Vector2 StartPoint = transform.position + transform.right * InitialLaserOffset;
-                Vector2 direction = ((Vector2)detected_character.transform.position- StartPoint).normalized;
-                GenerateLaserLine(direction, StartPoint);
-            }
+
         }
         else
         {
@@ -197,16 +277,32 @@ public class Enemy_Check : MonoBehaviour
         }
     }
 
+
+    private void LaserLineShootStar(Vector2 StartPoint)
+    {
+        float dis = ((Vector2)detected_star.transform.position-StartPoint).magnitude;
+        Vector2 direction = ((Vector2)detected_star.transform.position - StartPoint).normalized;
+        LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/LaserLine")));
+        LaserLines[LaserLines.Count - 1].transform.localScale = new Vector3(dis, 1, 1);
+        LaserLines[LaserLines.Count - 1].transform.position = (Vector3)StartPoint + (Vector3)((Vector2)detected_star.transform.position - StartPoint) / 2;
+        LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
+
+    }
+
     private void GenerateLaserLine(Vector2 direction, Vector2 StartPoint)
     {
-        if (detected_character == null)
+        int layermask = 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("PlatformTotemTrigger");
+        if (CurrentLaserState == LaserState.HitCharacter)
         {
-            var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-            Enemy_Status.status = EnemyStatus.AlertRelease;
-            return;
+            if (detected_character.CompareTag("Fairy"))
+            {
+                layermask = layermask | 1 << LayerMask.NameToLayer("Main_Character");
+            }
+            else if (detected_character.CompareTag("Main_Character"))
+            {
+                layermask = layermask | 1 << LayerMask.NameToLayer("Fairy");
+            }
         }
-
-        int layermask = 1 << LayerMask.NameToLayer("Bullet") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("PlatformTotemTrigger");
         layermask = ~layermask;
 
         float mag = 100;
@@ -234,17 +330,15 @@ public class Enemy_Check : MonoBehaviour
 
             float dis = (hit.point - StartPoint).magnitude;
 
-            laser_not_hit_character = true;
             LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/LaserLine")));
             LaserLines[LaserLines.Count - 1].transform.localScale = new Vector3(dis, 1, 1);
             LaserLines[LaserLines.Count - 1].transform.position = (Vector3)StartPoint + (Vector3)(hit.point - StartPoint) / 2;
             LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
             if (hit.collider.gameObject.CompareTag("Mirror"))
             {
-                
                 if (hit.point.y < hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y / 2)
                 {
-                    laser_hit_mirror = true;
+                    CurrentLaserState = LaserState.HitMirror;
                     if (direction.x > 0)
                     {
                         StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
@@ -260,9 +354,16 @@ public class Enemy_Check : MonoBehaviour
             }
             else
             {
-                if (hit.collider.gameObject.CompareTag("Enemy") && laser_hit_mirror)
+                if (CurrentLaserState == LaserState.HitMirror)
                 {
-                    hit_enemy = hit.collider.gameObject;
+                    if (hit.collider.gameObject.CompareTag("Enemy"))
+                    {
+                        hit_enemy = hit.collider.gameObject;
+                    }
+                }
+                else
+                {
+                    CurrentLaserState = LaserState.HitOther;
                 }
             }
         }
@@ -280,7 +381,7 @@ public class Enemy_Check : MonoBehaviour
                 status.status = MainCharacterStatus.Aimed;
             }
             float dis = (hit.point - StartPoint).magnitude;
-            laser_not_hit_character = false;
+            CurrentLaserState = LaserState.HitCharacter;
             LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/LaserLine")));
             LaserLine_disappear_time_count = 0;
             LaserLines[LaserLines.Count - 1].transform.localScale = new Vector3(dis, 1, 1);
@@ -304,13 +405,19 @@ public class Enemy_Check : MonoBehaviour
         }
     }
 
-    
-
     private void OnCharacterDied(CharacterDied C)
     {
         if (C.DeadCharacter == detected_character)
         {
+            shoot_star_time_count = 0;
+            alert_time_count = 0;
+            stun_time_count = 0;
             detected_character = null;
+            detected_star = null;
+            hit_enemy = null;
+            LaserLine_disappear_time_count = 0;
+            CurrentLaserState = LaserState.Null;
+            ClearLaserLine();
         }
     }
 }

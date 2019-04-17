@@ -20,6 +20,7 @@ TagManager:
   - Spine
   - SpineLethal
   - SpineKnockBack
+  - Arrow
   layers:
   - Default
   - TransparentFX

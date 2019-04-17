@@ -16,7 +16,7 @@ public class ButtonAppearance : MonoBehaviour
     private const float ClickTime = 0.05f;
 
     private const float MinimalAlpha = 0.3f;
-    private const float FadingTime = 0.5f;
+    private const float FadingTime = 0.8f;
     // Start is called before the first frame update
     void Start()
     {
@@ -91,7 +91,10 @@ public class ButtonAppearance : MonoBehaviour
     {
         state = ButtonStatus.Click;
         GetComponent<Image>().color = Color.white;
+        //GetComponent<Image>().color=new Color(1,1,1,0);
+        //GetComponent<Image>().sprite = Resources.Load("Sprite/UI/ClickEffect", typeof(Sprite)) as Sprite;
         yield return new WaitForSeconds(ClickTime);
+        //GetComponent<Image>().sprite = Resources.Load("Sprite/UI/SelectionEffect", typeof(Sprite)) as Sprite;
         state = ButtonStatus.Selected;
         EventManager.instance.Fire(new FinishClick(type));
     }

@@ -22,13 +22,19 @@ public class Slash : MonoBehaviour
         Weapon.SetActive(false);
         Weapon_Active = true;
         Weapon_Active_Time_count = 0;
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
     // Update is called once per frame
     void Update()
     {
         var character = GetComponent<Main_Character_Status_Manager>();
-        if (character.status != MainCharacterStatus.Transporting && character.status!=MainCharacterStatus.Aimed)
+        if (character.status == MainCharacterStatus.Normal || character.status==MainCharacterStatus.OverDash)
         {
             Check_Input();
             Check_Status();
@@ -57,5 +63,12 @@ public class Slash : MonoBehaviour
                 Weapon.SetActive(false);
             }
         }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        Weapon_Active_Time_count = 0;
+        Weapon_Active = false;
+        Weapon.SetActive(false);
     }
 }

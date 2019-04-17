@@ -12,9 +12,12 @@ public class Freeze_Manager : MonoBehaviour
     public static Vector2 MainCharacterVelocity;
     public static Vector2 FairyVelocity;
 
+    public GameObject AllEnemy;
+    public GameObject AllLevelMechanics;
     // Start is called before the first frame update
     void Start()
     {
+        
         EventManager.instance.AddHandler<TutorialOpen>(OnTutorialOpen);
         EventManager.instance.AddHandler<TutorialClose>(OnTutorialClose);
         EventManager.instance.AddHandler<MenuOpen>(OnMenuOpen);
@@ -63,17 +66,17 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Fairy.GetComponent<CharacterMove>().enabled = false;
             }
 
-            for (int i = 0; i < Enemy_Manager.AllEnemy.transform.childCount; i++)
+            for (int i = 0; i < AllEnemy.transform.childCount; i++)
             {
-                Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Enemy_Patrol>().enabled = false;
-                Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = false;
+                AllEnemy.transform.GetChild(i).GetComponent<Enemy_Patrol>().enabled = false;
+                AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = false;
             }
 
-            for(int i = 0; i < LevelMechanics_Manager.AllLevelMechanics.transform.childCount; i++)
+            for(int i = 0; i < AllLevelMechanics.transform.childCount; i++)
             {
-                if (LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
+                if (AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
                 {
-                    LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = false;
+                    AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = false;
                 }
             }
 
@@ -103,17 +106,17 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Fairy.GetComponent<CharacterMove>().enabled = true;
             }
 
-            for (int i = 0; i < Enemy_Manager.AllEnemy.transform.childCount; i++)
+            for (int i = 0; i < AllEnemy.transform.childCount; i++)
             {
-                Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Enemy_Patrol>().enabled = true;
-                Enemy_Manager.AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = true;
+                AllEnemy.transform.GetChild(i).GetComponent<Enemy_Patrol>().enabled = true;
+                AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = true;
             }
 
-            for (int i = 0; i < LevelMechanics_Manager.AllLevelMechanics.transform.childCount; i++)
+            for (int i = 0; i < AllLevelMechanics.transform.childCount; i++)
             {
-                if (LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
+                if (AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
                 {
-                    LevelMechanics_Manager.AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = true;
+                    AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = true;
                 }
             }
         }

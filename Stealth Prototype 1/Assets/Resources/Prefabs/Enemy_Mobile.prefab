@@ -300,7 +300,9 @@ MonoBehaviour:
   Attention_Drawn_Right: 0
   Alert_Distance: 8
   Shoot_Distance: 5
-  time_count: 0
+  Shoot_Star_Distance: 3
+  stun_time_count: 0
+  shoot_star_time_count: 0
   alert_time_count: 0
 --- !u!61 &8445601442131975496
 BoxCollider2D:

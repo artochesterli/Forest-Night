@@ -7,6 +7,7 @@ public enum EnemyStatus
     Patrol,
     Alert,
     ShootCharacter,
+    ShootStar,
     AlertRelease,
     Stunned
 }
@@ -18,7 +19,12 @@ public class Enemy_Status_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
     }
 
     // Update is called once per frame
@@ -77,6 +83,11 @@ public class Enemy_Status_Manager : MonoBehaviour
                 view.transform.rotation = Quaternion.Euler(0, 0, 90);
             }
         }
+    }
+
+    private void OnCharacterDied(CharacterDied C)
+    {
+        status = EnemyStatus.Patrol;
     }
 
 

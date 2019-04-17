@@ -44,8 +44,6 @@ public class Portal : MonoBehaviour
                 time_count = 0;
             }
         }
-        
-        
 
     }
 

@@ -562,6 +562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Connected_Arrow: {fileID: 0}
+  ChargingTime: 0.7
 --- !u!114 &3436912808128966261
 MonoBehaviour:
   m_ObjectHideFlags: 0

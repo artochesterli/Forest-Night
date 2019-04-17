@@ -9,6 +9,8 @@ public class Character_Manager : MonoBehaviour
 
     public float Invisible_Dis_Theshold;
 
+    private GameObject Memory;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,4 +41,7 @@ public class Character_Manager : MonoBehaviour
             }
         }
     }
+
+
+
 }

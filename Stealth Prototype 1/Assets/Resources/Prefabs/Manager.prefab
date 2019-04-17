@@ -11,9 +11,7 @@ GameObject:
   - component: {fileID: 3002622330630557460}
   - component: {fileID: 3002622330630557461}
   - component: {fileID: 3002622330630557462}
-  - component: {fileID: 3002622330630557458}
   - component: {fileID: 3002622330630557459}
-  - component: {fileID: 3793319964826511432}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -60,18 +58,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65b35cb8b3bfbd44cba5d3aed53230f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3002622330630557458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3002622330630557463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6e60925ad135354c86f73e238c3dd23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3002622330630557459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -84,15 +70,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da2ea6ee598dfef45bd4e2c6b0bd9270, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3793319964826511432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3002622330630557463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bb98916899a4eb4ca67157232e2092c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  AllEnemy: {fileID: 0}
+  AllLevelMechanics: {fileID: 0}

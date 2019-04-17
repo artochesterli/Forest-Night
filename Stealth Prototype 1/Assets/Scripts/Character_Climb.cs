@@ -28,6 +28,12 @@ public class Character_Climb : MonoBehaviour
         ConnectedPath = null;
         InPathEnd = false;
         IsClimbing = false;
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
     // Update is called once per frame
@@ -53,8 +59,6 @@ public class Character_Climb : MonoBehaviour
         
         Check_Status();
     }
-
-
 
 
     private void Check_Input()
@@ -171,14 +175,8 @@ public class Character_Climb : MonoBehaviour
 
     private void Check_Status()
     {
-        if (IsClimbing)
+        if (!IsClimbing)
         {
-
-
-        }
-        else
-        {
-
             if (gameObject.CompareTag("Fairy"))
             {
                 var Status = GetComponent<Fairy_Status_Manager>();
@@ -197,13 +195,9 @@ public class Character_Climb : MonoBehaviour
                 }
             }
         }
-        if (InPathEnd)
-        {
 
-        }
-        else
+        if (!InPathEnd)
         {
-            
             if (GetComponent<CharacterMove>().OnGround)
             {
                 IsClimbing = false;
@@ -277,5 +271,14 @@ public class Character_Climb : MonoBehaviour
         {
             InPathEnd = false;
         }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        InPathEnd = false;
+        PathEndThrough = false;
+        ConnectedPath = null;
+        IsClimbing = false;
+        StopAllCoroutines();
     }
 }

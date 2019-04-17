@@ -64,9 +64,7 @@ public class Platform_Tolem : MonoBehaviour
         }
         while (Vector2.Dot(direction, transform.position - EndPoint) < 0)
         {
-
             transform.position += (Vector3)CurrentSpeed * Time.deltaTime;
-            EventManager.instance.Fire(new ConnectedPlatformMoved(Time.frameCount, gameObject));
             yield return null;
         }
         if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)

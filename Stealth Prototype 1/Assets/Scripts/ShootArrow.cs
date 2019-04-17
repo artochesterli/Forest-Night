@@ -6,10 +6,13 @@ using Rewired;
 public class ShootArrow : MonoBehaviour
 {
     public GameObject Connected_Arrow;
+    public float ChargingTime;
 
     private Player player;
     private Vector2 direction;
     private List<GameObject> Aim_Line;
+    private float ChargingTimeCount;
+    private bool Charging;
 
     private const float Velocity_Charge_Speed = 10;
     private const float Aim_offset = 1;
@@ -32,6 +35,13 @@ public class ShootArrow : MonoBehaviour
     {
         player = GetComponent<PlayerId>().player;
         Aim_Line = new List<GameObject>();
+        direction = transform.right;
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
     // Update is called once per frame
@@ -43,20 +53,27 @@ public class ShootArrow : MonoBehaviour
         {
             Check_Input();
         }
+        CheckIfAimed();
     }
 
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != FairyStatus.Float&& Fairy_Status.status != FairyStatus.Transporting && Fairy_Status.status != FairyStatus.FloatPlatform && GetComponent<CharacterMove>().OnGround && player.GetButton("RT"))
+        if (Fairy_Status.status==FairyStatus.Normal && GetComponent<CharacterMove>().OnGround && player.GetButton("RT"))
         {
             Fairy_Status.status = FairyStatus.Aiming;
             if (Connected_Arrow == null)
             {
+                Charging = true;
+                ChargingTimeCount = 0;
                 Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
                 Connected_Arrow.transform.parent = transform;
-                direction = transform.right;
+                if (Vector2.Dot(transform.right, direction) < 0)
+                {
+                    direction.x = -direction.x;
+                }
                 Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
+                Connected_Arrow.transform.localScale = Vector3.zero;
                 ClearAimLine();
                 CreateAimLIne(direction, Connected_Arrow.transform.position);
             }
@@ -69,6 +86,19 @@ public class ShootArrow : MonoBehaviour
                 Fairy_Status.status = FairyStatus.Normal;
                 return;
             }
+
+            if (Charging)
+            {
+                if (ChargingTimeCount > ChargingTime)
+                {
+                    Connected_Arrow.transform.localScale = Vector3.one;
+                    Connected_Arrow.GetComponent<Renderer>().material = Resources.Load("Material/Additive", typeof(Material)) as Material;
+                    Charging = false;
+                }
+                Connected_Arrow.transform.localScale = Vector3.one * ChargingTimeCount / ChargingTime;
+                ChargingTimeCount += Time.deltaTime;
+            }
+
             float RightStickX = player.GetAxis("Right Stick X");
             if (Mathf.Abs(RightStickX) > AimDirectionFastChangeThreshold)
             {
@@ -117,10 +147,17 @@ public class ShootArrow : MonoBehaviour
             if (player.GetButtonUp("RT"))
             {
                 ClearAimLine();
-                Connected_Arrow.GetComponent<Arrow>().direction = direction;
-                Connected_Arrow.GetComponent<Arrow>().emit = true;
-                Connected_Arrow.transform.parent = null;
-                Connected_Arrow = null;
+                if (!Charging)
+                {
+                    Connected_Arrow.GetComponent<Arrow>().direction = direction;
+                    Connected_Arrow.GetComponent<Arrow>().emit = true;
+                    Connected_Arrow.transform.parent = null;
+                    Connected_Arrow = null;
+                }
+                else
+                {
+                    Destroy(Connected_Arrow);
+                }
                 Fairy_Status.status = FairyStatus.Normal;
             }
         }
@@ -179,5 +216,20 @@ public class ShootArrow : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 180, 0);
             transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
         }
+    }
+
+    private void CheckIfAimed()
+    {
+        if (GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aimed)
+        {
+            Destroy(Connected_Arrow);
+            ClearAimLine();
+        }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        ChargingTimeCount = 0;
+        Destroy(Connected_Arrow);
     }
 }

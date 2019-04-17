@@ -15,6 +15,12 @@ public class CheckPoint : MonoBehaviour
     void Start()
     {
         SaveLevel();
+        EventManager.instance.AddHandler<MemoryActivate>(OnMemoryActivate);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<MemoryActivate>(OnMemoryActivate);
     }
 
     // Update is called once per frame
@@ -49,29 +55,63 @@ public class CheckPoint : MonoBehaviour
     {
         Character_Manager.Main_Character.transform.position = MainCharacterPos;
         Character_Manager.Fairy.transform.position = FairyPos;
+        Character_Manager.Main_Character.SetActive(true);
+        Character_Manager.Fairy.SetActive(true);
+
+        List<GameObject> EnemyDestroylist=new List<GameObject>();
+        List<GameObject> LevelMechanicsDestroylist = new List<GameObject>();
+
         foreach (Transform child in AllEnemy.transform)
         {
-            Destroy(child.gameObject);
+            EnemyDestroylist.Add(child.gameObject);
         }
         foreach(Transform child in AllLevelMechanics.transform)
         {
-            Destroy(child.gameObject);
+            LevelMechanicsDestroylist.Add(child.gameObject);
         }
         GameObject TempAllEnemy= Instantiate(AllEnemyCopy, Vector3.zero, Quaternion.Euler(0, 0, 0));
         GameObject TempAllLevelMechanics= Instantiate(AllLevelMechanicsCopy, Vector3.zero, Quaternion.Euler(0, 0, 0));
+
+        List<GameObject> CopyEnemyList = new List<GameObject>();
+        List<GameObject> CopyLevelMechanicsList = new List<GameObject>();
+
         foreach(Transform child in TempAllEnemy.transform)
         {
-            child.transform.parent = AllEnemy.transform;
-            child.gameObject.SetActive(true);
+            CopyEnemyList.Add(child.gameObject);
         }
         foreach(Transform child in TempAllLevelMechanics.transform)
         {
-            child.transform.parent = AllLevelMechanics.transform;
-            child.gameObject.SetActive(true);
+            CopyLevelMechanicsList.Add(child.gameObject);
         }
+
+        foreach(GameObject g in CopyEnemyList)
+        {
+            g.transform.parent = AllEnemy.transform;
+            g.SetActive(true);
+        }
+        foreach(GameObject g in CopyLevelMechanicsList)
+        {
+            g.transform.parent = AllLevelMechanics.transform;
+            g.SetActive(true);
+        }
+        foreach(GameObject g in EnemyDestroylist)
+        {
+            Destroy(g);
+        }
+        foreach(GameObject g in LevelMechanicsDestroylist)
+        {
+            Destroy(g);
+        }
+
         Destroy(TempAllEnemy);
         Destroy(TempAllLevelMechanics);
     }
+
+    private void OnMemoryActivate(MemoryActivate M)
+    {
+        SaveLevel();
+    }
+
 
     private void OnCharacterDied()
     {

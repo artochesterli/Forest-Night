@@ -12,7 +12,7 @@ public enum FairyStatus
     Climbing,
     Transporting,
     Aimed,
-    KnockBack
+    KnockBack,
 }
 
 public class Fairy_Status_Manager : MonoBehaviour
@@ -22,7 +22,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     private float AimedTimeCount;
     private Player player;
 
-    private const float AimedDiedTime = 1;
+    private const float AimedDiedTime = 10;
 
     private const float AimedVibration = 0.1f;
     private const float DeadVibration = 1.0f;
@@ -35,12 +35,14 @@ public class Fairy_Status_Manager : MonoBehaviour
         player = GetComponent<PlayerId>().player;
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.RemoveHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
     // Update is called once per frame
     void Update()
@@ -145,5 +147,10 @@ public class Fairy_Status_Manager : MonoBehaviour
         {
             player.SetVibration(1, DeadVibration, DeadVibrationTime);
         }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        status = FairyStatus.Normal;
     }
 }

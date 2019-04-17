@@ -27,7 +27,6 @@ public class CharacterMove : MonoBehaviour
     public GameObject Ground;
 
     public GameObject ConnectedMovingPlatform;
-    private int ConnectedPlatformMoveFrameCount;
     private int layermask;
 
 
@@ -48,12 +47,12 @@ public class CharacterMove : MonoBehaviour
     {
         layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow");
         layermask = ~layermask;
-        EventManager.instance.AddHandler<ConnectedPlatformMoved>(OnConnectedPlatformMoved);
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<ConnectedPlatformMoved>(OnConnectedPlatformMoved);
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
     // Update is called once per frame
@@ -467,15 +466,6 @@ public class CharacterMove : MonoBehaviour
     }
 
 
-
-    private void OnConnectedPlatformMoved(ConnectedPlatformMoved C)
-    {
-        if (C.Platform == ConnectedMovingPlatform)
-        {
-            ConnectedPlatformMoveFrameCount = C.FrameCount;
-        }
-    }
-
     private void RectifyPos()
     {
         if (AbleToRectifyPos())
@@ -493,5 +483,13 @@ public class CharacterMove : MonoBehaviour
                 transform.position -= Vector3.up * GroundDis;
             }
         }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        ConnectedMovingPlatform = null;
+        speed = Vector2.zero;
+        DashSpeed = Vector2.zero;
+        PlatformSpeed = Vector2.zero;
     }
 }

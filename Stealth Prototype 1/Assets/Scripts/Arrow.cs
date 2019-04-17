@@ -7,17 +7,22 @@ public class Arrow : MonoBehaviour
     public float speed;
     public Vector2 direction;
     public bool emit;
-
+    public bool Aimed;
     // Start is called before the first frame update
     void Start()
     {
         direction = Vector2.zero;
         emit = false;
+        Aimed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Aimed)
+        {
+            speed = 0;
+        }
         transform.position += speed * (Vector3)direction * Time.deltaTime;
     }
 
@@ -34,7 +39,7 @@ public class Arrow : MonoBehaviour
             GameObject ob = collision.GetComponent<Collider2D>().gameObject;
             if (ob.CompareTag("Enemy"))
             {
-                ob.GetComponent<Enemy_Check>().time_count = 0;
+                ob.GetComponent<Enemy_Check>().stun_time_count = 0;
                 ob.GetComponent<Enemy_Status_Manager>().status = EnemyStatus.Stunned;
 
             }

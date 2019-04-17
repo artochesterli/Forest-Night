@@ -17,6 +17,12 @@ public class Dash_To_Fairy : MonoBehaviour
     void Start()
     {
         player = GetComponent<PlayerId>().player;
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
     // Update is called once per frame
@@ -134,6 +140,11 @@ public class Dash_To_Fairy : MonoBehaviour
         {
             CharacterMove.DashSpeed = Vector2.zero;
         }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        detect_float_fairy = false;
     }
 
 }
