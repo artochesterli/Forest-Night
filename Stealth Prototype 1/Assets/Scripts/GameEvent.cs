@@ -33,6 +33,12 @@ public class CharacterHitSpineEdge : GameEvent
     }
 }
 
+public class SaveLevel : GameEvent
+{
+
+}
+
+
 public class LoadLevel : GameEvent
 {
 

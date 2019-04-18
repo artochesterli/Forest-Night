@@ -1,40 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CheckPoint : MonoBehaviour
 {
     public GameObject AllEnemy;
     public GameObject AllLevelMechanics;
+    public GameObject Mask;
 
     private Vector3 MainCharacterPos;
     private Vector3 FairyPos;
     private GameObject AllEnemyCopy;
     private GameObject AllLevelMechanicsCopy;
+
+    private const float LoadLevelWaitTime = 0.5f;
+    private const float LoadlLevelFadeTIme = 1;
     // Start is called before the first frame update
     void Start()
     {
         SaveLevel();
         EventManager.instance.AddHandler<MemoryActivate>(OnMemoryActivate);
+        EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<MemoryActivate>(OnMemoryActivate);
+        EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            LoadLevel();
-        }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveLevel();
-        }
     }
 
     private void SaveLevel()
@@ -110,11 +109,41 @@ public class CheckPoint : MonoBehaviour
     private void OnMemoryActivate(MemoryActivate M)
     {
         SaveLevel();
+        EventManager.instance.Fire(new SaveLevel());
     }
 
 
-    private void OnCharacterDied()
+    private void OnCharacterDied(CharacterDied C)
     {
+        StartCoroutine(PerformLoadLevel());
+    }
+
+    private IEnumerator PerformLoadLevel()
+    {
+        //Character_Manager.Main_Character.SetActive(false);
+        //Character_Manager.Fairy.SetActive(false);
+        yield return new WaitForSeconds(LoadLevelWaitTime);
+
+        float TimeCount = 0;
+        while (TimeCount < LoadlLevelFadeTIme)
+        {
+            Mask.GetComponent<RawImage>().color = new Color(0, 0, 0, TimeCount / LoadlLevelFadeTIme);
+            TimeCount += Time.deltaTime;
+            yield return null;
+        }
+        Mask.GetComponent<RawImage>().color = Color.black;
+
+        LoadLevel();
+        EventManager.instance.Fire(new LoadLevel());
+
+        TimeCount = 0;
+        while (TimeCount < LoadlLevelFadeTIme)
+        {
+            Mask.GetComponent<RawImage>().color = new Color(0, 0, 0, 1-TimeCount / LoadlLevelFadeTIme);
+            TimeCount += Time.deltaTime;
+            yield return null;
+        }
+        Mask.GetComponent<RawImage>().color = new Color(0, 0, 0, 0);
 
     }
 }

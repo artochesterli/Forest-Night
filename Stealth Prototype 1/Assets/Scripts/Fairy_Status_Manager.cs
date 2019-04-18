@@ -22,7 +22,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     private float AimedTimeCount;
     private Player player;
 
-    private const float AimedDiedTime = 10;
+    private const float AimedDiedTime = 1;
 
     private const float AimedVibration = 0.1f;
     private const float DeadVibration = 1.0f;

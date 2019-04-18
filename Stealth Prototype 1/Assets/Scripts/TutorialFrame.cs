@@ -65,34 +65,59 @@ public class TutorialFrame : MonoBehaviour
 
     private IEnumerator Open()
     {
-        GameObject Image = transform.Find("Image").gameObject;
-        Image.transform.localScale = Vector3.zero;
-        Image.GetComponent<SpriteRenderer>().enabled = true;
+        GameObject Content = transform.Find("Content").gameObject;
+        foreach(Transform child in Content.transform)
+        {
+            child.GetComponent<SpriteRenderer>().enabled = true;
+            child.transform.localScale = Vector3.zero;
+        }
+        //GameObject Image = transform.Find("Image").gameObject;
+        //Image.transform.localScale = Vector3.zero;
+        //Image.GetComponent<SpriteRenderer>().enabled = true;
         float timecount = 0;
         while (timecount < OpenCloseTime)
         {
-            Image.transform.localScale = Vector3.one * timecount / OpenCloseTime;
+            //Image.transform.localScale = Vector3.one * timecount / OpenCloseTime;
+            foreach (Transform child in Content.transform)
+            {
+                child.transform.localScale = Vector3.one * timecount / OpenCloseTime;
+            }
             timecount += Time.deltaTime;
             yield return null;
         }
-        Image.transform.localScale = Vector3.one;
+        //Image.transform.localScale = Vector3.one;
         Opening = true;
     }
 
     private IEnumerator Close()
     {
         Opening = false;
-        GameObject Image = transform.Find("Image").gameObject;
-        Image.transform.localScale = Vector3.one;
-        
+        GameObject Content = transform.Find("Content").gameObject;
+        foreach (Transform child in Content.transform)
+        {
+            
+            child.transform.localScale = Vector3.one;
+        }
+        //GameObject Image = transform.Find("Image").gameObject;
+        //Image.transform.localScale = Vector3.one;
+
         float timecount = 0;
         while (timecount < OpenCloseTime)
         {
-            Image.transform.localScale = Vector3.one * (1-timecount / OpenCloseTime);
+            ///Image.transform.localScale = Vector3.one * (1-timecount / OpenCloseTime);
+            foreach (Transform child in Content.transform)
+            {
+                child.transform.localScale = Vector3.one * (1-timecount / OpenCloseTime);
+            }
             timecount += Time.deltaTime;
             yield return null;
         }
-        Image.GetComponent<SpriteRenderer>().enabled = false;
-        Image.transform.localScale = Vector3.zero;
+        foreach (Transform child in Content.transform)
+        {
+            child.GetComponent<SpriteRenderer>().enabled = false;
+            child.transform.localScale = Vector3.zero;
+        }
+        //Image.GetComponent<SpriteRenderer>().enabled = false;
+        //Image.transform.localScale = Vector3.zero;
     }
 }

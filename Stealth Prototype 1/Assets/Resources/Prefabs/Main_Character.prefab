@@ -299,7 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Range: 8
   LightColor: {r: 1, g: 1, b: 1, a: 0.5019608}
-  Intensity: 0.7
+  Intensity: 0.5
   Angle: 360
   ShadowMask:
     serializedVersion: 2

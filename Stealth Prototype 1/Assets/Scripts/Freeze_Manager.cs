@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class Freeze_Manager : MonoBehaviour
 {
@@ -102,7 +104,10 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Fairy.GetComponent<Float>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Transport>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Float_Point>().enabled = true;
-                Character_Manager.Fairy.GetComponent<ShootArrow>().enabled = true;
+                if (SceneManager.GetActiveScene().buildIndex >= 2)
+                {
+                    Character_Manager.Fairy.GetComponent<ShootArrow>().enabled = true;
+                }
                 Character_Manager.Fairy.GetComponent<CharacterMove>().enabled = true;
             }
 

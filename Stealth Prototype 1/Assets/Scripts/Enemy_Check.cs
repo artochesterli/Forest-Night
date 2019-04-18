@@ -25,7 +25,7 @@ public class Enemy_Check : MonoBehaviour
 
     private GameObject detected_star;
     private GameObject detected_character;
-    private List<GameObject> LaserLines;
+    private List<GameObject> LaserLines = new List<GameObject>();
     private GameObject hit_enemy;
     private float LaserLine_disappear_time_count;
     private LaserState CurrentLaserState;
@@ -44,7 +44,6 @@ public class Enemy_Check : MonoBehaviour
         detected_character = null;
         detected_star = null;
         CurrentLaserState = LaserState.Null;
-        LaserLines = new List<GameObject>();
     }
 
     private void OnDestroy()

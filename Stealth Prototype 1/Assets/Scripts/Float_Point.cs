@@ -11,6 +11,12 @@ public class Float_Point : MonoBehaviour
     void Start()
     {
         player = GetComponent<PlayerId>().player;
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
     // Update is called once per frame
@@ -68,5 +74,10 @@ public class Float_Point : MonoBehaviour
         {
             child.GetComponent<ParticleSystem>().Stop();
         }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        DeactivateFieldParticle();
     }
 }
