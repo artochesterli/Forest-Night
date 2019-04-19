@@ -14,7 +14,12 @@ public class KnockBack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
     // Update is called once per frame
@@ -42,7 +47,7 @@ public class KnockBack : MonoBehaviour
                     Grounded = true;
                 }
             }
-            if (Grounded || GetComponent<CharacterMove>().HitLeftWall || GetComponent<CharacterMove>().HitRightWall || GetComponent<CharacterMove>().HitTop || GetComponent<CharacterMove>().OnGround)
+            if (StopKnockBack())
             {
                 GetComponent<CharacterMove>().speed.x = 0;
                 LeaveGround = false;
@@ -57,6 +62,24 @@ public class KnockBack : MonoBehaviour
                 }
             }
         }
+    }
+
+    private bool StopKnockBack()
+    {
+        if(GetComponent<CharacterMove>().HitLeftWall && KnockBackDirection.x<0 || GetComponent<CharacterMove>().HitRightWall && KnockBackDirection.x > 0)
+        {
+            return true;
+        }
+        if (GetComponent<CharacterMove>().HitTop)
+        {
+            return true;
+        }
+        if (Grounded || GetComponent<CharacterMove>().OnGround && !GetComponent<CharacterMove>().Ground.CompareTag("SpineKnockBack"))
+        {
+            return true;
+        }
+        return false;
+
     }
 
     private bool IsKnockingBack()
@@ -77,6 +100,13 @@ public class KnockBack : MonoBehaviour
         }
 
         return false;
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        FreeHeight = 0;
+        LeaveGround = false;
+        Grounded = false;
     }
 
 }

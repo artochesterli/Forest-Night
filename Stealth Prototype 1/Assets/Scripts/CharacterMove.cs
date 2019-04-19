@@ -45,7 +45,7 @@ public class CharacterMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow");
+        layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("UI");
         layermask = ~layermask;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
@@ -73,6 +73,8 @@ public class CharacterMove : MonoBehaviour
         RectifySpeed();
         Move();
         RectifyPos();
+
+        
     }
 
     private void SetGravity()
@@ -148,9 +150,10 @@ public class CharacterMove : MonoBehaviour
     public void Move()
     {
         Vector2 temp = speed+DashSpeed + PlatformSpeed;
+
         if (!IsMainCharacterDashing())
         {
-            if (temp.y > 0 && TopDis >= 0 && temp.y * Time.deltaTime > TopDis)
+            if (temp.y > 0 && temp.y * Time.deltaTime > TopDis)
             {
                 temp.y = TopDis / Time.deltaTime;
                 if (IsMainCharacterOverDashing())
@@ -160,7 +163,7 @@ public class CharacterMove : MonoBehaviour
                 DashSpeed = Vector2.zero;
             }
 
-            if (temp.y < 0 && GroundDis >= 0 && temp.y * Time.deltaTime < -GroundDis)
+            if (temp.y < 0 && temp.y * Time.deltaTime < -GroundDis)
             {
                 temp.y = -GroundDis / Time.deltaTime;
                 if (IsMainCharacterOverDashing())
@@ -170,9 +173,9 @@ public class CharacterMove : MonoBehaviour
                 DashSpeed = Vector2.zero;
             }
 
-            if(temp.x > 0 && RightWallDis>=0 && temp.x * Time.deltaTime > RightWallDis)
+            if (temp.x > 0 && temp.x * Time.deltaTime > RightWallDis)
             {
-                temp.x = RightWallDis/Time.deltaTime;
+                temp.x = RightWallDis / Time.deltaTime;
                 if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
@@ -180,7 +183,7 @@ public class CharacterMove : MonoBehaviour
                 DashSpeed = Vector2.zero;
             }
 
-            if(temp.x<0 && LeftWallDis>=0 && temp.x * Time.deltaTime < -LeftWallDis)
+            if (temp.x < 0 && temp.x * Time.deltaTime < -LeftWallDis)
             {
                 temp.x = -LeftWallDis / Time.deltaTime;
                 if (IsMainCharacterOverDashing())
@@ -190,12 +193,8 @@ public class CharacterMove : MonoBehaviour
                 DashSpeed = Vector2.zero;
             }
         }
-        
+
         transform.position += (Vector3)temp* Time.deltaTime;
-        if (ConnectedMovingPlatform != null)
-        {
-            EventManager.instance.Fire(new CharacterMoveWithPlatform(Time.frameCount, gameObject));
-        }
     }
 
     public void CheckGroundDis()
@@ -262,6 +261,7 @@ public class CharacterMove : MonoBehaviour
 
         RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.right * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
+        
         if (hit1 && hit2)
         {
             if (Mathf.Abs(hit1.point.y - transform.position.y) < Mathf.Abs(hit2.point.y - transform.position.y))
@@ -291,6 +291,11 @@ public class CharacterMove : MonoBehaviour
             TopDis = System.Int32.MaxValue;
             Top = null;
         }
+
+        /*if (gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Dashing)
+        {
+            Debug.Log(TopDis);
+        }*/
     }
 
     private void CheckTopHitting()

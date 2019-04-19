@@ -63,7 +63,7 @@ public class Character_Climb : MonoBehaviour
 
     private void Check_Input()
     {
-        if ( AbleToClimb && !IsClimbing && (player.GetAxis("Left Stick Y") > climb_threshold && ConnectedPath.transform.position.y>transform.position.y|| player.GetAxis("Left Stick Y") < -climb_threshold && ConnectedPath.transform.position.y < transform.position.y))
+        if ( ConnectedPath!=null && AbleToClimb && !IsClimbing && (player.GetAxis("Left Stick Y") > climb_threshold && ConnectedPath.transform.position.y>transform.position.y|| player.GetAxis("Left Stick Y") < -climb_threshold && ConnectedPath.transform.position.y < transform.position.y))
         {
             IsClimbing = true;
             if (gameObject.CompareTag("Fairy"))
@@ -275,10 +275,12 @@ public class Character_Climb : MonoBehaviour
 
     private void OnLoadLevel(LoadLevel L)
     {
+        StopAllCoroutines();
+        AbleToClimb = false;
         InPathEnd = false;
         PathEndThrough = false;
         ConnectedPath = null;
         IsClimbing = false;
-        StopAllCoroutines();
+        
     }
 }

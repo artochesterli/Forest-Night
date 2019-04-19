@@ -19,8 +19,9 @@ public class Slash : MonoBehaviour
     {
         player = GetComponent<PlayerId>().player;
         Weapon = transform.Find("Weapon").gameObject;
-        Weapon.SetActive(false);
-        Weapon_Active = true;
+        Weapon_Active = false;
+        Weapon.GetComponent<CircleCollider2D>().enabled = false;
+        Weapon.GetComponent<SpriteRenderer>().enabled = false;
         Weapon_Active_Time_count = 0;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
@@ -46,7 +47,8 @@ public class Slash : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S)||player.GetButtonDown("X")&&!Weapon_Active)
         {
             Weapon_Active = true;
-            Weapon.SetActive(true);
+            Weapon.GetComponent<CircleCollider2D>().enabled = true;
+            Weapon.GetComponent<SpriteRenderer>().enabled = true;
             Weapon_Active_Time_count = 0;
         }
     }
@@ -60,7 +62,8 @@ public class Slash : MonoBehaviour
             {
                 Weapon_Active_Time_count = 0;
                 Weapon_Active = false;
-                Weapon.SetActive(false);
+                Weapon.GetComponent<CircleCollider2D>().enabled = false;
+                Weapon.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
     }
@@ -69,6 +72,7 @@ public class Slash : MonoBehaviour
     {
         Weapon_Active_Time_count = 0;
         Weapon_Active = false;
-        Weapon.SetActive(false);
+        Weapon.GetComponent<CircleCollider2D>().enabled = false;
+        Weapon.GetComponent<SpriteRenderer>().enabled = false;
     }
 }

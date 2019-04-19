@@ -6,8 +6,10 @@ public class Memory : MonoBehaviour
 {
     public float DisMax;
     public float DisMin;
+    public Color SavedColor;
 
     private bool activated;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,13 +44,19 @@ public class Memory : MonoBehaviour
                     FairyDis = DisMax;
                 }
             }
-            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1- (0.5f * (MainCharacterDis - DisMin) + 0.5f * (FairyDis - DisMin)) / (DisMax - DisMin));
+
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1 - (0.5f * (MainCharacterDis - DisMin) + 0.5f * (FairyDis - DisMin)) / (DisMax - DisMin));
+            }
+
             if (MainCharacterDis <= DisMin && FairyDis <= DisMin)
             {
                 activated = true;
-                GetComponent<SpriteRenderer>().color = Color.white;
-                transform.Find("Child").GetComponent<SpriteRenderer>().enabled = true;
-                //GetComponent<Renderer>().material = Resources.Load("Material/MemoryActivate", typeof(Material)) as Material;
+                foreach (Transform child in transform)
+                {
+                    child.GetComponent<SpriteRenderer>().color = SavedColor;
+                }
                 EventManager.instance.Fire(new MemoryActivate());
             }
         }

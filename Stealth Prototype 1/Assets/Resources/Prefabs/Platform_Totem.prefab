@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 2750521750506679129}
   - component: {fileID: 2750521750506679130}
   - component: {fileID: 516990431621321867}
+  - component: {fileID: 6608466871438105550}
   m_Layer: 16
   m_Name: Platform_Totem
   m_TagString: Platform_Totem
@@ -246,6 +247,27 @@ MonoBehaviour:
   move_period: 5
   CurrentSpeed: {x: 0, y: 0}
   moving: 0
+--- !u!50 &6608466871438105550
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750521750506679133}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &98574114
 PrefabInstance:
   m_ObjectHideFlags: 0

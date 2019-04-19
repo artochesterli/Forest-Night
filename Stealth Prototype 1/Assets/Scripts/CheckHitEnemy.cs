@@ -22,8 +22,14 @@ public class CheckHitEnemy : MonoBehaviour
         if (CharacterMove.HitLeftWall && CharacterMove.LeftWall.CompareTag("Enemy") || CharacterMove.HitRightWall && CharacterMove.RightWall.CompareTag("Enemy")
             ||CharacterMove.OnGround&&CharacterMove.Ground.CompareTag("Enemy") || CharacterMove.HitTop && CharacterMove.Top.CompareTag("Enemy"))
         {
-            EventManager.instance.Fire(new CharacterDied(gameObject));
+            if (Character_Manager.Main_Character.activeSelf && Character_Manager.Fairy.activeSelf)
+            {
+                EventManager.instance.Fire(new CharacterDied(gameObject));
+            }
             gameObject.SetActive(false);
+
         }
     }
+
+
 }

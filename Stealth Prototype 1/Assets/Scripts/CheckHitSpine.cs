@@ -24,8 +24,13 @@ public class CheckHitSpine : MonoBehaviour
         {
             if (Spine.CompareTag("SpineLethal"))
             {
-                EventManager.instance.Fire(new CharacterDied(gameObject));
+                if (Character_Manager.Main_Character.activeSelf && Character_Manager.Fairy.activeSelf)
+                {
+                    EventManager.instance.Fire(new CharacterDied(gameObject));
+                }
                 gameObject.SetActive(false);
+
+
             }
             else if (Spine.CompareTag("SpineKnockBack"))
             {
@@ -42,6 +47,7 @@ public class CheckHitSpine : MonoBehaviour
                 }
                 GetComponent<CharacterMove>().speed.x = GetComponent<KnockBack>().KnockBackSpeed.x * Spine.GetComponent<KnockBackSpine>().KnockBackDirection.x;
                 GetComponent<CharacterMove>().speed.y = GetComponent<KnockBack>().KnockBackSpeed.y * Spine.GetComponent<KnockBackSpine>().KnockBackDirection.y;
+                
             }
         }
     }

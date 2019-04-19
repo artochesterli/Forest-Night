@@ -86,7 +86,7 @@ public class Enemy_Check : MonoBehaviour
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger");
+        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger") | 1<< LayerMask.NameToLayer("Path");
         if (Enemy_Status.status == EnemyStatus.ShootCharacter)
         {
             if (detected_character.CompareTag("Main_Character"))
@@ -152,7 +152,7 @@ public class Enemy_Check : MonoBehaviour
                     }
                 }
             }
-            if(hit && hit.collider.gameObject.CompareTag("Arrow"))
+            if(hit && hit.collider.gameObject.CompareTag("Arrow") && hit.collider.gameObject.GetComponent<Arrow>().emit)
             {
                 if (Enemy_Status.status != EnemyStatus.ShootCharacter)
                 {

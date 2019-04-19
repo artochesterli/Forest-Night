@@ -97,6 +97,10 @@ public class Dash_To_Fairy : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        detect_float_fairy = false;
+        GameObject Aim_Icon = Character_Manager.Fairy.transform.Find("Aim_Icon").gameObject;
+        Aim_Icon.GetComponent<SpriteRenderer>().enabled = false;
+
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
         
         Main_Character_Status.status = MainCharacterStatus.Dashing;
@@ -104,7 +108,7 @@ public class Dash_To_Fairy : MonoBehaviour
         Vector2 direction = Character_Manager.Fairy.transform.position - transform.position;
         direction.Normalize();
         Vector2 target = Character_Manager.Fairy.transform.position;
-        float dis = (target - (Vector2)transform.position).magnitude;
+
         while (true)
         {
             GetComponent<CharacterMove>().speed = Vector2.zero;
@@ -117,7 +121,6 @@ public class Dash_To_Fairy : MonoBehaviour
             yield return null;
         }
         Main_Character_Status.status = MainCharacterStatus.OverDash;
-
     }
 
     private void CheckOverDash()

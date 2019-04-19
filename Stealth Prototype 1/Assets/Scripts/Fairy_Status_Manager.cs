@@ -123,7 +123,11 @@ public class Fairy_Status_Manager : MonoBehaviour
             AimedTimeCount += Time.deltaTime;
             if (AimedTimeCount > AimedDiedTime)
             {
-                EventManager.instance.Fire(new CharacterDied(gameObject));
+                if (Character_Manager.Main_Character.activeSelf && Character_Manager.Fairy.activeSelf)
+                {
+                    EventManager.instance.Fire(new CharacterDied(gameObject));
+                    
+                }
                 gameObject.SetActive(false);
             }
         }
@@ -151,6 +155,7 @@ public class Fairy_Status_Manager : MonoBehaviour
 
     private void OnLoadLevel(LoadLevel L)
     {
+        AimedTimeCount = 0;
         status = FairyStatus.Normal;
     }
 }

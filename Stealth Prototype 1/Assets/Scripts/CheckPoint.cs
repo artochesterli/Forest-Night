@@ -14,8 +14,12 @@ public class CheckPoint : MonoBehaviour
     private GameObject AllEnemyCopy;
     private GameObject AllLevelMechanicsCopy;
 
+    //private bool Loading;
+
     private const float LoadLevelWaitTime = 0.5f;
     private const float LoadlLevelFadeTIme = 1;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -133,8 +137,9 @@ public class CheckPoint : MonoBehaviour
         }
         Mask.GetComponent<RawImage>().color = Color.black;
 
-        LoadLevel();
         EventManager.instance.Fire(new LoadLevel());
+        LoadLevel();
+        
 
         TimeCount = 0;
         while (TimeCount < LoadlLevelFadeTIme)

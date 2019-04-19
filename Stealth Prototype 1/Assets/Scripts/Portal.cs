@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class Portal : MonoBehaviour
 {
     public int connected_scene;
-    public float transport_time;
+    public float ActivateDis;
+    public Color ActivateColor;
 
+    private bool Activated;
 
-    private float time_count;
+    private const float LoadSceneTime = 0.5f;
 
     private const float RotationSpeed = 120;
     // Start is called before the first frame update
@@ -21,31 +23,35 @@ public class Portal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckCharacter();
+        if (!Activated)
+        {
+            CheckCharacter();
+        }
     }
 
     private void CheckCharacter()
     {
         if (Character_Manager.Main_Character != null && Character_Manager.Fairy != null)
         {
-            var MainCharacter = Character_Manager.Main_Character.GetComponent<Main_Character_Status_Manager>();
-            var Fairy = Character_Manager.Fairy.GetComponent<Fairy_Status_Manager>();
-            if (MainCharacter.status == MainCharacterStatus.Transporting && Fairy.status == FairyStatus.Transporting)
+            if((transform.position-Character_Manager.Main_Character.transform.position).magnitude<ActivateDis && (transform.position - Character_Manager.Fairy.transform.position).magnitude < ActivateDis)
             {
-                transform.Rotate(Vector3.forward, RotationSpeed * Time.deltaTime);
-                time_count += Time.deltaTime;
-                if (time_count > transport_time)
-                {
-                    SceneManager.LoadScene(connected_scene);
-                }
-            }
-            else
-            {
-                time_count = 0;
+                Activated = true;
+                StartCoroutine(Activate());
             }
         }
 
     }
 
+    private IEnumerator Activate()
+    {
+        foreach(Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().color = ActivateColor;
+        }
+        
+
+        yield return new WaitForSeconds(LoadSceneTime);
+        SceneManager.LoadScene(connected_scene);
+    }
 
 }
