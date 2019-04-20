@@ -33,28 +33,35 @@ public class CharacterHitSpineEdge : GameEvent
     }
 }
 
-public class SaveLevel : GameEvent
+public class SaveLevel : GameEvent { }
+
+public class LoadLevel : GameEvent { }
+
+public class MemoryActivate : GameEvent { }
+
+public class EnterControlMenu : GameEvent { }
+public class ExitControlMenu : GameEvent { }
+
+public class EnterObjectsMenu : GameEvent { }
+public class ExitObjectsMenu : GameEvent { }
+
+public class EnterAbilitiesMenu : GameEvent { }
+public class ExitAbilitiesMenu : GameEvent { }
+
+public class EnterMainHelpMenu : GameEvent { }
+public class ExitMainHelpMenu : GameEvent { }
+
+public class EnterMainMenu : GameEvent { }
+public class ExitMainMenu : GameEvent { }
+
+
+
+public class ButtonClicked : GameEvent
 {
-
-}
-
-
-public class LoadLevel : GameEvent
-{
-
-}
-
-public class MemoryActivate : GameEvent
-{
-
-}
-
-public class FinishClick : GameEvent
-{
-    public ButtonType type;
-    public FinishClick(ButtonType t)
+    public GameObject Button;
+    public ButtonClicked(GameObject B)
     {
-        type = t;
+        Button = B;
     }
 }
 

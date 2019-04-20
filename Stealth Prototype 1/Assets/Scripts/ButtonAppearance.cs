@@ -8,20 +8,19 @@ public class ButtonAppearance : MonoBehaviour
 {
     public ButtonType type;
     public ButtonStatus state;
+    public bool Clickable;
 
     private bool Fading;
 
     private const float SelectedScale=1.1f;
-    private const float ClickScale = 1.1f;
-    private const float ClickTime = 0.05f;
 
     private const float MinimalAlpha = 0.3f;
+    private const float MaximalAlpha = 1f;
     private const float FadingTime = 0.8f;
     // Start is called before the first frame update
     void Start()
     {
-        transform.Find("TextSelected").localScale = Vector3.one * SelectedScale;
-        transform.Find("TextClick").localScale = Vector3.one * ClickScale;
+        Init();
     }
 
     // Update is called once per frame
@@ -31,14 +30,20 @@ public class ButtonAppearance : MonoBehaviour
         ImageChange();
     }
 
+    private void Init()
+    {
+        transform.Find("TextSelected").localScale = Vector3.one * SelectedScale;
+        ChangeAppearance();
+    }
+
     private void ChangeAppearance()
     {
+
         if (state == ButtonStatus.NotSelected)
         {
             GetComponent<Image>().enabled = false;
             transform.Find("TextNotSelected").GetComponent<Text>().enabled = true;
             transform.Find("TextSelected").GetComponent<Text>().enabled = false;
-            transform.Find("TextClick").GetComponent<Text>().enabled = false;
 
         }
         else if(state == ButtonStatus.Selected)
@@ -46,27 +51,19 @@ public class ButtonAppearance : MonoBehaviour
             GetComponent<Image>().enabled = true;
             transform.Find("TextNotSelected").GetComponent<Text>().enabled = false;
             transform.Find("TextSelected").GetComponent<Text>().enabled = true;
-            transform.Find("TextClick").GetComponent<Text>().enabled = false;
             
-        }
-        else if(state == ButtonStatus.Click)
-        {
-            GetComponent<Image>().enabled = true;
-            transform.Find("TextNotSelected").GetComponent<Text>().enabled = false;
-            transform.Find("TextSelected").GetComponent<Text>().enabled = false;
-            transform.Find("TextClick").GetComponent<Text>().enabled = true;
         }
     }
 
     private void ImageChange()
     {
-        if (state != ButtonStatus.Click)
+        if (Clickable)
         {
             if (Fading)
             {
                 var Image = GetComponent<Image>();
                 float CurrentAlpha = Image.color.a;
-                Image.color = new Color(1, 1, 1, CurrentAlpha - (1 - MinimalAlpha) / FadingTime * Time.deltaTime);
+                Image.color = new Color(1, 1, 1, CurrentAlpha - (MaximalAlpha - MinimalAlpha) / FadingTime * Time.deltaTime);
                 if (Image.color.a <= MinimalAlpha)
                 {
                     Image.color = new Color(1, 1, 1, MinimalAlpha);
@@ -77,7 +74,7 @@ public class ButtonAppearance : MonoBehaviour
             {
                 var Image = GetComponent<Image>();
                 float CurrentAlpha = Image.color.a;
-                Image.color = new Color(1, 1, 1, CurrentAlpha + (1 - MinimalAlpha) / FadingTime * Time.deltaTime);
+                Image.color = new Color(1, 1, 1, CurrentAlpha + (MaximalAlpha - MinimalAlpha) / FadingTime * Time.deltaTime);
                 if (Image.color.a >= 1)
                 {
                     Image.color = new Color(1, 1, 1, 1);
@@ -87,15 +84,4 @@ public class ButtonAppearance : MonoBehaviour
         }
     }
 
-    public IEnumerator Clicking()
-    {
-        state = ButtonStatus.Click;
-        GetComponent<Image>().color = Color.white;
-        //GetComponent<Image>().color=new Color(1,1,1,0);
-        //GetComponent<Image>().sprite = Resources.Load("Sprite/UI/ClickEffect", typeof(Sprite)) as Sprite;
-        yield return new WaitForSeconds(ClickTime);
-        //GetComponent<Image>().sprite = Resources.Load("Sprite/UI/SelectionEffect", typeof(Sprite)) as Sprite;
-        state = ButtonStatus.Selected;
-        EventManager.instance.Fire(new FinishClick(type));
-    }
 }

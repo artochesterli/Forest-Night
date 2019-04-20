@@ -5,12 +5,11 @@ using UnityEngine;
 public enum ButtonStatus
 {
     NotSelected,
-    Selected,
-    Click
+    Selected
 }
 
 public enum ButtonType
 {
     MainMenu,
-    Tutorial
+    Help
 }

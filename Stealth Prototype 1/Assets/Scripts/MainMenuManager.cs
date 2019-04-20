@@ -13,10 +13,12 @@ public class MainMenuManager : MonoBehaviour
     private Dictionary<int, GameObject> IndexToButton;
     private int SelectedMenu;
 
-    private bool Clicking;
+    private bool Active;
+
     // Start is called before the first frame update
     void Start()
     {
+        Active = true;
         IndexToButton = new Dictionary<int, GameObject>();
         IndexToButton.Add(0, ContinueButton);
         IndexToButton.Add(1, StartButton);
@@ -26,24 +28,26 @@ public class MainMenuManager : MonoBehaviour
 
         SelectedMenu = 0;
 
-        EventManager.instance.AddHandler<FinishClick>(OnFinishClick);
+        EventManager.instance.AddHandler<EnterMainMenu>(OnEnterMainMenu);
+        EventManager.instance.AddHandler<ExitMainMenu>(OnExitMainMenu);
 
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<FinishClick>(OnFinishClick);
+        EventManager.instance.RemoveHandler<EnterMainMenu>(OnEnterMainMenu);
+        EventManager.instance.RemoveHandler<ExitMainMenu>(OnExitMainMenu);
     }
     // Update is called once per frame
     void Update()
     {
-        SwtichMenu();
+        CheckInput();
         SetMenuState();
     }
 
-    private void SwtichMenu()
+    private void CheckInput()
     {
-        if (!Clicking)
+        if (Active)
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
@@ -63,16 +67,15 @@ public class MainMenuManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                var Button = IndexToButton[SelectedMenu].GetComponent<ButtonAppearance>();
-                Button.StartCoroutine(Button.Clicking());
-                Clicking = true;
+                EventManager.instance.Fire(new ButtonClicked(IndexToButton[SelectedMenu]));
             }
+
         }
     }
 
     private void SetMenuState()
     {
-        if (!Clicking)
+        if (Active)
         {
             for (int i = 0; i < IndexToButton.Count; i++)
             {
@@ -88,13 +91,22 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    private void OnFinishClick(FinishClick F)
+    private void OnExitMainMenu(ExitMainMenu E)
     {
-        if (F.type == ButtonType.MainMenu)
+        Active = false;
+        foreach (Transform child in transform)
         {
-            Clicking = false;
+            child.gameObject.SetActive(false);
         }
     }
 
+    private void OnEnterMainMenu(EnterMainMenu E)
+    {
+        Active = true;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+    }
 
 }
