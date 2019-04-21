@@ -4,14 +4,28 @@ using UnityEngine;
 
 public class ObjectsMenuManager : MonoBehaviour
 {
+    public GameObject ObjectsImage;
+    public GameObject BackObjectsImage;
+
     public GameObject VinesButton;
     public GameObject PlatformButton;
     public GameObject MirrorButton;
 
+    public Sprite VinesImage;
+    public Sprite PlatformImage;
+    public Sprite MirrorImage;
+
+    public float ImageFlipTime;
+
+    private Dictionary<int, Sprite> IndexToSprite;
     private Dictionary<int, GameObject> IndexToButton;
     private int SelectedMenu;
 
     private bool Active;
+
+    private bool AtFront;
+    private bool ToNext;
+    private float RotationAngle;
     // Start is called before the first frame update
     void Start()
     {

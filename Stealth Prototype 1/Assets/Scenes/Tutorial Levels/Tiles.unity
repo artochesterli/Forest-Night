@@ -477,6 +477,7 @@ RectTransform:
   - {fileID: 316091644}
   - {fileID: 2118099415}
   - {fileID: 1598874671}
+  - {fileID: 550786085}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1972,6 +1973,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488635984}
   m_CullTransparentMesh: 0
+--- !u!1 &550786084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 550786085}
+  - component: {fileID: 550786087}
+  - component: {fileID: 550786086}
+  m_Layer: 5
+  m_Name: BackAbilityImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &550786085
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550786084}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 84320556}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 230, y: -30}
+  m_SizeDelta: {x: 1440, y: 810}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &550786086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550786084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+--- !u!222 &550786087
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550786084}
+  m_CullTransparentMesh: 0
 --- !u!1 &570886638
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,16 +2101,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AbilityImage: {fileID: 1598874670}
+  BackAbilityImage: {fileID: 550786084}
   SlashButton: {fileID: 206732390}
   GlideButton: {fileID: 1668062043}
   ShootButton: {fileID: 722542393}
   SuperDashButton: {fileID: 1497471660}
   FadeButton: {fileID: 764470222}
-  SlashImage: {fileID: 0}
+  SlashImage: {fileID: 21300000, guid: 24050f3235cb38b49ba6ad247ece8eee, type: 3}
   GlideImage: {fileID: 21300000, guid: 28c65843d3a00b2459da4105c9448788, type: 3}
-  ShootImage: {fileID: 0}
+  ShootImage: {fileID: 21300000, guid: 24050f3235cb38b49ba6ad247ece8eee, type: 3}
   SuperDashImage: {fileID: 21300000, guid: b2e5fa5f90ab78c45af52af84a7d8b15, type: 3}
-  FadeImage: {fileID: 0}
+  FadeImage: {fileID: 21300000, guid: 24050f3235cb38b49ba6ad247ece8eee, type: 3}
+  ImageFlipTime: 0.1
 --- !u!1 &617079859
 GameObject:
   m_ObjectHideFlags: 0
@@ -5114,7 +5191,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 250, y: -50}
+  m_AnchoredPosition: {x: 230, y: -30}
   m_SizeDelta: {x: 1440, y: 810}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1598874672
