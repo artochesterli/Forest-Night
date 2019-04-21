@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ObjectsMenuManager : MonoBehaviour
 {
@@ -33,7 +34,17 @@ public class ObjectsMenuManager : MonoBehaviour
         IndexToButton.Add(0, VinesButton);
         IndexToButton.Add(1, PlatformButton);
         IndexToButton.Add(2, MirrorButton);
+
+        IndexToSprite = new Dictionary<int, Sprite>();
+        IndexToSprite.Add(0, VinesImage);
+        IndexToSprite.Add(1, PlatformImage);
+        IndexToSprite.Add(2, MirrorImage);
         SelectedMenu = 0;
+
+        AtFront = true;
+        RotationAngle = 0;
+        BackObjectsImage.transform.rotation = Quaternion.Euler(0, RotationAngle + 180, 0);
+        ObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
 
         EventManager.instance.AddHandler<EnterObjectsMenu>(OnEnterObjectsMenu);
         EventManager.instance.AddHandler<ExitObjectsMenu>(OnExitObjectsMenu);
@@ -49,6 +60,8 @@ public class ObjectsMenuManager : MonoBehaviour
     {
         SetMenuState();
         CheckInput();
+        ObjectsImage.transform.rotation = Quaternion.Euler(0, RotationAngle, 0);
+        BackObjectsImage.transform.rotation = Quaternion.Euler(0, RotationAngle + 180, 0);
     }
 
     private void SetMenuState()
@@ -80,12 +93,18 @@ public class ObjectsMenuManager : MonoBehaviour
                     SelectedMenu += IndexToButton.Count;
                 }
                 SelectedMenu = (SelectedMenu - 1) % IndexToButton.Count;
+
+                SetFlip(true);
+                
                 return;
             }
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
+
+                SetFlip(false);
+
                 return;
             }
 
@@ -100,6 +119,14 @@ public class ObjectsMenuManager : MonoBehaviour
     private void OnEnterObjectsMenu(EnterObjectsMenu E)
     {
         Active = true;
+        if (AtFront)
+        {
+            ObjectsImage.GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            BackObjectsImage.GetComponent<Image>().color = Color.white;
+        }
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -109,9 +136,106 @@ public class ObjectsMenuManager : MonoBehaviour
     private void OnExitObjectsMenu(ExitObjectsMenu E)
     {
         Active = false;
+        ObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        BackObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
+        }
+    }
+
+    private void SetFlip(bool up)
+    {
+        AtFront = !AtFront;
+        if (!AtFront)
+        {
+            RotationAngle = 0;
+        }
+        else
+        {
+            if (up)
+            {
+                RotationAngle = -180;
+            }
+            else
+            {
+                RotationAngle = 180;
+            }
+        }
+        StopAllCoroutines();
+        StartCoroutine(Flip(false));
+        if (AtFront)
+        {
+            ObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
+        }
+        else
+        {
+            BackObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
+        }
+    }
+
+    private IEnumerator Flip(bool AngleMinus)
+    {
+        float timecount = 0;
+        while (timecount < ImageFlipTime)
+        {
+            if (AngleMinus)
+            {
+                RotationAngle -= 180 / ImageFlipTime * Time.deltaTime;
+                if (AtFront)
+                {
+                    if (RotationAngle < 90)
+                    {
+                        ObjectsImage.GetComponent<Image>().color = Color.white;
+                        BackObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                    }
+                }
+                else
+                {
+                    if (RotationAngle < -90)
+                    {
+                        BackObjectsImage.GetComponent<Image>().color = Color.white;
+                        ObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                    }
+                }
+            }
+            else
+            {
+                RotationAngle += 180 / ImageFlipTime * Time.deltaTime;
+                if (AtFront)
+                {
+                    if (RotationAngle > -90)
+                    {
+                        ObjectsImage.GetComponent<Image>().color = Color.white;
+                        BackObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                    }
+                }
+                else
+                {
+                    if (RotationAngle > 90)
+                    {
+                        BackObjectsImage.GetComponent<Image>().color = Color.white;
+                        ObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+                    }
+                }
+            }
+            timecount += Time.deltaTime;
+            yield return null;
+        }
+        if (AtFront)
+        {
+            RotationAngle = 0;
+        }
+        else
+        {
+            if (AngleMinus)
+            {
+                RotationAngle = -180;
+            }
+            else
+            {
+                RotationAngle = 180;
+            }
         }
     }
 }

@@ -105,25 +105,8 @@ public class AbilitiesMenuManager : MonoBehaviour
                 }
                 SelectedMenu = (SelectedMenu - 1) % IndexToButton.Count;
 
-                AtFront = !AtFront;
-                if (!AtFront)
-                {
-                    RotationAngle = 0;
-                }
-                else
-                {
-                    RotationAngle = -180;
-                }
-                StopAllCoroutines();
-                StartCoroutine(Flip(false));
-                if (AtFront)
-                {
-                    AbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-                }
-                else
-                {
-                    BackAbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-                }
+                SetFlip(true);
+
                 return;
             }
 
@@ -131,27 +114,8 @@ public class AbilitiesMenuManager : MonoBehaviour
             {
                 SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
 
-                AtFront = !AtFront;
-                if (!AtFront)
-                {
-                    RotationAngle = 0;
-                }
-                else
-                {
-                    RotationAngle = 180;
-                }
-                StopAllCoroutines();
-                StartCoroutine(Flip(true));
+                SetFlip(false);
 
-                if (AtFront)
-                {
-                    AbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-                    
-                }
-                else
-                {
-                    BackAbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-                }
                 return;
             }
 
@@ -188,6 +152,36 @@ public class AbilitiesMenuManager : MonoBehaviour
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
+        }
+    }
+
+    private void SetFlip(bool up)
+    {
+        AtFront = !AtFront;
+        if (!AtFront)
+        {
+            RotationAngle = 0;
+        }
+        else
+        {
+            if (up)
+            {
+                RotationAngle = -180;
+            }
+            else
+            {
+                RotationAngle = 180;
+            }
+        }
+        StopAllCoroutines();
+        StartCoroutine(Flip(false));
+        if (AtFront)
+        {
+            AbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
+        }
+        else
+        {
+            BackAbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
         }
     }
 

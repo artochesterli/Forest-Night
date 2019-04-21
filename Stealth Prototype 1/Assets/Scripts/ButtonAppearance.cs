@@ -10,12 +10,15 @@ public class ButtonAppearance : MonoBehaviour
     public ButtonStatus state;
     public bool Clickable;
 
+    public Color SelectedTextAppearColor;
+    public Color SelectedTextFadeColor;
+
     private bool Fading;
 
     private const float SelectedScale=1.1f;
 
     private const float MinimalAlpha = 0.3f;
-    private const float MaximalAlpha = 1f;
+    private const float MaximalAlpha = 0.8f;
     private const float FadingTime = 0.8f;
     // Start is called before the first frame update
     void Start()
@@ -69,17 +72,23 @@ public class ButtonAppearance : MonoBehaviour
                     Image.color = new Color(1, 1, 1, MinimalAlpha);
                     Fading = false;
                 }
+                transform.Find("TextSelected").GetComponent<Text>().color= Color.Lerp(SelectedTextFadeColor, SelectedTextAppearColor, (Image.color.a - MinimalAlpha) / (MaximalAlpha - MinimalAlpha));
+                transform.Find("TextSelected").GetComponent<UIGradient>().LinearColor1 = Color.Lerp(SelectedTextFadeColor, SelectedTextAppearColor, (Image.color.a - MinimalAlpha) / (MaximalAlpha - MinimalAlpha));
+                
+
             }
             else
             {
                 var Image = GetComponent<Image>();
                 float CurrentAlpha = Image.color.a;
                 Image.color = new Color(1, 1, 1, CurrentAlpha + (MaximalAlpha - MinimalAlpha) / FadingTime * Time.deltaTime);
-                if (Image.color.a >= 1)
+                if (Image.color.a >= MaximalAlpha)
                 {
-                    Image.color = new Color(1, 1, 1, 1);
+                    Image.color = new Color(1, 1, 1, MaximalAlpha);
                     Fading = true;
                 }
+                transform.Find("TextSelected").GetComponent<Text>().color = Color.Lerp(SelectedTextFadeColor, SelectedTextAppearColor, (Image.color.a - MinimalAlpha) / (MaximalAlpha - MinimalAlpha));
+                transform.Find("TextSelected").GetComponent<UIGradient>().LinearColor1 = Color.Lerp(SelectedTextFadeColor, SelectedTextAppearColor, (Image.color.a - MinimalAlpha) / (MaximalAlpha - MinimalAlpha));
             }
         }
     }
