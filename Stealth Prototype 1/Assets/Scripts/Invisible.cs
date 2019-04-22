@@ -50,7 +50,7 @@ public class Invisible : MonoBehaviour
     {
         if (AbleToInvisible)
         {
-            transform.Find("AbleToInvisibleIndicator").GetComponent<SpriteRenderer>().enabled = true;
+            transform.Find("AbleToInvisibleIndicator").GetComponent<SpriteRenderer>().enabled = false;
         }
         else
         {

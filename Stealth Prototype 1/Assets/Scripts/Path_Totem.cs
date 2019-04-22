@@ -32,7 +32,7 @@ public class Path_Totem : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.name == "Weapon")
+        if (ob.CompareTag("Slash"))
         {
             var self_status = GetComponent<Totem_Status_Manager>();
             self_status.Status = self_status.INGROUND;

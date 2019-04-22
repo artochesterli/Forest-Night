@@ -21,6 +21,7 @@ TagManager:
   - SpineLethal
   - SpineKnockBack
   - Arrow
+  - Slash
   layers:
   - Default
   - TransparentFX

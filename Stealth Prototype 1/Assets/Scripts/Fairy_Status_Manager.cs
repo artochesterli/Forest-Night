@@ -49,7 +49,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     {
         SetInvisibility();
         FloatGoingDown();
-        //set_status();
+        CheckFloatPlatform();
         check_aimed();
     }
 
@@ -73,44 +73,11 @@ public class Fairy_Status_Manager : MonoBehaviour
         }
     }
 
-    private void set_status()
+    private void CheckFloatPlatform()
     {
-        var FairySprite = GetComponent<SpriteRenderer>();
-        if (status == FairyStatus.Normal)
-        {
-            if (GetComponent<CharacterMove>().OnGround)
-            {
-                FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
-            }
-            else
-            {
-                FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalJump", typeof(Sprite)) as Sprite;
-            }
-        }
-        else if (status == FairyStatus.Float)
-        {
-            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyGlide", typeof(Sprite)) as Sprite;
-        }
-        else if (status == FairyStatus.Aiming)
-        {
-            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
-        }
-        else if (status == FairyStatus.Climbing)
-        {
-            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
-        }
-        else if (status == FairyStatus.FloatPlatform)
+        if (status == FairyStatus.FloatPlatform)
         {
             GetComponent<CharacterMove>().speed = Vector2.zero;
-            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyFloat", typeof(Sprite)) as Sprite;
-        }
-        else if (status == FairyStatus.Transporting)
-        {
-            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
-        }
-        else if (status == FairyStatus.Aimed)
-        {
-            FairySprite.sprite = Resources.Load("Sprite/CharacterSprite/FairyNormalGround", typeof(Sprite)) as Sprite;
         }
     }
 

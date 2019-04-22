@@ -5,6 +5,7 @@ using Rewired;
 
 public class Float_Point : MonoBehaviour
 {
+    public Vector2 DashOffset;
 
     private Player player;
     // Start is called before the first frame update
@@ -29,6 +30,7 @@ public class Float_Point : MonoBehaviour
         }
         else
         {
+            DeactivateFieldParticle();
             if (Fairy_Status.status == FairyStatus.FloatPlatform)
             {
                 Fairy_Status.status = FairyStatus.Normal;

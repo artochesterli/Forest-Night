@@ -84,7 +84,7 @@ public class Platform_Tolem : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.name == "Weapon"&&!moving)
+        if (ob.CompareTag("Slash") &&!moving)
         {
             StartCoroutine(Move());
             if (Connected_Moving_Platform != null)

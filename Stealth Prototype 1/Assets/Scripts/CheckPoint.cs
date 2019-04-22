@@ -124,8 +124,6 @@ public class CheckPoint : MonoBehaviour
 
     private IEnumerator PerformLoadLevel()
     {
-        //Character_Manager.Main_Character.SetActive(false);
-        //Character_Manager.Fairy.SetActive(false);
         yield return new WaitForSeconds(LoadLevelWaitTime);
 
         float TimeCount = 0;

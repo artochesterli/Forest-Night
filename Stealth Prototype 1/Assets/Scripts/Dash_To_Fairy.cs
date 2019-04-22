@@ -105,9 +105,9 @@ public class Dash_To_Fairy : MonoBehaviour
         
         Main_Character_Status.status = MainCharacterStatus.Dashing;
 
-        Vector2 direction = Character_Manager.Fairy.transform.position - transform.position;
+        Vector2 direction = (Vector2)(Character_Manager.Fairy.transform.position - transform.position) + Character_Manager.Fairy.GetComponent<Float_Point>().DashOffset;
         direction.Normalize();
-        Vector2 target = Character_Manager.Fairy.transform.position;
+        Vector2 target = (Vector2)Character_Manager.Fairy.transform.position + Character_Manager.Fairy.GetComponent<Float_Point>().DashOffset;
 
         while (true)
         {
