@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 3436912808128966271}
   - component: {fileID: 3436912808128966270}
   - component: {fileID: 3436912808128966260}
-  - component: {fileID: 3436912808128966259}
+  - component: {fileID: 1070536173767445347}
   - component: {fileID: 3436912808128966269}
   - component: {fileID: 3436912808128966268}
   - component: {fileID: 3436912808128966266}
@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 1288555190}
   - component: {fileID: 1288555189}
   - component: {fileID: 6385879793006594474}
+  - component: {fileID: 12048670}
   m_Layer: 10
   m_Name: Fairy
   m_TagString: Fairy
@@ -410,7 +411,7 @@ SpriteRenderer:
   m_SortingLayerID: 1005493855
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: e132bcdc7efb35f458cd5d7b8708ad64, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 63feec29718b89845934ded30d1a2596, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -442,7 +443,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &3436912808128966259
+--- !u!61 &1070536173767445347
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -457,16 +458,16 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.40645695}
-    oldSize: {x: 0.842, y: 1.208}
+    border: {x: 0, y: 0.033846155, z: 0, w: 0.22307692}
+    pivot: {x: 0.5, y: 0.42721894}
+    oldSize: {x: 0.6923077, y: 1.3}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 1}
+  m_Size: {x: 0.6923077, y: 1.05}
   m_EdgeRadius: 0
 --- !u!114 &3436912808128966269
 MonoBehaviour:
@@ -658,11 +659,11 @@ MonoBehaviour:
   GroundDis: 0
   Ground: {fileID: 0}
   ConnectedMovingPlatform: {fileID: 0}
-  OnGroundThreshold: 0.5
+  OnGroundThreshold: 0.53
   OnGroundDetectOffset: 0.3
-  HitWallThreshold: 0.4
-  HitWallDetectOffset: 0.4
-  HitTopThreshold: 0.5
+  HitWallThreshold: 0.35
+  HitWallDetectOffset: 0.45
+  HitTopThreshold: 0.53
   HitTopDetectOffset: 0.3
 --- !u!114 &1288555190
 MonoBehaviour:
@@ -703,6 +704,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9fa3de4c1d544a4bb62a11c544a55fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &12048670
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436912808128966255}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 14cf6cc00f81eed4fafbaf2b316f2617, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6083245267033377551
 GameObject:
   m_ObjectHideFlags: 0

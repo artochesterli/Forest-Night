@@ -49,7 +49,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     {
         SetInvisibility();
         FloatGoingDown();
-        set_status();
+        //set_status();
         check_aimed();
     }
 

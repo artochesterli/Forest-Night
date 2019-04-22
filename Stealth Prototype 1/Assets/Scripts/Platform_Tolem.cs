@@ -11,22 +11,14 @@ public class Platform_Tolem : MonoBehaviour
     public Vector2 CurrentSpeed;
     public bool moving;
 
-    private int MainCharacterMoveFrameCount;
-    private int FairyMoveFrameCount;
-
-
     private bool At_First_Point;
     // Start is called before the first frame update
     void Start()
     {
         At_First_Point = true;
-        EventManager.instance.AddHandler<CharacterMoveWithPlatform>(OnCharacterMoveWithPlatform);
     }
 
-    private void OnDestroy()
-    {
-        EventManager.instance.RemoveHandler<CharacterMoveWithPlatform>(OnCharacterMoveWithPlatform);
-    }
+
     // Update is called once per frame
     void Update()
     {
@@ -102,18 +94,4 @@ public class Platform_Tolem : MonoBehaviour
         }
     }
 
-    private void OnCharacterMoveWithPlatform(CharacterMoveWithPlatform C)
-    {
-        if (C.Object.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
-        {
-            if (C.Object == Character_Manager.Main_Character)
-            {
-                MainCharacterMoveFrameCount = C.FrameCount;
-            }
-            else if(C.Object == Character_Manager.Fairy)
-            {
-                FairyMoveFrameCount = C.FrameCount;
-            }
-        }
-    }
 }

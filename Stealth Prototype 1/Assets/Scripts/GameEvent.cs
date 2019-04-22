@@ -13,17 +13,6 @@ public class CharacterDied : GameEvent
     }
 }
 
-public class CharacterMoveWithPlatform : GameEvent
-{
-    public int FrameCount;
-    public GameObject Object;
-    public CharacterMoveWithPlatform(int C, GameObject ob)
-    {
-        FrameCount = C;
-        Object = ob;
-    }
-}
-
 public class CharacterHitSpineEdge : GameEvent
 {
     public GameObject Character;
