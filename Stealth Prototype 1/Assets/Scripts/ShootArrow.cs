@@ -166,7 +166,7 @@ public class ShootArrow : MonoBehaviour
 
     private void CreateAimLIne(Vector2 direction, Vector2 StartPoint)
     {
-        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1<<LayerMask.NameToLayer("Path");
+        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1<<LayerMask.NameToLayer("Path") | 1<<LayerMask.NameToLayer("Main_Character");
         layermask = ~layermask;
         float mag = 100;
         RaycastHit2D hit= Physics2D.Raycast(StartPoint, direction, mag, layermask);

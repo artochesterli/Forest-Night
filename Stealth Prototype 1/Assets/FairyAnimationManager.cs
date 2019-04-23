@@ -20,11 +20,10 @@ public class FairyAnimationManager : MonoBehaviour
     {
         var state = GetComponent<Fairy_Status_Manager>();
         var CharacterMove = GetComponent<CharacterMove>();
-
-        
-
+        GetComponent<Animator>().speed = 1;
         if (state.status == FairyStatus.Aimed)
         {
+            
             if (CharacterMove.OnGround)
             {
                 if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyGroundAimed"))
@@ -42,7 +41,7 @@ public class FairyAnimationManager : MonoBehaviour
             return;
         }
 
-        if (state.status == FairyStatus.Normal && CharacterMove.OnGround && Mathf.Abs(CharacterMove.speed.x) > 0)
+        if ((state.status == FairyStatus.Normal||state.status==FairyStatus.Aiming) && CharacterMove.OnGround && Mathf.Abs(CharacterMove.speed.x) > 0)
         {
             if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyWalk"))
             {
@@ -50,7 +49,7 @@ public class FairyAnimationManager : MonoBehaviour
             }
             return;
         }
-        if (state.status == FairyStatus.Normal && CharacterMove.speed == Vector2.zero && CharacterMove.OnGround)
+        if ((state.status == FairyStatus.Normal || state.status == FairyStatus.Aiming) && CharacterMove.speed == Vector2.zero && CharacterMove.OnGround)
         {
             if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyIdle"))
             {
@@ -75,6 +74,25 @@ public class FairyAnimationManager : MonoBehaviour
                 GetComponent<Animator>().Play("FairyJumpDown" ,0 ,0);
             }
             return;
+        }
+
+        if(state.status == FairyStatus.Climbing)
+        {
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyClimb"))
+            {
+                GetComponent<Animator>().Play("FairyClimb", 0, 0);
+            }
+            else
+            {
+                if (CharacterMove.speed.y != 0)
+                {
+                    GetComponent<Animator>().speed = 1;
+                }
+                else
+                {
+                    GetComponent<Animator>().speed = 0;
+                }
+            }
         }
 
         if(state.status == FairyStatus.Float)

@@ -21,6 +21,7 @@ public class MainCharacterAnimationManager : MonoBehaviour
         var state = GetComponent<Main_Character_Status_Manager>();
         var CharacterMove = GetComponent<CharacterMove>();
 
+        GetComponent<Animator>().speed = 1;
         if (GetComponent<Slash>().Slashing)
         {
             if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("MainCharacterSlash"))
@@ -71,8 +72,26 @@ public class MainCharacterAnimationManager : MonoBehaviour
             {
                 GetComponent<Animator>().Play("MainCharacterDash");
             }
-            //GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/CharacterSprite/MainCharacterDash", typeof(Sprite)) as Sprite;
             return;
+        }
+
+        if (state.status == MainCharacterStatus.Climbing)
+        {
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("MainCharacterClimb"))
+            {
+                GetComponent<Animator>().Play("MainCharacterClimb", 0, 0);
+            }
+            else
+            {
+                if (CharacterMove.speed.y != 0)
+                {
+                    GetComponent<Animator>().speed = 1;
+                }
+                else
+                {
+                    GetComponent<Animator>().speed = 0;
+                }
+            }
         }
         
 
