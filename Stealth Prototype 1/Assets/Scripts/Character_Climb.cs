@@ -270,6 +270,11 @@ public class Character_Climb : MonoBehaviour
         if (ob.name == "Path_End")
         {
             InPathEnd = false;
+            if (transform.position.y > ob.transform.position.y)
+            {
+                ConnectedPath = null;
+                AbleToClimb = false;
+            }
         }
     }
 

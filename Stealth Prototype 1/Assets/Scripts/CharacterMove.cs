@@ -45,7 +45,7 @@ public class CharacterMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("UI");
+        layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("UI");
         layermask = ~layermask;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
@@ -156,41 +156,41 @@ public class CharacterMove : MonoBehaviour
             if (temp.y > 0 && temp.y * Time.deltaTime > TopDis)
             {
                 temp.y = TopDis / Time.deltaTime;
-                if (IsMainCharacterOverDashing())
+                /*if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }
-                DashSpeed = Vector2.zero;
+                }*/
+                DashSpeed.y = 0;
             }
 
             if (temp.y < 0 && temp.y * Time.deltaTime < -GroundDis)
             {
                 temp.y = -GroundDis / Time.deltaTime;
-                if (IsMainCharacterOverDashing())
+                /*if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }
-                DashSpeed = Vector2.zero;
+                }*/
+                DashSpeed.y = 0;
             }
 
             if (temp.x > 0 && temp.x * Time.deltaTime > RightWallDis)
             {
                 temp.x = RightWallDis / Time.deltaTime;
-                if (IsMainCharacterOverDashing())
+                /*if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }
-                DashSpeed = Vector2.zero;
+                }*/
+                DashSpeed.x = 0;
             }
 
             if (temp.x < 0 && temp.x * Time.deltaTime < -LeftWallDis)
             {
                 temp.x = -LeftWallDis / Time.deltaTime;
-                if (IsMainCharacterOverDashing())
+                /*if (IsMainCharacterOverDashing())
                 {
                     GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }
-                DashSpeed = Vector2.zero;
+                }*/
+                DashSpeed.x = 0;
             }
         }
 
