@@ -10,14 +10,13 @@ public class Enemy_Patrol : MonoBehaviour
     public float Observation_Right_Time;
     public float Observation_Left_Time;
     public bool Patrol_Right;
+    public bool IsObserving;
 
     private float Observation_Time_Count;
-    private bool IsObserving;
     private bool Observing_Right;
     // Start is called before the first frame update
     void Start()
     {
-        
         Observation_Time_Count = 0;
         if (Patrol_Speed == 0)
         {

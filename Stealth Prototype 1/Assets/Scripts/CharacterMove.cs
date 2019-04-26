@@ -26,6 +26,8 @@ public class CharacterMove : MonoBehaviour
     public float GroundDis;
     public GameObject Ground;
 
+    public Vector2 BodyOffset;
+
     public GameObject ConnectedMovingPlatform;
     private int layermask;
 
@@ -156,40 +158,24 @@ public class CharacterMove : MonoBehaviour
             if (temp.y > 0 && temp.y * Time.deltaTime > TopDis)
             {
                 temp.y = TopDis / Time.deltaTime;
-                /*if (IsMainCharacterOverDashing())
-                {
-                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }*/
                 DashSpeed.y = 0;
             }
 
             if (temp.y < 0 && temp.y * Time.deltaTime < -GroundDis)
             {
                 temp.y = -GroundDis / Time.deltaTime;
-                /*if (IsMainCharacterOverDashing())
-                {
-                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }*/
                 DashSpeed.y = 0;
             }
 
             if (temp.x > 0 && temp.x * Time.deltaTime > RightWallDis)
             {
                 temp.x = RightWallDis / Time.deltaTime;
-                /*if (IsMainCharacterOverDashing())
-                {
-                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }*/
                 DashSpeed.x = 0;
             }
 
             if (temp.x < 0 && temp.x * Time.deltaTime < -LeftWallDis)
             {
                 temp.x = -LeftWallDis / Time.deltaTime;
-                /*if (IsMainCharacterOverDashing())
-                {
-                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
-                }*/
                 DashSpeed.x = 0;
             }
         }
@@ -199,31 +185,31 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckGroundDis()
     {
-        
 
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.right * OnGroundDetectOffset, Vector2.down, DetectDis, layermask);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * OnGroundDetectOffset, Vector2.down, DetectDis, layermask);
+        Vector3 OriPoint = transform.position + (Vector3)BodyOffset;
+        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.right * OnGroundDetectOffset, Vector2.down, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.left * OnGroundDetectOffset, Vector2.down, DetectDis, layermask);
         if (hit1 && hit2)
         {
-            if (Mathf.Abs(hit1.point.y - transform.position.y) < Mathf.Abs(hit2.point.y - transform.position.y))
+            if (Mathf.Abs(hit1.point.y - OriPoint.y) < Mathf.Abs(hit2.point.y - OriPoint.y))
             {
-                GroundDis = Mathf.Abs(hit1.point.y - transform.position.y) - OnGroundThreshold;
+                GroundDis = Mathf.Abs(hit1.point.y - OriPoint.y) - OnGroundThreshold;
                 Ground = hit1.collider.gameObject;
             }
             else
             {
-                GroundDis = Mathf.Abs(hit2.point.y - transform.position.y) - OnGroundThreshold;
+                GroundDis = Mathf.Abs(hit2.point.y - OriPoint.y) - OnGroundThreshold;
                 Ground = hit2.collider.gameObject;
             }
         }
         else if (hit1)
         {
-            GroundDis = Mathf.Abs(hit1.point.y - transform.position.y) - OnGroundThreshold;
+            GroundDis = Mathf.Abs(hit1.point.y - OriPoint.y) - OnGroundThreshold;
             Ground = hit1.collider.gameObject;
         }
         else if (hit2)
         {
-            GroundDis = Mathf.Abs(hit2.point.y - transform.position.y) - OnGroundThreshold;
+            GroundDis = Mathf.Abs(hit2.point.y - OriPoint.y) - OnGroundThreshold;
             Ground = hit2.collider.gameObject;
         }
         else
@@ -258,32 +244,32 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckTopDis()
     {
-
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.right * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
+        Vector3 OriPoint = transform.position + (Vector3)BodyOffset;
+        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.right * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.left * HitTopDetectOffset, Vector2.up, DetectDis, layermask);
         
         if (hit1 && hit2)
         {
-            if (Mathf.Abs(hit1.point.y - transform.position.y) < Mathf.Abs(hit2.point.y - transform.position.y))
+            if (Mathf.Abs(hit1.point.y - OriPoint.y) < Mathf.Abs(hit2.point.y - OriPoint.y))
             {
-                TopDis = Mathf.Abs(hit1.point.y - transform.position.y) - HitTopThreshold;
+                TopDis = Mathf.Abs(hit1.point.y - OriPoint.y) - HitTopThreshold;
                 Top = hit1.collider.gameObject;
             }
             else
             {
-                TopDis = Mathf.Abs(hit2.point.y - transform.position.y) - HitTopThreshold;
+                TopDis = Mathf.Abs(hit2.point.y - OriPoint.y) - HitTopThreshold;
                 Top = hit2.collider.gameObject;
             }
             
         }
         else if (hit1)
         {
-            TopDis = Mathf.Abs(hit1.point.y - transform.position.y) - HitTopThreshold;
+            TopDis = Mathf.Abs(hit1.point.y - OriPoint.y) - HitTopThreshold;
             Top = hit1.collider.gameObject;
         }
         else if (hit2)
         {
-            TopDis = Mathf.Abs(hit2.point.y - transform.position.y) - HitTopThreshold;
+            TopDis = Mathf.Abs(hit2.point.y - OriPoint.y) - HitTopThreshold;
             Top = hit2.collider.gameObject;
         }
         else
@@ -291,11 +277,6 @@ public class CharacterMove : MonoBehaviour
             TopDis = System.Int32.MaxValue;
             Top = null;
         }
-
-        /*if (gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Dashing)
-        {
-            Debug.Log(TopDis);
-        }*/
     }
 
     private void CheckTopHitting()
@@ -312,30 +293,30 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckLeftWallDis()
     {
-
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.down * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
+        Vector3 OriPoint = transform.position + (Vector3)BodyOffset;
+        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.up * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.down * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
         if (hit1 && hit2)
         {
-            if (Mathf.Abs(hit1.point.x - transform.position.x) < Mathf.Abs(hit2.point.x - transform.position.x))
+            if (Mathf.Abs(hit1.point.x - OriPoint.x) < Mathf.Abs(hit2.point.x - OriPoint.x))
             {
-                LeftWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+                LeftWallDis = Mathf.Abs(hit1.point.x - OriPoint.x) - HitWallThreshold;
                 LeftWall = hit1.collider.gameObject;
             }
             else
             {
-                LeftWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+                LeftWallDis = Mathf.Abs(hit2.point.x - OriPoint.x) - HitWallThreshold;
                 LeftWall = hit2.collider.gameObject;
             }
         }
         else if (hit1)
         {
-            LeftWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+            LeftWallDis = Mathf.Abs(hit1.point.x - OriPoint.x) - HitWallThreshold;
             LeftWall = hit1.collider.gameObject;
         }
         else if (hit2)
         {
-            LeftWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+            LeftWallDis = Mathf.Abs(hit2.point.x - OriPoint.x) - HitWallThreshold;
             LeftWall = hit2.collider.gameObject;
         }
         else
@@ -368,29 +349,30 @@ public class CharacterMove : MonoBehaviour
 
     public void CheckRightWallDis()
     {
-        RaycastHit2D hit1 = Physics2D.Raycast(transform.position + Vector3.up * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
-        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.down * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
+        Vector3 OriPoint = transform.position + (Vector3)BodyOffset;
+        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.up * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.down * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
         if (hit1 && hit2)
         {
-            if(Mathf.Abs(hit1.point.x - transform.position.x)< Mathf.Abs(hit2.point.x - transform.position.x))
+            if(Mathf.Abs(hit1.point.x - OriPoint.x)< Mathf.Abs(hit2.point.x - OriPoint.x))
             {
-                RightWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+                RightWallDis = Mathf.Abs(hit1.point.x - OriPoint.x) - HitWallThreshold;
                 RightWall = hit1.collider.gameObject;
             }
             else
             {
-                RightWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+                RightWallDis = Mathf.Abs(hit2.point.x - OriPoint.x) - HitWallThreshold;
                 RightWall = hit2.collider.gameObject;
             }
         }
         else if (hit1)
         {
-            RightWallDis = Mathf.Abs(hit1.point.x - transform.position.x) - HitWallThreshold;
+            RightWallDis = Mathf.Abs(hit1.point.x - OriPoint.x) - HitWallThreshold;
             RightWall = hit1.collider.gameObject;
         }
         else if (hit2)
         {
-            RightWallDis = Mathf.Abs(hit2.point.x - transform.position.x) - HitWallThreshold;
+            RightWallDis = Mathf.Abs(hit2.point.x - OriPoint.x) - HitWallThreshold;
             RightWall = hit2.collider.gameObject;
         }
         else

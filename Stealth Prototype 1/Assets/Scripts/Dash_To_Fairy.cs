@@ -108,6 +108,14 @@ public class Dash_To_Fairy : MonoBehaviour
         Vector2 direction = (Vector2)(Character_Manager.Fairy.transform.position - transform.position) + Character_Manager.Fairy.GetComponent<Float_Point>().DashOffset;
         direction.Normalize();
         Vector2 target = (Vector2)Character_Manager.Fairy.transform.position + Character_Manager.Fairy.GetComponent<Float_Point>().DashOffset;
+        if (direction.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
 
         while (true)
         {

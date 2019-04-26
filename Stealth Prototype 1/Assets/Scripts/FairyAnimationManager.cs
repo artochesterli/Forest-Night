@@ -49,7 +49,7 @@ public class FairyAnimationManager : MonoBehaviour
             }
             return;
         }
-        if ((state.status == FairyStatus.Normal || state.status == FairyStatus.Aiming) && CharacterMove.speed == Vector2.zero && CharacterMove.OnGround)
+        if ((state.status == FairyStatus.Normal || state.status == FairyStatus.Aiming) && CharacterMove.speed.x==0 && CharacterMove.OnGround)
         {
             if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyIdle"))
             {
@@ -95,7 +95,7 @@ public class FairyAnimationManager : MonoBehaviour
             }
         }
 
-        if(state.status == FairyStatus.Float)
+        if(state.status == FairyStatus.Float || state.status == FairyStatus.FloatPlatform)
         {
             if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyGlide"))
             {
@@ -104,14 +104,14 @@ public class FairyAnimationManager : MonoBehaviour
             return;
         }
 
-        if(state.status == FairyStatus.FloatPlatform)
+        /*if(state.status == FairyStatus.FloatPlatform)
         {
             if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyFloatPoint"))
             {
                 GetComponent<Animator>().Play("FairyFloatPoint" ,0 ,0);
             }
             return;
-        }
+        }*/
 
     }
 }
