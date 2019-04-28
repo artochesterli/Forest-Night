@@ -16,13 +16,18 @@ public class Character_Manager : MonoBehaviour
     {
         Main_Character = GameObject.Find("Main_Character").gameObject;
         Fairy = GameObject.Find("Fairy").gameObject;
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        EventManager.instance.AddHandler<EnterLevel>(OnEnterLevel);
     }
     // Start is called before the first frame update
     void Start()
     {
         
-        
+
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<EnterLevel>(OnEnterLevel);
     }
 
     // Update is called once per frame
@@ -49,24 +54,18 @@ public class Character_Manager : MonoBehaviour
         }
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnEnterLevel(EnterLevel E)
     {
-        if (scene.buildIndex == 0)
+        if (E.Level == 1)
         {
             Main_Character.GetComponent<Invisible>().enabled = false;
             Fairy.GetComponent<Invisible>().enabled = false;
             Fairy.GetComponent<ShootArrow>().enabled = false;
         }
-        else if(scene.buildIndex == 1)
+        else if(E.Level == 2)
         {
-            Main_Character.GetComponent<Invisible>().enabled = true;
-            Fairy.GetComponent<Invisible>().enabled = true;
-        }
-        else if (scene.buildIndex == 2)
-        {
-            Fairy.GetComponent<ShootArrow>().enabled = true;
+            Fairy.GetComponent<ShootArrow>().enabled = false;
         }
     }
-
 
 }

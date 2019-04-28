@@ -379,7 +379,7 @@ public class Enemy_Check : MonoBehaviour
                 var status = ob.GetComponent<Main_Character_Status_Manager>();
                 status.status = MainCharacterStatus.Aimed;
             }
-            float dis = (hit.point - StartPoint).magnitude;
+            float dis = (ob.transform.position - (Vector3)StartPoint).magnitude;
             CurrentLaserState = LaserState.HitCharacter;
             LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/LaserLine")));
             LaserLine_disappear_time_count = 0;

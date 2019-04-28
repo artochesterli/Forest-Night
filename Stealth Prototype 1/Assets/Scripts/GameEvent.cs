@@ -43,6 +43,14 @@ public class ExitMainHelpMenu : GameEvent { }
 public class EnterMainMenu : GameEvent { }
 public class ExitMainMenu : GameEvent { }
 
+public class EnterLevel : GameEvent
+{
+    public int Level;
+    public EnterLevel(int L)
+    {
+        Level = L;
+    }
+}
 
 
 public class ButtonClicked : GameEvent
