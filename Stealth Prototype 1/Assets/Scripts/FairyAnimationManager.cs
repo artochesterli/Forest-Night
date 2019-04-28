@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FairyAnimationManager : MonoBehaviour
 {
+    private const float MaxPlaySpeed = 1;
+    private const float SlowMovePlaySpeed = 0.6f;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +22,7 @@ public class FairyAnimationManager : MonoBehaviour
     {
         var state = GetComponent<Fairy_Status_Manager>();
         var CharacterMove = GetComponent<CharacterMove>();
-        GetComponent<Animator>().speed = 1;
+        GetComponent<Animator>().speed = MaxPlaySpeed;
         if (state.status == FairyStatus.Aimed)
         {
             
@@ -43,6 +45,10 @@ public class FairyAnimationManager : MonoBehaviour
 
         if ((state.status == FairyStatus.Normal||state.status==FairyStatus.Aiming) && CharacterMove.OnGround && Mathf.Abs(CharacterMove.speed.x) > 0)
         {
+            if (!GetComponent<FairyHorizontalMovement>().Fast)
+            {
+                GetComponent<Animator>().speed = SlowMovePlaySpeed;
+            }
             if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("FairyWalk"))
             {
                 GetComponent<Animator>().Play("FairyWalk" ,0 ,0);

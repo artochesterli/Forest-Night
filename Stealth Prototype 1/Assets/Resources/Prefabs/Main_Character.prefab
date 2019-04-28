@@ -537,7 +537,6 @@ GameObject:
   - component: {fileID: 2976651962471586682}
   - component: {fileID: 2976651962471586677}
   - component: {fileID: 6230072628315609938}
-  - component: {fileID: 2976651962471586679}
   - component: {fileID: 2976651962471586673}
   - component: {fileID: 2976651962471586672}
   - component: {fileID: 2976651962471586674}
@@ -554,6 +553,8 @@ GameObject:
   - component: {fileID: 3805580829116208626}
   - component: {fileID: 1055234573}
   - component: {fileID: 1055234574}
+  - component: {fileID: 1901548788}
+  - component: {fileID: 1901548810}
   m_Layer: 9
   m_Name: Main_Character
   m_TagString: Main_Character
@@ -674,20 +675,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 1.13}
   m_EdgeRadius: 0
---- !u!114 &2976651962471586679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2976651962471586699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 583afec6aac6e5144828ca49eadd7d36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HorizontalSpeed: 3
-  AirAcceleration: 12
 --- !u!114 &2976651962471586673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,6 +920,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e420792bdc066a439fc59c0389a186b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1901548788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9fa3de4c1d544a4bb62a11c544a55fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1901548810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b84ec1db06240ec47a52a457273dc79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HorizontalSpeed: 3
+  AirAcceleration: 12
 --- !u!1 &5174943617219690175
 GameObject:
   m_ObjectHideFlags: 0

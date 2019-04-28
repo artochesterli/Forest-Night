@@ -3,14 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class Character_Horizontal_Movement : MonoBehaviour
+public class FairyHorizontalMovement : MonoBehaviour
 {
-    public float HorizontalSpeed;
+    public bool Fast;
+
+    public float FastHorizontalSpeed;
+    public float SlowHorizontalSpeed;
+
     public float AirAcceleration;
 
     private Player player;
 
-    private const float moveVectorThreshold = 0.3f;
+    private const float FastMoveVectorThreshold = 0.8f;
+    private const float SlowMoveVectorThreshold = 0.3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,22 +26,10 @@ public class Character_Horizontal_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.CompareTag("Fairy"))
+        var Fairy_Status = GetComponent<Fairy_Status_Manager>();
+        if (Fairy_Status.status != FairyStatus.Climbing && Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Transporting && Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status != FairyStatus.KnockBack)
         {
-            var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status != FairyStatus.Climbing&&Fairy_Status.status!=FairyStatus.FloatPlatform&&Fairy_Status.status!=FairyStatus.Transporting&&Fairy_Status.status!=FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack)
-            {
-                check_input();
-            }
-        }
-        else if(gameObject.CompareTag("Main_Character"))
-        {
-            var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-            if (Main_Character_Status.status == MainCharacterStatus.Normal || Main_Character_Status.status==MainCharacterStatus.OverDash)
-            {
-                check_input();
-            }
-            
+            check_input();
         }
     }
 
@@ -45,29 +38,46 @@ public class Character_Horizontal_Movement : MonoBehaviour
         var check_horizontal_collider = GetComponent<CheckHorizontalCollider>();
         var CharacterMove = GetComponent<CharacterMove>();
 
-        Vector3 moveVector=Vector3.zero;
+        Vector3 moveVector = Vector3.zero;
         moveVector.x = player.GetAxis("Left Stick X");
-        if (Mathf.Abs(moveVector.x) < moveVectorThreshold)
+        float CurrentMaxSpeed;
+        float CurrentAirAceleration;
+
+        if (Mathf.Abs(moveVector.x) < SlowMoveVectorThreshold)
         {
+            CurrentMaxSpeed = 0;
+            CurrentAirAceleration = 0;
             moveVector.x = 0;
+            Fast = false;
+        }
+        else if(Mathf.Abs(moveVector.x) < FastMoveVectorThreshold)
+        {
+            CurrentMaxSpeed = SlowHorizontalSpeed;
+            CurrentAirAceleration = AirAcceleration;
+            moveVector.Normalize();
+            Fast = false;
         }
         else
         {
+            CurrentMaxSpeed = FastHorizontalSpeed;
+            CurrentAirAceleration = AirAcceleration;
             moveVector.Normalize();
+            Fast = true;
         }
 
+        
 
-        if (Mathf.Abs(moveVector.x) > 0 && (!(CharacterMove.HitLeftWall && CharacterMove.HitRightWall) || moveVector.x > 0 && !CharacterMove.HitRightWall|| moveVector.x < 0 && !CharacterMove.HitLeftWall))
+        if ( moveVector.x > 0 && !CharacterMove.HitRightWall || moveVector.x < 0 && !CharacterMove.HitLeftWall)
         {
             if (CharacterMove.OnGround)
             {
                 if (moveVector.x > 0)
                 {
-                    CharacterMove.speed.x = HorizontalSpeed;
+                    CharacterMove.speed.x = CurrentMaxSpeed;
                 }
                 else
                 {
-                    CharacterMove.speed.x = -HorizontalSpeed;
+                    CharacterMove.speed.x = -CurrentMaxSpeed;
                 }
 
             }
@@ -79,10 +89,10 @@ public class Character_Horizontal_Movement : MonoBehaviour
                     {
                         CharacterMove.speed.x = 0;
                     }
-                    CharacterMove.speed.x += AirAcceleration * Time.deltaTime;
-                    if (CharacterMove.speed.x > HorizontalSpeed)
+                    CharacterMove.speed.x += CurrentAirAceleration * Time.deltaTime;
+                    if (CharacterMove.speed.x > CurrentMaxSpeed)
                     {
-                        CharacterMove.speed.x = HorizontalSpeed;
+                        CharacterMove.speed.x = CurrentMaxSpeed;
                     }
                 }
                 else
@@ -91,16 +101,16 @@ public class Character_Horizontal_Movement : MonoBehaviour
                     {
                         CharacterMove.speed.x = 0;
                     }
-                    CharacterMove.speed.x -= AirAcceleration * Time.deltaTime;
-                    if (CharacterMove.speed.x < -HorizontalSpeed)
+                    CharacterMove.speed.x -= CurrentAirAceleration * Time.deltaTime;
+                    if (CharacterMove.speed.x < -CurrentMaxSpeed)
                     {
-                        CharacterMove.speed.x = -HorizontalSpeed;
+                        CharacterMove.speed.x = -CurrentMaxSpeed;
                     }
                 }
 
             }
 
-            if (!(gameObject.CompareTag("Fairy") && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aiming))
+            if (GetComponent<Fairy_Status_Manager>().status != FairyStatus.Aiming)
             {
                 if (moveVector.x > 0)
                 {

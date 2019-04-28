@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class Character_Horizontal_Movement : MonoBehaviour
+public class MainCharacterHorizontalMovement : MonoBehaviour
 {
     public float HorizontalSpeed;
     public float AirAcceleration;
@@ -21,32 +21,20 @@ public class Character_Horizontal_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.CompareTag("Fairy"))
+        var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
+        if (Main_Character_Status.status == MainCharacterStatus.Normal || Main_Character_Status.status == MainCharacterStatus.OverDash)
         {
-            var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status != FairyStatus.Climbing&&Fairy_Status.status!=FairyStatus.FloatPlatform&&Fairy_Status.status!=FairyStatus.Transporting&&Fairy_Status.status!=FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack)
-            {
-                check_input();
-            }
-        }
-        else if(gameObject.CompareTag("Main_Character"))
-        {
-            var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-            if (Main_Character_Status.status == MainCharacterStatus.Normal || Main_Character_Status.status==MainCharacterStatus.OverDash)
-            {
-                check_input();
-            }
-            
+            check_input();
         }
     }
 
     private void check_input()
     {
-        var check_horizontal_collider = GetComponent<CheckHorizontalCollider>();
         var CharacterMove = GetComponent<CharacterMove>();
 
-        Vector3 moveVector=Vector3.zero;
+        Vector3 moveVector = Vector3.zero;
         moveVector.x = player.GetAxis("Left Stick X");
+
         if (Mathf.Abs(moveVector.x) < moveVectorThreshold)
         {
             moveVector.x = 0;
@@ -57,7 +45,7 @@ public class Character_Horizontal_Movement : MonoBehaviour
         }
 
 
-        if (Mathf.Abs(moveVector.x) > 0 && (!(CharacterMove.HitLeftWall && CharacterMove.HitRightWall) || moveVector.x > 0 && !CharacterMove.HitRightWall|| moveVector.x < 0 && !CharacterMove.HitLeftWall))
+        if (moveVector.x > 0 && !CharacterMove.HitRightWall || moveVector.x < 0 && !CharacterMove.HitLeftWall)
         {
             if (CharacterMove.OnGround)
             {
@@ -97,21 +85,17 @@ public class Character_Horizontal_Movement : MonoBehaviour
                         CharacterMove.speed.x = -HorizontalSpeed;
                     }
                 }
-
             }
 
-            if (!(gameObject.CompareTag("Fairy") && GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aiming))
+            if (moveVector.x > 0)
             {
-                if (moveVector.x > 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-                }
-                else if (moveVector.x < 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
-                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-                }
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (moveVector.x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
             }
         }
         else
