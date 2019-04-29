@@ -16,7 +16,8 @@ public class ObjectsMenuManager : MonoBehaviour
     public Sprite PlatformImage;
     public Sprite MirrorImage;
 
-    public float ImageFlipTime;
+    public float ImageMoveTime;
+    public Vector2 ImagePos;
 
     private Dictionary<int, Sprite> IndexToSprite;
     private Dictionary<int, GameObject> IndexToButton;
@@ -24,9 +25,9 @@ public class ObjectsMenuManager : MonoBehaviour
 
     private bool Active;
 
-    private bool AtFront;
-    private bool ToNext;
     private float RotationAngle;
+
+    private const float height = 1080;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,7 +42,6 @@ public class ObjectsMenuManager : MonoBehaviour
         IndexToSprite.Add(2, MirrorImage);
         SelectedMenu = 0;
 
-        AtFront = true;
         RotationAngle = 0;
         BackObjectsImage.transform.rotation = Quaternion.Euler(0, RotationAngle + 180, 0);
         ObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
@@ -94,7 +94,7 @@ public class ObjectsMenuManager : MonoBehaviour
                 }
                 SelectedMenu = (SelectedMenu - 1) % IndexToButton.Count;
 
-                SetFlip(true);
+                MoveImage(true);
                 
                 return;
             }
@@ -103,7 +103,7 @@ public class ObjectsMenuManager : MonoBehaviour
             {
                 SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
 
-                SetFlip(false);
+                MoveImage(false);
 
                 return;
             }
@@ -119,14 +119,9 @@ public class ObjectsMenuManager : MonoBehaviour
     private void OnEnterObjectsMenu(EnterObjectsMenu E)
     {
         Active = true;
-        if (AtFront)
-        {
-            ObjectsImage.GetComponent<Image>().color = Color.white;
-        }
-        else
-        {
-            BackObjectsImage.GetComponent<Image>().color = Color.white;
-        }
+        ObjectsImage.GetComponent<Image>().color = Color.white;
+        BackObjectsImage.GetComponent<Image>().color = Color.white;
+        BackObjectsImage.GetComponent<RectTransform>().anchoredPosition = ObjectsImage.GetComponent<RectTransform>().anchoredPosition + Vector2.up * height;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -144,98 +139,47 @@ public class ObjectsMenuManager : MonoBehaviour
         }
     }
 
-    private void SetFlip(bool up)
+    private void MoveImage(bool up)
     {
-        AtFront = !AtFront;
-        if (!AtFront)
+
+        ObjectsImage.GetComponent<Image>().sprite = ObjectsImage.GetComponent<Image>().sprite;
+        ObjectsImage.GetComponent<RectTransform>().anchoredPosition = ImagePos;
+        if (up)
         {
-            RotationAngle = 0;
+            BackObjectsImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + Vector2.down * height;
         }
         else
         {
-            if (up)
-            {
-                RotationAngle = -180;
-            }
-            else
-            {
-                RotationAngle = 180;
-            }
+            BackObjectsImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + Vector2.up * height;
         }
+        BackObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
+
         StopAllCoroutines();
-        StartCoroutine(Flip(false));
-        if (AtFront)
-        {
-            ObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-        }
-        else
-        {
-            BackObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-        }
+        StartCoroutine(Move(up));
     }
 
-    private IEnumerator Flip(bool AngleMinus)
+    private IEnumerator Move(bool up)
     {
         float timecount = 0;
-        while (timecount < ImageFlipTime)
+        float Speed = height / ImageMoveTime;
+        Vector2 direction;
+        if (up)
         {
-            if (AngleMinus)
-            {
-                RotationAngle -= 180 / ImageFlipTime * Time.deltaTime;
-                if (AtFront)
-                {
-                    if (RotationAngle < 90)
-                    {
-                        ObjectsImage.GetComponent<Image>().color = Color.white;
-                        BackObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-                    }
-                }
-                else
-                {
-                    if (RotationAngle < -90)
-                    {
-                        BackObjectsImage.GetComponent<Image>().color = Color.white;
-                        ObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-                    }
-                }
-            }
-            else
-            {
-                RotationAngle += 180 / ImageFlipTime * Time.deltaTime;
-                if (AtFront)
-                {
-                    if (RotationAngle > -90)
-                    {
-                        ObjectsImage.GetComponent<Image>().color = Color.white;
-                        BackObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-                    }
-                }
-                else
-                {
-                    if (RotationAngle > 90)
-                    {
-                        BackObjectsImage.GetComponent<Image>().color = Color.white;
-                        ObjectsImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-                    }
-                }
-            }
+            direction = Vector2.up;
+        }
+        else
+        {
+            direction = Vector2.down;
+        }
+        while (timecount < ImageMoveTime)
+        {
+            ObjectsImage.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(ImagePos, ImagePos + direction * height, timecount / ImageMoveTime);
+            BackObjectsImage.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(ImagePos - direction * height, ImagePos, timecount / ImageMoveTime);
             timecount += Time.deltaTime;
             yield return null;
         }
-        if (AtFront)
-        {
-            RotationAngle = 0;
-        }
-        else
-        {
-            if (AngleMinus)
-            {
-                RotationAngle = -180;
-            }
-            else
-            {
-                RotationAngle = 180;
-            }
-        }
+        ObjectsImage.GetComponent<Image>().sprite = BackObjectsImage.GetComponent<Image>().sprite;
+        ObjectsImage.GetComponent<RectTransform>().anchoredPosition = ImagePos;
+        BackObjectsImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + direction * height;
     }
 }
