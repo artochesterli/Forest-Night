@@ -199,6 +199,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fairy
       objectReference: {fileID: 0}
+    - target: {fileID: 3436912808128966255, guid: ba420d28e57a3384dbd93fdba2049f41,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3436912808128966271, guid: ba420d28e57a3384dbd93fdba2049f41,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16889,7 +16894,7 @@ PrefabInstance:
     - target: {fileID: 1689544796535054643, guid: 9c5b4c63337111a47aeb9ce329f9322f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.25
+      value: 27.5
       objectReference: {fileID: 0}
     - target: {fileID: 1689544796535054643, guid: 9c5b4c63337111a47aeb9ce329f9322f,
         type: 3}
@@ -17153,7 +17158,7 @@ PrefabInstance:
     - target: {fileID: 2145066527511236819, guid: 83d7bac5d1885564c96ab2a2ca9c1d02,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.99
+      value: 19.1
       objectReference: {fileID: 0}
     - target: {fileID: 2145066527511236819, guid: 83d7bac5d1885564c96ab2a2ca9c1d02,
         type: 3}
@@ -17577,7 +17582,7 @@ PrefabInstance:
     - target: {fileID: 5543474635266778232, guid: 611523302503ed8489671f1397d85008,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.21
       objectReference: {fileID: 0}
     - target: {fileID: 5543474635266778232, guid: 611523302503ed8489671f1397d85008,
         type: 3}
