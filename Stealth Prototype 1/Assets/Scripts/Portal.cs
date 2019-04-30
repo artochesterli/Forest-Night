@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Portal : MonoBehaviour
 {
-    public int connected_scene;
+    public int ConnectedLevel;
     public float ActivateDis;
     public Color ActivateColor;
 
@@ -51,7 +51,7 @@ public class Portal : MonoBehaviour
         
 
         yield return new WaitForSeconds(LoadSceneTime);
-        SceneManager.LoadScene(connected_scene);
+        SceneManager.LoadScene("Level "+ConnectedLevel.ToString());
     }
 
 }

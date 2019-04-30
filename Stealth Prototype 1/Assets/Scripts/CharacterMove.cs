@@ -50,11 +50,13 @@ public class CharacterMove : MonoBehaviour
         layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("UI");
         layermask = ~layermask;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+        EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
+        EventManager.instance.RemoveHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
     }
 
     // Update is called once per frame
@@ -478,5 +480,14 @@ public class CharacterMove : MonoBehaviour
         speed = Vector2.zero;
         DashSpeed = Vector2.zero;
         PlatformSpeed = Vector2.zero;
+    }
+
+    private void OnHitSpineEdge(CharacterHitSpineEdge C)
+    {
+        if (C.Character == gameObject)
+        {
+            speed.x = GetComponent<KnockBack>().KnockBackSpeed.x * C.Spine.GetComponent<KnockBackSpine>().KnockBackDirection.x;
+            speed.y = GetComponent<KnockBack>().KnockBackSpeed.y * C.Spine.GetComponent<KnockBackSpine>().KnockBackDirection.y;
+        }
     }
 }

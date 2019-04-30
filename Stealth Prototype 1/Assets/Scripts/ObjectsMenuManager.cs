@@ -25,8 +25,6 @@ public class ObjectsMenuManager : MonoBehaviour
 
     private bool Active;
 
-    private float RotationAngle;
-
     private const float height = 1080;
     // Start is called before the first frame update
     void Start()
@@ -42,9 +40,8 @@ public class ObjectsMenuManager : MonoBehaviour
         IndexToSprite.Add(2, MirrorImage);
         SelectedMenu = 0;
 
-        RotationAngle = 0;
-        BackObjectsImage.transform.rotation = Quaternion.Euler(0, RotationAngle + 180, 0);
         ObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
+        BackObjectsImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
 
         EventManager.instance.AddHandler<EnterObjectsMenu>(OnEnterObjectsMenu);
         EventManager.instance.AddHandler<ExitObjectsMenu>(OnExitObjectsMenu);
@@ -60,8 +57,6 @@ public class ObjectsMenuManager : MonoBehaviour
     {
         SetMenuState();
         CheckInput();
-        ObjectsImage.transform.rotation = Quaternion.Euler(0, RotationAngle, 0);
-        BackObjectsImage.transform.rotation = Quaternion.Euler(0, RotationAngle + 180, 0);
     }
 
     private void SetMenuState()

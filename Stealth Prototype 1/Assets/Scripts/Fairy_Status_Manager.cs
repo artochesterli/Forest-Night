@@ -108,6 +108,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     {
         if (C.Character == gameObject)
         {
+            status = FairyStatus.KnockBack;
             player.SetVibration(1, KnockBackVibration, KnockBackVibrationTime);
         }
     }
