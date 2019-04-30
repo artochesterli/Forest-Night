@@ -16,9 +16,11 @@ public class CharacterDied : GameEvent
 public class CharacterHitSpineEdge : GameEvent
 {
     public GameObject Character;
-    public CharacterHitSpineEdge(GameObject C)
+    public GameObject Spine;
+    public CharacterHitSpineEdge(GameObject C, GameObject S)
     {
         Character = C;
+        Spine = S;
     }
 }
 

@@ -29,8 +29,6 @@ public class AbilitiesMenuManager : MonoBehaviour
 
     private bool Active;
 
-    private float RotationAngle;
-
     private const float height = 1080;
     // Start is called before the first frame update
     void Start()
@@ -51,9 +49,8 @@ public class AbilitiesMenuManager : MonoBehaviour
 
         SelectedMenu = 0;
 
-        RotationAngle = 0;
-        BackAbilityImage.transform.rotation = Quaternion.Euler(0, RotationAngle + 180, 0);
         AbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
+        BackAbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
 
         EventManager.instance.AddHandler<EnterAbilitiesMenu>(OnEnterAbilitiesMenu);
         EventManager.instance.AddHandler<ExitAbilitiesMenu>(OnExitAbilitiesMenu);
@@ -70,8 +67,6 @@ public class AbilitiesMenuManager : MonoBehaviour
     {
         SetMenuState();
         CheckInput();
-        AbilityImage.transform.rotation = Quaternion.Euler(0, RotationAngle, 0);
-        BackAbilityImage.transform.rotation = Quaternion.Euler(0, RotationAngle + 180, 0);
     }
 
     private void SetMenuState()

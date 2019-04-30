@@ -14,11 +14,13 @@ public class KnockBack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
 
     private void OnDestroy()
     {
+        EventManager.instance.RemoveHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
         EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
@@ -107,6 +109,15 @@ public class KnockBack : MonoBehaviour
         FreeHeight = 0;
         LeaveGround = false;
         Grounded = false;
+    }
+
+    private void OnHitSpineEdge(CharacterHitSpineEdge C)
+    {
+        if (C.Character == gameObject)
+        {
+            KnockBackDirection = C.Spine.GetComponent<KnockBackSpine>().KnockBackDirection;
+            FreeHeight = C.Spine.GetComponent<KnockBackSpine>().FreeHeightOffset + transform.position.y;
+        }
     }
 
 }

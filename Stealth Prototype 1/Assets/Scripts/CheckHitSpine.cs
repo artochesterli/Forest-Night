@@ -34,20 +34,7 @@ public class CheckHitSpine : MonoBehaviour
             }
             else if (Spine.CompareTag("SpineKnockBack"))
             {
-                EventManager.instance.Fire(new CharacterHitSpineEdge(gameObject));
-                GetComponent<KnockBack>().KnockBackDirection = Spine.GetComponent<KnockBackSpine>().KnockBackDirection;
-                GetComponent<KnockBack>().FreeHeight = Spine.GetComponent<KnockBackSpine>().FreeHeightOffset + transform.position.y;
-                if (CompareTag("Fairy"))
-                {
-                    GetComponent<Fairy_Status_Manager>().status = FairyStatus.KnockBack;
-                }
-                else if (CompareTag("Main_Character"))
-                {
-                    GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.KnockBack;
-                }
-                GetComponent<CharacterMove>().speed.x = GetComponent<KnockBack>().KnockBackSpeed.x * Spine.GetComponent<KnockBackSpine>().KnockBackDirection.x;
-                GetComponent<CharacterMove>().speed.y = GetComponent<KnockBack>().KnockBackSpeed.y * Spine.GetComponent<KnockBackSpine>().KnockBackDirection.y;
-                
+                EventManager.instance.Fire(new CharacterHitSpineEdge(gameObject,Spine));
             }
         }
     }

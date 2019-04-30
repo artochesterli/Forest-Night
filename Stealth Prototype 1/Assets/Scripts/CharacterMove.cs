@@ -479,4 +479,13 @@ public class CharacterMove : MonoBehaviour
         DashSpeed = Vector2.zero;
         PlatformSpeed = Vector2.zero;
     }
+
+    private void OnHitSpineEdge(CharacterHitSpineEdge C)
+    {
+        if (C.Character == gameObject)
+        {
+            speed.x = GetComponent<KnockBack>().KnockBackSpeed.x * C.Spine.GetComponent<KnockBackSpine>().KnockBackDirection.x;
+            speed.y = GetComponent<KnockBack>().KnockBackSpeed.y * C.Spine.GetComponent<KnockBackSpine>().KnockBackDirection.y;
+        }
+    }
 }

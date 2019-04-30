@@ -89,6 +89,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
     {
         if (C.Character == gameObject)
         {
+            status = MainCharacterStatus.KnockBack;
             player.SetVibration(0, KnockBackVibration, KnockBackVibrationTime);
         }
     }
