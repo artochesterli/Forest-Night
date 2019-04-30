@@ -86,7 +86,7 @@ public class Enemy_Check : MonoBehaviour
     private void Find_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger") | 1<< LayerMask.NameToLayer("Path");
+        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger")| 1<<LayerMask.NameToLayer("Enemy")| 1<<LayerMask.NameToLayer("Invisible_Object") | 1<<LayerMask.NameToLayer("Portal") | 1<< LayerMask.NameToLayer("PlatformTotemTrigger") | 1<< LayerMask.NameToLayer("Path") | 1<<LayerMask.NameToLayer("Slash");
         if (Enemy_Status.status == EnemyStatus.ShootCharacter)
         {
             if (detected_character.CompareTag("Main_Character"))
@@ -290,7 +290,7 @@ public class Enemy_Check : MonoBehaviour
 
     private void GenerateLaserLine(Vector2 direction, Vector2 StartPoint)
     {
-        int layermask = 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("PlatformTotemTrigger");
+        int layermask = 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("PlatformTotemTrigger") | 1<< LayerMask.NameToLayer("Path") | 1<<LayerMask.NameToLayer("Slash");
         if (CurrentLaserState == LaserState.HitCharacter)
         {
             if (detected_character.CompareTag("Fairy"))

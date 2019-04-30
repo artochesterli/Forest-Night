@@ -14,7 +14,7 @@ public class FairyHorizontalMovement : MonoBehaviour
 
     private Player player;
 
-    private const float FastMoveVectorThreshold = 0.8f;
+    private const float FastMoveVectorThreshold = 1f;
     private const float SlowMoveVectorThreshold = 0.3f;
     // Start is called before the first frame update
     void Start()

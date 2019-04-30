@@ -42,7 +42,7 @@ public class Character_Climb : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Status = GetComponent<Fairy_Status_Manager>();
-            if ((Status.status==FairyStatus.Normal||Status.status==FairyStatus.Aiming || Status.status==FairyStatus.Climbing) && !PathEndThrough)
+            if ((Status.status==FairyStatus.Normal||Status.status==FairyStatus.Aiming || Status.status==FairyStatus.Float || Status.status==FairyStatus.Climbing) && !PathEndThrough)
             {
                 Check_Input();
             }

@@ -38,7 +38,7 @@ TagManager:
   - Enemy
   - Arrow
   - Invisible_Object
-  - Bullet
+  - Slash
   - Totem
   - Path
   - Gem
