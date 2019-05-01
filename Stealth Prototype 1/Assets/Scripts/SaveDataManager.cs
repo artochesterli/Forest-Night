@@ -10,8 +10,7 @@ public class Data
 {
     public int CurrentLevel;
 }
-
-public class PlayerData : MonoBehaviour
+public class SaveDataManager : MonoBehaviour
 {
     public Data data;
 
@@ -28,7 +27,7 @@ public class PlayerData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     private void OnDestroy()
@@ -39,7 +38,7 @@ public class PlayerData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnEnterLevel(EnterLevel E)
@@ -73,14 +72,14 @@ public class PlayerData : MonoBehaviour
     private void SaveData()
     {
         string FolderPath = Path.Combine(Application.dataPath, FolderName);
-        string DataPath = Path.Combine(FolderPath, FileName+Extension);
+        string DataPath = Path.Combine(FolderPath, FileName + Extension);
         FileStream fileStream = File.Open(DataPath, FileMode.Create);
         BinaryFormatter binaryFormatter = new BinaryFormatter();
         binaryFormatter.Serialize(fileStream, data);
         fileStream.Close();
     }
 
-    private Data LoadData()
+    public static Data LoadData()
     {
         string FolderPath = Path.Combine(Application.dataPath, FolderName);
         string DataPath = Path.Combine(FolderPath, FileName + Extension);
