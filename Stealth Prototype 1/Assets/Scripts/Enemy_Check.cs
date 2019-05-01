@@ -152,7 +152,7 @@ public class Enemy_Check : MonoBehaviour
                     }
                 }
             }
-            if(hit && hit.collider.gameObject.CompareTag("Arrow") && hit.collider.gameObject.GetComponent<Arrow>().emit)
+            if(hit && hit.collider.gameObject.CompareTag("Arrow") && hit.collider.gameObject.GetComponent<Arrow>().Emited)
             {
                 if (Enemy_Status.status != EnemyStatus.ShootCharacter)
                 {
@@ -161,7 +161,7 @@ public class Enemy_Check : MonoBehaviour
                     {
                         Enemy_Status.status = EnemyStatus.ShootStar;
                         detected_star = hit_collider;
-                        detected_star.GetComponent<Arrow>().Aimed = true;
+                        detected_star.GetComponent<Arrow>().speed = 0;
                     }
                     return;
                 }

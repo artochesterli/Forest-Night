@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Rewired;
 
 public class AbilitiesMenuManager : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class AbilitiesMenuManager : MonoBehaviour
     public float ImageMoveTime;
     public Vector2 ImagePos;
 
+    private Player MainCharacterPlayer;
+    private Player FairyPlayer;
     private Dictionary<int, Sprite> IndexToSprite;
     private Dictionary<int, GameObject> IndexToButton;
     private int SelectedMenu;
@@ -33,6 +36,8 @@ public class AbilitiesMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MainCharacterPlayer = ReInput.players.GetPlayer(0);
+        FairyPlayer = ReInput.players.GetPlayer(1);
         IndexToButton = new Dictionary<int, GameObject>();
         IndexToButton.Add(0, SlashButton);
         IndexToButton.Add(1, GlideButton);
@@ -94,6 +99,7 @@ public class AbilitiesMenuManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                GetComponents<AudioSource>()[1].Play();
                 if (SelectedMenu - 1 < 0)
                 {
                     SelectedMenu += IndexToButton.Count;
@@ -106,6 +112,7 @@ public class AbilitiesMenuManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
+                GetComponents<AudioSource>()[1].Play();
                 SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
                 MoveImage(false);
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
+using Rewired;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class MainMenuManager : MonoBehaviour
     public GameObject OptionButton;
     public GameObject ExitButton;
 
+    private Player MainCharacterPlayer;
+    private Player FairyPlayer;
     private Dictionary<int, GameObject> IndexToButton;
     private int SelectedMenu;
 
@@ -27,6 +30,8 @@ public class MainMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MainCharacterPlayer = ReInput.players.GetPlayer(0);
+        FairyPlayer = ReInput.players.GetPlayer(1);
         Active = true;
         
         EventManager.instance.AddHandler<EnterMainMenu>(OnEnterMainMenu);
@@ -54,6 +59,7 @@ public class MainMenuManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                GetComponents<AudioSource>()[1].Play();
                 if (SelectedMenu - 1 < 0)
                 {
                     SelectedMenu += IndexToButton.Count;
@@ -64,6 +70,7 @@ public class MainMenuManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
+                GetComponents<AudioSource>()[1].Play();
                 SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
                 return;
             }
@@ -71,6 +78,7 @@ public class MainMenuManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 EventManager.instance.Fire(new ButtonClicked(IndexToButton[SelectedMenu]));
+                GetComponents<AudioSource>()[0].Play();
             }
 
         }

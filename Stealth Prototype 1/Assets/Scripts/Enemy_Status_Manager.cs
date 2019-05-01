@@ -90,5 +90,20 @@ public class Enemy_Status_Manager : MonoBehaviour
         status = EnemyStatus.Patrol;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject ob = collision.GetComponent<Collider2D>().gameObject;
 
+        if (ob.CompareTag("Slash"))
+        {
+            Instantiate(Resources.Load("Prefabs/VFX/EnemyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
+            Destroy(gameObject);
+        }
+
+        if (ob.CompareTag("Arrow"))
+        {
+            GetComponent<Enemy_Check>().stun_time_count = 0;
+            status = EnemyStatus.Stunned;
+        }
+    }
 }

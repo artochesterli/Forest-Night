@@ -48,6 +48,7 @@ public class Slash : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S)||player.GetButtonDown("X")&&!Slashing)
         {
             Slashing = true;
+            Weapon.GetComponent<AudioSource>().Play();
             Weapon.GetComponent<SpriteRenderer>().enabled = true;
             Weapon.GetComponent<Animator>().enabled = true;
             Weapon.GetComponent<Animator>().Play("SlashEffect" ,0 ,0);

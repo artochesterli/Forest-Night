@@ -15,7 +15,7 @@ public class ShootArrow : MonoBehaviour
     private bool Charging;
 
     private const float Velocity_Charge_Speed = 10;
-    private const float Aim_offset = 1;
+    private const float Aim_offset = 0.8f;
     private const float mirroBounceStartPointOffset = 0.05f;
     private const float AimLineUnitPerMeter = 2;
 
@@ -37,11 +37,13 @@ public class ShootArrow : MonoBehaviour
         Aim_Line = new List<GameObject>();
         direction = transform.right;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+        EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
+        EventManager.instance.RemoveHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
     }
 
     // Update is called once per frame
@@ -73,7 +75,6 @@ public class ShootArrow : MonoBehaviour
                     direction.x = -direction.x;
                 }
                 Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
-                Connected_Arrow.transform.localScale = Vector3.zero;
                 ClearAimLine();
                 CreateAimLIne(direction, Connected_Arrow.transform.position);
             }
@@ -91,11 +92,8 @@ public class ShootArrow : MonoBehaviour
             {
                 if (ChargingTimeCount > ChargingTime)
                 {
-                    Connected_Arrow.transform.localScale = Vector3.one;
-                    Connected_Arrow.GetComponent<Renderer>().material = Resources.Load("Material/Additive", typeof(Material)) as Material;
                     Charging = false;
                 }
-                Connected_Arrow.transform.localScale = Vector3.one * ChargingTimeCount / ChargingTime;
                 ChargingTimeCount += Time.deltaTime;
             }
 
@@ -150,7 +148,7 @@ public class ShootArrow : MonoBehaviour
                 if (!Charging)
                 {
                     Connected_Arrow.GetComponent<Arrow>().direction = direction;
-                    Connected_Arrow.GetComponent<Arrow>().emit = true;
+                    Connected_Arrow.GetComponent<Arrow>().Emited = true;
                     Connected_Arrow.transform.parent = null;
                     Connected_Arrow = null;
                 }
@@ -231,5 +229,14 @@ public class ShootArrow : MonoBehaviour
     {
         ChargingTimeCount = 0;
         Destroy(Connected_Arrow);
+    }
+
+    private void OnHitSpineEdge(CharacterHitSpineEdge C)
+    {
+        if (C.Character == gameObject)
+        {
+            ClearAimLine();
+            Destroy(Connected_Arrow);
+        }
     }
 }

@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
 public class MainHelpMenuManager : MonoBehaviour
 {
     public GameObject AbilitiesButton;
     public GameObject ObjectsButton;
     public GameObject ControlButton;
-    
+
+    private Player MainCharacterPlayer;
+    private Player FairyPlayer;
     private Dictionary<int, GameObject> IndexToButton;
     private int SelectedMenu;
 
@@ -17,6 +20,8 @@ public class MainHelpMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        MainCharacterPlayer = ReInput.players.GetPlayer(0);
+        FairyPlayer = ReInput.players.GetPlayer(1);
         IndexToButton = new Dictionary<int, GameObject>();
         IndexToButton.Add(0, AbilitiesButton);
         IndexToButton.Add(1, ObjectsButton);
@@ -25,7 +30,6 @@ public class MainHelpMenuManager : MonoBehaviour
 
         EventManager.instance.AddHandler<EnterMainHelpMenu>(OnEnterMainHelpMenu);
         EventManager.instance.AddHandler<ExitMainHelpMenu>(OnExitMainHelpMenu);
-        
     }
 
     private void OnDestroy()
@@ -65,6 +69,7 @@ public class MainHelpMenuManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
+                GetComponents<AudioSource>()[1].Play();
                 if (SelectedMenu - 1 < 0)
                 {
                     SelectedMenu += IndexToButton.Count;
@@ -75,12 +80,14 @@ public class MainHelpMenuManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
+                GetComponents<AudioSource>()[1].Play();
                 SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
                 return;
             }
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                GetComponents<AudioSource>()[0].Play();
                 EventManager.instance.Fire(new ButtonClicked(IndexToButton[SelectedMenu]));
                 return;
             }
