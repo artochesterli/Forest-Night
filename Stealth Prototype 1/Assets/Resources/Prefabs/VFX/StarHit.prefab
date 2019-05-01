@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2123185274316298897}
   - component: {fileID: 2123185274298002263}
   - component: {fileID: 2123185274298012397}
+  - component: {fileID: 8099461559891840075}
   m_Layer: 0
   m_Name: StarHit
   m_TagString: Untagged
@@ -4784,6 +4785,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8099461559891840075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2123185274316004971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b14fcb2377282e044a91ecd34796e506, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2123185274316052597
 GameObject:
   m_ObjectHideFlags: 0
