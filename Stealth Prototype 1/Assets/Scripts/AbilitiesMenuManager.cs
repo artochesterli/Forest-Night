@@ -6,30 +6,9 @@ using Rewired;
 
 public class AbilitiesMenuManager : MonoBehaviour
 {
-    public GameObject AbilityImage;
-    public GameObject BackAbilityImage;
-
-    public GameObject SlashButton;
-    public GameObject GlideButton;
-    public GameObject ShootButton;
-    public GameObject SuperDashButton;
-    public GameObject FadeButton;
-
-    public Sprite SlashImage;
-    public Sprite GlideImage;
-    public Sprite ShootImage;
-    public Sprite SuperDashImage;
-    public Sprite FadeImage;
-
-    public float ImageMoveTime;
-    public Vector2 ImagePos;
 
     private Player MainCharacterPlayer;
     private Player FairyPlayer;
-    private Dictionary<int, Sprite> IndexToSprite;
-    private Dictionary<int, GameObject> IndexToButton;
-    private int SelectedMenu;
-
     private bool Active;
 
     private const float height = 1080;
@@ -38,24 +17,6 @@ public class AbilitiesMenuManager : MonoBehaviour
     {
         MainCharacterPlayer = ReInput.players.GetPlayer(0);
         FairyPlayer = ReInput.players.GetPlayer(1);
-        IndexToButton = new Dictionary<int, GameObject>();
-        IndexToButton.Add(0, SlashButton);
-        IndexToButton.Add(1, GlideButton);
-        IndexToButton.Add(2, ShootButton);
-        IndexToButton.Add(3, SuperDashButton);
-        IndexToButton.Add(4, FadeButton);
-
-        IndexToSprite = new Dictionary<int, Sprite>();
-        IndexToSprite.Add(0, SlashImage);
-        IndexToSprite.Add(1, GlideImage);
-        IndexToSprite.Add(2, ShootImage);
-        IndexToSprite.Add(3, SuperDashImage);
-        IndexToSprite.Add(4, FadeImage);
-
-        SelectedMenu = 0;
-
-        AbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-        BackAbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
 
         EventManager.instance.AddHandler<EnterAbilitiesMenu>(OnEnterAbilitiesMenu);
         EventManager.instance.AddHandler<ExitAbilitiesMenu>(OnExitAbilitiesMenu);
@@ -70,55 +31,14 @@ public class AbilitiesMenuManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetMenuState();
         CheckInput();
     }
 
-    private void SetMenuState()
-    {
-        if (Active)
-        {
-            for (int i = 0; i < IndexToButton.Count; i++)
-            {
-                if (SelectedMenu == i)
-                {
-                    IndexToButton[i].GetComponent<ButtonAppearance>().state = ButtonStatus.Selected;
-                }
-                else
-                {
-                    IndexToButton[i].GetComponent<ButtonAppearance>().state = ButtonStatus.NotSelected;
-                }
-            }
-            
-        }
-    }
 
     private void CheckInput()
     {
         if (Active)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                GetComponents<AudioSource>()[1].Play();
-                if (SelectedMenu - 1 < 0)
-                {
-                    SelectedMenu += IndexToButton.Count;
-                }
-                SelectedMenu = (SelectedMenu - 1) % IndexToButton.Count;
-                MoveImage(true);
-
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                GetComponents<AudioSource>()[1].Play();
-                SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
-                MoveImage(false);
-
-                return;
-            }
-
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 EventManager.instance.Fire(new ExitAbilitiesMenu());
@@ -130,9 +50,14 @@ public class AbilitiesMenuManager : MonoBehaviour
     private void OnEnterAbilitiesMenu(EnterAbilitiesMenu E)
     {
         Active = true;
-        AbilityImage.GetComponent<Image>().color = Color.white;
-        BackAbilityImage.GetComponent<Image>().color = Color.white;
-        BackAbilityImage.GetComponent<RectTransform>().anchoredPosition = AbilityImage.GetComponent<RectTransform>().anchoredPosition + Vector2.up * height;
+        GetComponent<ButtonSelection>().enabled = true;
+        GetComponent<MenuMoveImage>().enabled = true;
+        var MenuMoveImage = GetComponent<MenuMoveImage>();
+        MenuMoveImage.Image.GetComponent<Image>().enabled = true;
+        MenuMoveImage.Image.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
+        MenuMoveImage.BackImage.GetComponent<Image>().enabled = true;
+        MenuMoveImage.BackImage.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
+        MenuMoveImage.BackImage.GetComponent<RectTransform>().anchoredPosition = MenuMoveImage.Image.GetComponent<RectTransform>().anchoredPosition + Vector2.up * height;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -142,55 +67,14 @@ public class AbilitiesMenuManager : MonoBehaviour
     private void OnExitAbilitiesMenu(ExitAbilitiesMenu E)
     {
         Active = false;
-        AbilityImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
-        BackAbilityImage.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        GetComponent<ButtonSelection>().enabled = false;
+        GetComponent<MenuMoveImage>().enabled = false;
+        var MenuMoveImage = GetComponent<MenuMoveImage>();
+        MenuMoveImage.Image.GetComponent<Image>().enabled = false;
+        MenuMoveImage.BackImage.GetComponent<Image>().enabled = false;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
-    }
-
-    private void MoveImage(bool up)
-    {
-
-        AbilityImage.GetComponent<Image>().sprite = BackAbilityImage.GetComponent<Image>().sprite;
-        AbilityImage.GetComponent<RectTransform>().anchoredPosition = ImagePos;
-        if (up)
-        {
-            BackAbilityImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + Vector2.down * height;
-        }
-        else
-        {
-            BackAbilityImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + Vector2.up * height;
-        }
-        BackAbilityImage.GetComponent<Image>().sprite = IndexToSprite[SelectedMenu];
-
-        StopAllCoroutines();
-        StartCoroutine(Move(up));
-    }
-
-    private IEnumerator Move(bool up)
-    {
-        float timecount = 0;
-        float Speed = height / ImageMoveTime;
-        Vector2 direction;
-        if (up)
-        {
-            direction = Vector2.up;
-        }
-        else
-        {
-            direction = Vector2.down;
-        }
-        while (timecount < ImageMoveTime)
-        {
-            AbilityImage.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(ImagePos, ImagePos + direction * height, timecount / ImageMoveTime);
-            BackAbilityImage.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(ImagePos - direction * height, ImagePos, timecount / ImageMoveTime);
-            timecount += Time.deltaTime;
-            yield return null;
-        }
-        AbilityImage.GetComponent<Image>().sprite= BackAbilityImage.GetComponent<Image>().sprite;
-        AbilityImage.GetComponent<RectTransform>().anchoredPosition = ImagePos;
-        BackAbilityImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + direction*height;
     }
 }
