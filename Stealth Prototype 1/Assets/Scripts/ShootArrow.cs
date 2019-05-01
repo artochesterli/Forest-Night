@@ -23,7 +23,7 @@ public class ShootArrow : MonoBehaviour
     private const float AimDirectionFastRotationSpeed = 60;
     
     private const float AimDirectionSlowChangeThreshold = 0.2f;
-    private const float AimDirectionFastChangeThreshold = 0.8f;
+    private const float AimDirectionFastChangeThreshold = 1f;
 
     private const float AimRotationLimit = 150;
 
@@ -100,7 +100,7 @@ public class ShootArrow : MonoBehaviour
             }
 
             float RightStickX = player.GetAxis("Right Stick X");
-            if (Mathf.Abs(RightStickX) > AimDirectionFastChangeThreshold)
+            if (Mathf.Abs(RightStickX) >= AimDirectionFastChangeThreshold)
             {
                 if (RightStickX > 0)
                 {
@@ -112,7 +112,7 @@ public class ShootArrow : MonoBehaviour
                     direction = Utility.instance.Rotate(direction, AimDirectionFastRotationSpeed * Time.deltaTime);
                 }
             }
-            else if (Mathf.Abs(RightStickX) > AimDirectionSlowChangeThreshold)
+            else if (Mathf.Abs(RightStickX) >= AimDirectionSlowChangeThreshold)
             {
                 if (RightStickX > 0)
                 {
