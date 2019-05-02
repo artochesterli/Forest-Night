@@ -229,7 +229,7 @@ public class Enemy_Check : MonoBehaviour
             }
             shoot_star_time_count += Time.deltaTime;
             ClearLaserLine();
-            LaserLineShootStar(transform.position + transform.right * InitialLaserOffset);
+            LaserLineShootStar(transform.position + transform.Find("View").localPosition);
         }
     }
 
@@ -247,7 +247,7 @@ public class Enemy_Check : MonoBehaviour
             if(CurrentLaserState==LaserState.Null || CurrentLaserState == LaserState.HitOther || CurrentLaserState == LaserState.HitCharacter)
             {
                 ClearLaserLine();
-                Vector2 StartPoint = transform.position + transform.right * InitialLaserOffset;
+                Vector2 StartPoint = transform.position + transform.Find("View").localPosition;
                 Vector2 direction = ((Vector2)detected_character.transform.position - StartPoint).normalized;
                 GenerateLaserLine(direction, StartPoint);
             }
@@ -285,10 +285,12 @@ public class Enemy_Check : MonoBehaviour
     {
         float dis = ((Vector2)detected_star.transform.position-StartPoint).magnitude;
         Vector2 direction = ((Vector2)detected_star.transform.position - StartPoint).normalized;
-        LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/LaserLine")));
-        LaserLines[LaserLines.Count - 1].transform.localScale = new Vector3(dis, 1, 1);
-        LaserLines[LaserLines.Count - 1].transform.position = (Vector3)StartPoint + (Vector3)((Vector2)detected_star.transform.position - StartPoint) / 2;
-        LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
+
+        LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/VFX/EnemyLine")));
+        LaserLines[LaserLines.Count - 1].transform.position = ((Vector3)StartPoint + detected_star.transform.position) / 2;
+        LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, detected_star.transform.position - (Vector3)StartPoint));
+        LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(0, Vector3.left * dis / 2);
+        LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(1, Vector3.right * dis / 2);
 
     }
 
@@ -333,10 +335,12 @@ public class Enemy_Check : MonoBehaviour
 
             float dis = (hit.point - StartPoint).magnitude;
 
-            LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/LaserLine")));
-            LaserLines[LaserLines.Count - 1].transform.localScale = new Vector3(dis, 1, 1);
-            LaserLines[LaserLines.Count - 1].transform.position = (Vector3)StartPoint + (Vector3)(hit.point - StartPoint) / 2;
-            LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
+            LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/VFX/EnemyLine")));
+            LaserLines[LaserLines.Count - 1].transform.position = (StartPoint + hit.point) / 2;
+            LaserLines[LaserLines.Count - 1].transform.rotation =  Quaternion.Euler(0,0,Vector2.SignedAngle(Vector2.right, hit.point - StartPoint));
+            LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(0, Vector3.left * (hit.point - StartPoint).magnitude / 2);
+            LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(1, Vector3.right * (hit.point - StartPoint).magnitude / 2);
+
             if (hit.collider.gameObject.CompareTag("Mirror"))
             {
                 if (hit.point.y < hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y / 2)
@@ -385,11 +389,13 @@ public class Enemy_Check : MonoBehaviour
             }
             float dis = (ob.transform.position - (Vector3)StartPoint).magnitude;
             CurrentLaserState = LaserState.HitCharacter;
-            LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/LaserLine")));
             LaserLine_disappear_time_count = 0;
-            LaserLines[LaserLines.Count - 1].transform.localScale = new Vector3(dis, 1, 1);
-            LaserLines[LaserLines.Count - 1].transform.position = (Vector3)StartPoint + (Vector3)(hit.point - StartPoint) / 2;
-            LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.AngleAxis(Vector2.SignedAngle(Vector2.right, direction), Vector3.forward);
+
+            LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/VFX/EnemyLine")));
+            LaserLines[LaserLines.Count - 1].transform.position = ((Vector3)StartPoint + ob.transform.position) / 2;
+            LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, ob.transform.position - (Vector3)StartPoint));
+            LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(0, Vector3.left * dis/2);
+            LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(1, Vector3.right * dis/2);
         }
     }
 
