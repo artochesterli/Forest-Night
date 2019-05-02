@@ -18,7 +18,7 @@ public class SlashTutorialTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (MainCharacterIn && ConnectedVines.GetComponent<Totem_Status_Manager>().Status==0)
+        if (MainCharacterIn && !ConnectedVines.GetComponent<Totem_Status_Manager>().Activated)
         {
             SlashIcon.GetComponent<SpriteRenderer>().enabled = true;
         }

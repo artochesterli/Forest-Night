@@ -17,7 +17,7 @@ public class Path_Totem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(GetComponent<Totem_Status_Manager>().Status== GetComponent<Totem_Status_Manager>().INGROUND)
+        if(!GetComponent<Totem_Status_Manager>().Activated)
         {
             StartCoroutine(CreatePath());
         }
@@ -35,7 +35,7 @@ public class Path_Totem : MonoBehaviour
         if (ob.CompareTag("Slash"))
         {
             var self_status = GetComponent<Totem_Status_Manager>();
-            self_status.Status = self_status.INGROUND;
+            self_status.Activated = false;
             StartCoroutine(CreatePath());
         }
     }

@@ -5,14 +5,9 @@ using Rewired;
 
 public class MainHelpMenuManager : MonoBehaviour
 {
-    public GameObject AbilitiesButton;
-    public GameObject ObjectsButton;
-    public GameObject ControlButton;
 
     private Player MainCharacterPlayer;
     private Player FairyPlayer;
-    private Dictionary<int, GameObject> IndexToButton;
-    private int SelectedMenu;
 
     private bool Active;
     private bool EnterThisFrame;
@@ -22,11 +17,6 @@ public class MainHelpMenuManager : MonoBehaviour
     {
         MainCharacterPlayer = ReInput.players.GetPlayer(0);
         FairyPlayer = ReInput.players.GetPlayer(1);
-        IndexToButton = new Dictionary<int, GameObject>();
-        IndexToButton.Add(0, AbilitiesButton);
-        IndexToButton.Add(1, ObjectsButton);
-        IndexToButton.Add(2, ControlButton);
-        SelectedMenu = 0;
 
         EventManager.instance.AddHandler<EnterMainHelpMenu>(OnEnterMainHelpMenu);
         EventManager.instance.AddHandler<ExitMainHelpMenu>(OnExitMainHelpMenu);
@@ -42,56 +32,12 @@ public class MainHelpMenuManager : MonoBehaviour
     void Update()
     {
         CheckInput();
-        SetMenuState();
-    }
-
-    private void SetMenuState()
-    {
-        if (Active)
-        {
-            for (int i = 0; i < IndexToButton.Count; i++)
-            {
-                if (SelectedMenu == i)
-                {
-                    IndexToButton[i].GetComponent<ButtonAppearance>().state = ButtonStatus.Selected;
-                }
-                else
-                {
-                    IndexToButton[i].GetComponent<ButtonAppearance>().state = ButtonStatus.NotSelected;
-                }
-            }
-        }
     }
 
     private void CheckInput()
     {
         if (Active&&!EnterThisFrame)
         {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                GetComponents<AudioSource>()[1].Play();
-                if (SelectedMenu - 1 < 0)
-                {
-                    SelectedMenu += IndexToButton.Count;
-                }
-                SelectedMenu = (SelectedMenu - 1) % IndexToButton.Count;
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                GetComponents<AudioSource>()[1].Play();
-                SelectedMenu = (SelectedMenu + 1) % IndexToButton.Count;
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                GetComponents<AudioSource>()[0].Play();
-                EventManager.instance.Fire(new ButtonClicked(IndexToButton[SelectedMenu]));
-                return;
-            }
-
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 EventManager.instance.Fire(new EnterMainMenu());
@@ -104,7 +50,8 @@ public class MainHelpMenuManager : MonoBehaviour
     private void OnExitMainHelpMenu(ExitMainHelpMenu E)
     {
         Active = false;
-        foreach(Transform child in transform)
+        GetComponent<ButtonSelection>().enabled = false;
+        foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
@@ -114,6 +61,7 @@ public class MainHelpMenuManager : MonoBehaviour
     {
         EnterThisFrame = true;
         Active = true;
+        GetComponent<ButtonSelection>().enabled = true;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);

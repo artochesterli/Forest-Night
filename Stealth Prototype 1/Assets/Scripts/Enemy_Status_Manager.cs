@@ -19,6 +19,7 @@ public class Enemy_Status_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DeActivateStunEffect();
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
     }
 
@@ -57,9 +58,9 @@ public class Enemy_Status_Manager : MonoBehaviour
         }
         else if (status == EnemyStatus.Stunned)
         {
-            Indicator.GetComponent<SpriteRenderer>().enabled = true;
+            /*Indicator.GetComponent<SpriteRenderer>().enabled = true;
             Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/StunIcon", typeof(Sprite)) as Sprite;
-            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);*/
         }
     }
 
@@ -102,8 +103,22 @@ public class Enemy_Status_Manager : MonoBehaviour
 
         if (ob.CompareTag("Arrow"))
         {
+            ActivateStunEffect();
+            GetComponent<AudioSource>().Play();
             GetComponent<Enemy_Check>().stun_time_count = 0;
             status = EnemyStatus.Stunned;
         }
+    }
+
+    private void ActivateStunEffect()
+    {
+        GameObject Effect = transform.Find("StunnedEffect").gameObject;
+        Effect.GetComponent<ParticleSystem>().Play(true);
+    }
+
+    private void DeActivateStunEffect()
+    {
+        GameObject Effect = transform.Find("StunnedEffect").gameObject;
+        Effect.GetComponent<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 }

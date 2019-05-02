@@ -44,6 +44,10 @@ public class LoadingText : MonoBehaviour
 
     private IEnumerator LoadScene(string s)
     {
+        GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/SceneLoadData"));
+        SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel = false;
+        SceneLoadData.name = "SceneLoadData";
+        DontDestroyOnLoad(SceneLoadData);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(s);
         while (!asyncLoad.isDone)
         {

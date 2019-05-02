@@ -28,8 +28,6 @@ public class SaveLevel : GameEvent { }
 
 public class LoadLevel : GameEvent { }
 
-public class MemoryActivate : GameEvent { }
-
 public class EnterControlMenu : GameEvent { }
 public class ExitControlMenu : GameEvent { }
 

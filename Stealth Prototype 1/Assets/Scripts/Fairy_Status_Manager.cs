@@ -117,6 +117,7 @@ public class Fairy_Status_Manager : MonoBehaviour
     {
         if (C.DeadCharacter == gameObject)
         {
+            Instantiate(Resources.Load("Prefabs/VFX/FairyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
             player.SetVibration(1, DeadVibration, DeadVibrationTime);
         }
     }

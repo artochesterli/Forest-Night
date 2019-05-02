@@ -57,7 +57,7 @@ public class Memory : MonoBehaviour
                 {
                     child.GetComponent<SpriteRenderer>().color = SavedColor;
                 }
-                EventManager.instance.Fire(new MemoryActivate());
+                EventManager.instance.Fire(new SaveLevel());
             }
         }
     }

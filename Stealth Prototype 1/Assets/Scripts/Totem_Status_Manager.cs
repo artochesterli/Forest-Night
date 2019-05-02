@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class Totem_Status_Manager : MonoBehaviour
 {
-    public int Status;
-
-    public int APPEAR = 0;
-    public int INGROUND = 1;
+    public bool Activated;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,12 +14,12 @@ public class Totem_Status_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Status == APPEAR)
+        if (Activated)
         {
             GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<BoxCollider2D>().enabled = true;
         }
-        else if (Status == INGROUND)
+        else
         {
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<BoxCollider2D>().enabled = false;

@@ -77,6 +77,9 @@ public class Enemy_Check : MonoBehaviour
             stun_time_count += Time.deltaTime;
             if (stun_time_count > Stunned_Time)
             {
+                GameObject Effect = transform.Find("StunnedEffect").gameObject;
+                Effect.GetComponent<ParticleSystem>().Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
+
                 stun_time_count = 0;
                 Enemy_Status.status = EnemyStatus.Patrol;
             }
@@ -255,6 +258,7 @@ public class Enemy_Check : MonoBehaviour
                     Enemy_Status.status = EnemyStatus.AlertRelease;
                     if (hit_enemy != null)
                     {
+                        Instantiate(Resources.Load("Prefabs/VFX/EnemyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
                         Destroy(hit_enemy);
                     }
                 }
