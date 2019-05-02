@@ -728,6 +728,7 @@ Transform:
   - {fileID: 2976651961690849728}
   - {fileID: 1661286464792544975}
   - {fileID: 1017268000032053589}
+  - {fileID: 7510219115400959683}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1239,3 +1240,158 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 176ecfed9c6481d4ba8eeeb253c7cf83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &138788297
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2976651962471586683}
+    m_Modifications:
+    - target: {fileID: 1396442674746456955, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_Name
+      value: DashEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 0.8611775
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 0.2688679
+      objectReference: {fileID: 0}
+    - target: {fileID: 1795985497174622767, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1795985497174622767, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1795985497174622767, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 751581284570195768, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 751581284570195768, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776543906886769340, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1241049507
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776543906886769340, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4776543906886769340, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7d4287958db43784ca8167e12fcbb521, type: 3}
+--- !u!4 &7510219115400959683 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7510219115262847754, guid: 7d4287958db43784ca8167e12fcbb521,
+    type: 3}
+  m_PrefabInstance: {fileID: 138788297}
+  m_PrefabAsset: {fileID: 0}

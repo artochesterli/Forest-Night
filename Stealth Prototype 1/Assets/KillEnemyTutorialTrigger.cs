@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlashTutorialTrigger : MonoBehaviour
+public class KillEnemyTutorialTrigger : MonoBehaviour
 {
     private bool MainCharacterIn;
 
     public GameObject SlashIcon;
-    public GameObject ConnectedVines;
-
+    public GameObject ConnectedEnemy;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +17,7 @@ public class SlashTutorialTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (MainCharacterIn && ConnectedVines.GetComponent<Totem_Status_Manager>().Activated)
+        if (MainCharacterIn && ConnectedEnemy!=null)
         {
             SlashIcon.GetComponent<SpriteRenderer>().enabled = true;
         }

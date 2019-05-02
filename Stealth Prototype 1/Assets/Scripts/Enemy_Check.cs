@@ -29,13 +29,14 @@ public class Enemy_Check : MonoBehaviour
     private GameObject hit_enemy;
     private float LaserLine_disappear_time_count;
     private LaserState CurrentLaserState;
+    private Vector2 LaserInitialOffset;
+
 
     private const float RaycastAngle = 60;
     private const float RaycastLines = 60;
     private const float ShootStartTime = 0.1f;
     private const float LaserLine_disappear_time = 0.2f;
     private const float mirroBounceStartPointOffset = 0.01f;
-    private const float InitialLaserOffset=0.4f;
 
     // Start is called before the first frame update
     void Start()
@@ -60,13 +61,27 @@ public class Enemy_Check : MonoBehaviour
         {
             Find_Character();
         }
-        
+
+        SetLaserInitOffset();
         Stunned();
         Alert();
         Alert_Release();
         Shoot_Character();
         Shoot_Star();
 
+    }
+
+    private void SetLaserInitOffset()
+    {
+        if (transform.right.x > 0)
+        {
+            LaserInitialOffset = transform.Find("View").localPosition;
+        }
+        else
+        {
+            Vector2 Pos = transform.Find("View").localPosition;
+            LaserInitialOffset = new Vector2(-Pos.x, Pos.y);
+        }
     }
 
     private void Stunned()
@@ -111,15 +126,10 @@ public class Enemy_Check : MonoBehaviour
 
         for(int i = 0; i < RaycastLines; i++)
         {
-            
             Vector2 direction= Utility.instance.Rotate((Vector2)transform.right, angle);
             angle += Interval;
-            Vector2 Offset = transform.Find("View").localPosition;
-            if (transform.right.x < 0)
-            {
-                Offset.x = -Offset.x;
-            }
-            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + Offset, direction, Alert_Distance, layermask);
+
+            RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + LaserInitialOffset, direction, Alert_Distance, layermask);
 
             if (hit&&(hit.collider.gameObject.CompareTag("Main_Character") || hit.collider.gameObject.CompareTag("Fairy")))
             {
@@ -176,12 +186,7 @@ public class Enemy_Check : MonoBehaviour
         {
             if (!DetectedCharacterInSight)
             {
-                Vector2 Offset = transform.Find("View").localPosition;
-                if (transform.right.x < 0)
-                {
-                    Offset.x = -Offset.x;
-                }
-                RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + Offset, (detected_character.transform.position-transform.position).normalized, Alert_Distance, layermask);
+                RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + LaserInitialOffset, (detected_character.transform.position-transform.position).normalized, Alert_Distance, layermask);
                 if(!(hit && hit.collider.gameObject.CompareTag("Mirror")))
                 {
                     detected_character = null;
@@ -229,7 +234,7 @@ public class Enemy_Check : MonoBehaviour
             }
             shoot_star_time_count += Time.deltaTime;
             ClearLaserLine();
-            LaserLineShootStar(transform.position + transform.Find("View").localPosition);
+            LaserLineShootStar(transform.position + (Vector3)LaserInitialOffset);
         }
     }
 
@@ -247,7 +252,7 @@ public class Enemy_Check : MonoBehaviour
             if(CurrentLaserState==LaserState.Null || CurrentLaserState == LaserState.HitOther || CurrentLaserState == LaserState.HitCharacter)
             {
                 ClearLaserLine();
-                Vector2 StartPoint = transform.position + transform.Find("View").localPosition;
+                Vector2 StartPoint = transform.position + (Vector3)LaserInitialOffset;
                 Vector2 direction = ((Vector2)detected_character.transform.position - StartPoint).normalized;
                 GenerateLaserLine(direction, StartPoint);
             }
