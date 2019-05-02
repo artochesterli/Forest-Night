@@ -24,13 +24,13 @@ public class CheckPoint : MonoBehaviour
     void Start()
     {
         SaveLevel();
-        EventManager.instance.AddHandler<MemoryActivate>(OnMemoryActivate);
+        EventManager.instance.AddHandler<SaveLevel>(OnSaveLevel);
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<MemoryActivate>(OnMemoryActivate);
+        EventManager.instance.RemoveHandler<SaveLevel>(OnSaveLevel);
         EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
     }
 
@@ -110,10 +110,9 @@ public class CheckPoint : MonoBehaviour
         Destroy(TempAllLevelMechanics);
     }
 
-    private void OnMemoryActivate(MemoryActivate M)
+    private void OnSaveLevel(SaveLevel S)
     {
         SaveLevel();
-        EventManager.instance.Fire(new SaveLevel());
     }
 
 

@@ -92,6 +92,7 @@ public class ShootArrow : MonoBehaviour
             {
                 if (ChargingTimeCount > ChargingTime)
                 {
+                    Connected_Arrow.GetComponent<AudioSource>().Play();
                     Charging = false;
                 }
                 ChargingTimeCount += Time.deltaTime;

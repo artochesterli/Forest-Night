@@ -77,6 +77,9 @@ public class Enemy_Check : MonoBehaviour
             stun_time_count += Time.deltaTime;
             if (stun_time_count > Stunned_Time)
             {
+                GameObject Effect = transform.Find("StunnedEffect").gameObject;
+                Effect.GetComponent<ParticleSystem>().Stop(true,ParticleSystemStopBehavior.StopEmittingAndClear);
+
                 stun_time_count = 0;
                 Enemy_Status.status = EnemyStatus.Patrol;
             }

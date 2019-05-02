@@ -93,7 +93,14 @@ public class MainCharacterAnimationManager : MonoBehaviour
                 }
             }
         }
-        
+
+        if (state.status == MainCharacterStatus.Aimed)
+        {
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("MainCharacterAimed"))
+            {
+                GetComponent<Animator>().Play("MainCharacterAimed", 0, 0);
+            }
+        }
 
 
     }

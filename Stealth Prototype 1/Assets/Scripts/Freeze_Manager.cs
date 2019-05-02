@@ -102,7 +102,7 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Fairy.GetComponent<Float>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Transport>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Float_Point>().enabled = true;
-                if (SceneManager.GetActiveScene().buildIndex >= 2)
+                if (GetComponent<Level_Manager>().LevelIndex > 2)
                 {
                     Character_Manager.Fairy.GetComponent<ShootArrow>().enabled = true;
                 }

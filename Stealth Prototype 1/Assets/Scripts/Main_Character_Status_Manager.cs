@@ -47,7 +47,8 @@ public class Main_Character_Status_Manager : MonoBehaviour
     void Update()
     {
         SetInvisibility();
-        check_aimed();
+        SetAudio();
+        CheckAimed();
     }
 
     private void SetInvisibility()
@@ -62,7 +63,22 @@ public class Main_Character_Status_Manager : MonoBehaviour
         }
     }
 
-    private void check_aimed()
+    private void SetAudio()
+    {
+        if(status==MainCharacterStatus.Normal && GetComponent<CharacterMove>().OnGround && GetComponent<CharacterMove>().speed.x!=0)
+        {
+            if (!GetComponent<AudioSource>().isPlaying)
+            {
+                GetComponent<AudioSource>().Play();
+            }
+        }
+        else
+        {
+            GetComponent<AudioSource>().Stop();
+        }
+    }
+
+    private void CheckAimed()
     {
         if (status == MainCharacterStatus.Aimed)
         {
@@ -98,6 +114,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
     {
         if (C.DeadCharacter == gameObject)
         {
+            Instantiate(Resources.Load("Prefabs/VFX/BigGuyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
             player.SetVibration(0, DeadVibration, DeadVibrationTime);
         }
     }
