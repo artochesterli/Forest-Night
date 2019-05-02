@@ -48,6 +48,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
     {
         SetInvisibility();
         SetAudio();
+        SetDashEffect();
         CheckAimed();
     }
 
@@ -75,6 +76,22 @@ public class Main_Character_Status_Manager : MonoBehaviour
         else
         {
             GetComponent<AudioSource>().Stop();
+        }
+    }
+
+    private void SetDashEffect()
+    {
+        GameObject DashEffect = transform.Find("DashEffect").gameObject;
+        if(status==MainCharacterStatus.Dashing || status == MainCharacterStatus.OverDash)
+        {
+            if (!DashEffect.GetComponent<ParticleSystem>().isPlaying)
+            {
+                DashEffect.GetComponent<ParticleSystem>().Play(true);
+            }
+        }
+        else
+        {
+            DashEffect.GetComponent<ParticleSystem>().Stop();
         }
     }
 
