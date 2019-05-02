@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1257436837558254637}
   - component: {fileID: 1257436837558254636}
-  - component: {fileID: 1257436837558254639}
-  - component: {fileID: 4787271260793991386}
+  - component: {fileID: 4467072664786024684}
+  - component: {fileID: 8745278826679232994}
   m_Layer: 16
   m_Name: Mirror_Tolem
   m_TagString: Mirror_Totem
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1257436837558254632}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -13, y: -7, z: 0}
-  m_LocalScale: {x: 0.67, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_SortingLayerID: -1241049507
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 823f706936ca9cd45919063be9c51384, type: 3}
-  m_Color: {r: 1, g: 0, b: 0.90270615, a: 1}
+  m_Sprite: {fileID: 21300000, guid: e179f1ea02fa9a844a534996e99e100e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &1257436837558254639
+--- !u!61 &4467072664786024684
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,16 +98,16 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.6279069, y: 1.4883721}
+    oldSize: {x: 1, y: 1.7}
     newSize: {x: 0.7, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 0.8, y: 1.5}
   m_EdgeRadius: 0
---- !u!114 &4787271260793991386
+--- !u!114 &8745278826679232994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,8 +116,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1257436837558254632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 351270b4c1353d0479b3ec229c4a9170, type: 3}
+  m_Script: {fileID: 11500000, guid: d8b3a6b65661c424fabba6586eaeba33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  connected_mirrors:
-  - {fileID: 0}
