@@ -258,6 +258,7 @@ public class Enemy_Check : MonoBehaviour
                     Enemy_Status.status = EnemyStatus.AlertRelease;
                     if (hit_enemy != null)
                     {
+                        Instantiate(Resources.Load("Prefabs/VFX/EnemyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
                         Destroy(hit_enemy);
                     }
                 }
