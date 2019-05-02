@@ -10,14 +10,6 @@ public class Level_Manager : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.buildIndex == SceneManager.GetActiveScene().buildIndex)
-        {
-            EventManager.instance.Fire(new EnterLevel(LevelIndex));
-        }
+        EventManager.instance.Fire(new EnterLevel(LevelIndex));
     }
 }

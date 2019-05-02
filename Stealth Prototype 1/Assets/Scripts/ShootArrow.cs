@@ -9,10 +9,11 @@ public class ShootArrow : MonoBehaviour
     public float ChargingTime;
 
     private Player player;
-    private Vector2 direction;
     private List<GameObject> Aim_Line;
     private float ChargingTimeCount;
     private bool Charging;
+    private float ArrowAngle;
+
 
     private const float Velocity_Charge_Speed = 10;
     private const float Aim_offset = 0.8f;
@@ -33,9 +34,9 @@ public class ShootArrow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ArrowAngle = 90;
         player = GetComponent<PlayerId>().player;
         Aim_Line = new List<GameObject>();
-        direction = transform.right;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
     }
@@ -70,10 +71,17 @@ public class ShootArrow : MonoBehaviour
                 ChargingTimeCount = 0;
                 Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
                 Connected_Arrow.transform.parent = transform;
-                if (Vector2.Dot(transform.right, direction) < 0)
+
+                Vector2 direction;
+                if (transform.right.x > 0)
                 {
-                    direction.x = -direction.x;
+                    direction = Utility.instance.Rotate(Vector2.up, -ArrowAngle);
                 }
+                else
+                {
+                    direction = Utility.instance.Rotate(Vector2.up, ArrowAngle);
+                }
+
                 Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
                 ClearAimLine();
                 CreateAimLIne(direction, Connected_Arrow.transform.position);
@@ -98,47 +106,55 @@ public class ShootArrow : MonoBehaviour
                 ChargingTimeCount += Time.deltaTime;
             }
 
-            float RightStickX = player.GetAxis("Right Stick X");
-            if (Mathf.Abs(RightStickX) >= AimDirectionFastChangeThreshold)
+            float RightStickY = player.GetAxis("Right Stick Y");
+            if (Mathf.Abs(RightStickY) >= AimDirectionFastChangeThreshold)
             {
-                if (RightStickX > 0)
+                if (RightStickY > 0)
                 {
-                    direction = Utility.instance.Rotate(direction, -AimDirectionFastRotationSpeed * Time.deltaTime);
-                    
+                    ArrowAngle -= AimDirectionFastRotationSpeed * Time.deltaTime;
+                    if (ArrowAngle < 0)
+                    {
+                        ArrowAngle = 0;
+                    }
                 }
                 else
                 {
-                    direction = Utility.instance.Rotate(direction, AimDirectionFastRotationSpeed * Time.deltaTime);
+                    ArrowAngle+= AimDirectionFastRotationSpeed * Time.deltaTime;
+                    if (ArrowAngle > AimRotationLimit)
+                    {
+                        ArrowAngle = AimRotationLimit;
+                    }
                 }
             }
-            else if (Mathf.Abs(RightStickX) >= AimDirectionSlowChangeThreshold)
+            else if (Mathf.Abs(RightStickY) >= AimDirectionSlowChangeThreshold)
             {
-                if (RightStickX > 0)
+                if (RightStickY > 0)
                 {
-                    direction = Utility.instance.Rotate(direction, -AimDirectionSlowRotationSpeed * Time.deltaTime);
+                    ArrowAngle -= AimDirectionSlowRotationSpeed * Time.deltaTime;
+                    if (ArrowAngle < 0)
+                    {
+                        ArrowAngle = 0;
+                    }
                 }
                 else
                 {
-                    direction = Utility.instance.Rotate(direction, AimDirectionSlowRotationSpeed * Time.deltaTime);
+                    ArrowAngle += AimDirectionSlowRotationSpeed * Time.deltaTime;
+                    if (ArrowAngle > AimRotationLimit)
+                    {
+                        ArrowAngle = AimRotationLimit;
+                    }
                 }
             }
-            if (Vector2.Angle(Vector2.up, direction) > AimRotationLimit)
+
+            Vector2 direction;
+            if (transform.right.x > 0)
             {
-                if (direction.x > 0)
-                {
-                    direction = Utility.instance.Rotate(Vector2.up, -AimRotationLimit);
-                }
-                else
-                {
-                    direction = Utility.instance.Rotate(Vector2.up, AimRotationLimit);
-                }
-                
+                direction = Utility.instance.Rotate(Vector2.up, -ArrowAngle);
             }
-
-            direction.Normalize();
-
-            ChangeFairyDirection();
-
+            else
+            {
+                direction = Utility.instance.Rotate(Vector2.up, ArrowAngle);
+            }
             ClearAimLine();
             CreateAimLIne(direction, Connected_Arrow.transform.position);
             Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
@@ -200,20 +216,6 @@ public class ShootArrow : MonoBehaviour
         for (int i = 0; i < Aim_Line.Count; i++)
         {
             Destroy(Aim_Line[i]);
-        }
-    }
-
-    private void ChangeFairyDirection()
-    {
-        if (direction.x > 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 
