@@ -1108,7 +1108,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 41f8efe79de7fe94fb8cc5ecd605c298, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b3ddff4c0a04db94c8399196dafdd05d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
   m_Pitch: 1
@@ -1324,18 +1324,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
         type: 3}
-      propertyPath: moveWithTransform
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
-        type: 3}
       propertyPath: EmissionModule.rateOverDistance.scalar
       value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
-        type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.key0.r
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
         type: 3}
@@ -1361,11 +1351,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 751581284570195768, guid: 7d4287958db43784ca8167e12fcbb521,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 751581284570195768, guid: 7d4287958db43784ca8167e12fcbb521,
         type: 3}

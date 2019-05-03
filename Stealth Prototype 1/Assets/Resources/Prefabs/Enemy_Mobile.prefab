@@ -281,11 +281,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a14abaf8727e15b40ab1baabd33a5d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Patrol_Speed: 2
-  Patrol_Right_pos_x: 9
-  Patrol_Left_pos_x: 7
-  Observation_Right_Time: 2
-  Observation_Left_Time: 2
+  Patrol_Speed: 1.5
+  Patrol_Right_pos_x: -1
+  Patrol_Left_pos_x: -4
+  Observation_Right_Time: 3
+  Observation_Left_Time: 3
   Patrol_Right: 0
   IsObserving: 0
 --- !u!114 &8445601442131975498
@@ -409,7 +409,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 693409a6306bf4847b5a7ce8903f7742, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9bfe39fe8f05c6f4987cdeffbd767f55, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
