@@ -253,7 +253,7 @@ public class Enemy_Check : MonoBehaviour
             {
                 ClearLaserLine();
                 Vector2 StartPoint = transform.position + (Vector3)LaserInitialOffset;
-                Vector2 direction = ((Vector2)detected_character.transform.position - StartPoint).normalized;
+                Vector2 direction = ((Vector2)detected_character.transform.position + detected_character.GetComponent<CharacterMove>().BodyOffset- StartPoint).normalized;
                 GenerateLaserLine(direction, StartPoint);
             }
             else if(CurrentLaserState == LaserState.HitMirror)
@@ -392,13 +392,13 @@ public class Enemy_Check : MonoBehaviour
                 var status = ob.GetComponent<Main_Character_Status_Manager>();
                 status.status = MainCharacterStatus.Aimed;
             }
-            float dis = (ob.transform.position - (Vector3)StartPoint).magnitude;
+            float dis = ((Vector2)ob.transform.position + ob.GetComponent<CharacterMove>().BodyOffset- StartPoint).magnitude;
             CurrentLaserState = LaserState.HitCharacter;
             LaserLine_disappear_time_count = 0;
 
             LaserLines.Add((GameObject)Instantiate(Resources.Load("Prefabs/VFX/EnemyLine")));
-            LaserLines[LaserLines.Count - 1].transform.position = ((Vector3)StartPoint + ob.transform.position) / 2;
-            LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, ob.transform.position - (Vector3)StartPoint));
+            LaserLines[LaserLines.Count - 1].transform.position = StartPoint + direction*dis/2;
+            LaserLines[LaserLines.Count - 1].transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, direction));
             LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(0, Vector3.left * dis/2);
             LaserLines[LaserLines.Count - 1].GetComponent<LineRenderer>().SetPosition(1, Vector3.right * dis/2);
         }

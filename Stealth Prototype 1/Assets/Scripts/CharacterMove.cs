@@ -36,7 +36,8 @@ public class CharacterMove : MonoBehaviour
     public float OnGroundDetectOffset;
 
     public float HitWallThreshold;
-    public float HitWallDetectOffset;
+    public float HitWallTopDetectOffset;
+    public float HitWallDownDetectOffset;
 
 
     public float HitTopThreshold;
@@ -47,7 +48,7 @@ public class CharacterMove : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("Gem") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("UI");
+        layermask = 1 << LayerMask.NameToLayer("Main_Character") | 1 << LayerMask.NameToLayer("Invisible_Object") | 1 << LayerMask.NameToLayer("Fairy") | 1 << LayerMask.NameToLayer("Path") | 1 << LayerMask.NameToLayer("PlatformTotemTrigger") | 1 << LayerMask.NameToLayer("TutorialTrigger") | 1 << LayerMask.NameToLayer("Portal") | 1<<LayerMask.NameToLayer("Arrow") | 1 << LayerMask.NameToLayer("Path")| 1<<LayerMask.NameToLayer("Slash");
         layermask = ~layermask;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnHitSpineEdge);
@@ -296,8 +297,8 @@ public class CharacterMove : MonoBehaviour
     public void CheckLeftWallDis()
     {
         Vector3 OriPoint = transform.position + (Vector3)BodyOffset;
-        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.up * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
-        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.down * HitWallDetectOffset, Vector2.left, DetectDis, layermask);
+        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.up * HitWallTopDetectOffset, Vector2.left, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.down * HitWallDownDetectOffset, Vector2.left, DetectDis, layermask);
         if (hit1 && hit2)
         {
             if (Mathf.Abs(hit1.point.x - OriPoint.x) < Mathf.Abs(hit2.point.x - OriPoint.x))
@@ -352,8 +353,8 @@ public class CharacterMove : MonoBehaviour
     public void CheckRightWallDis()
     {
         Vector3 OriPoint = transform.position + (Vector3)BodyOffset;
-        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.up * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
-        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.down * HitWallDetectOffset, Vector2.right, DetectDis, layermask);
+        RaycastHit2D hit1 = Physics2D.Raycast(OriPoint + Vector3.up * HitWallTopDetectOffset, Vector2.right, DetectDis, layermask);
+        RaycastHit2D hit2 = Physics2D.Raycast(OriPoint + Vector3.down * HitWallDownDetectOffset, Vector2.right, DetectDis, layermask);
         if (hit1 && hit2)
         {
             if(Mathf.Abs(hit1.point.x - OriPoint.x)< Mathf.Abs(hit2.point.x - OriPoint.x))

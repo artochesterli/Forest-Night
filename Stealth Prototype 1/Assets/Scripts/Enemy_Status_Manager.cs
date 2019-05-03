@@ -91,7 +91,7 @@ public class Enemy_Status_Manager : MonoBehaviour
         status = EnemyStatus.Patrol;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
 
@@ -101,7 +101,7 @@ public class Enemy_Status_Manager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (ob.CompareTag("Arrow"))
+        if (ob.CompareTag("Arrow") && ob.GetComponent<Arrow>().Emited)
         {
             ActivateStunEffect();
             GetComponent<AudioSource>().Play();

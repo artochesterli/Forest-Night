@@ -706,6 +706,7 @@ GameObject:
   - component: {fileID: 1901548788}
   - component: {fileID: 1901548810}
   - component: {fileID: 971267124}
+  - component: {fileID: 1216514273}
   m_Layer: 9
   m_Name: Main_Character
   m_TagString: Main_Character
@@ -999,7 +1000,8 @@ MonoBehaviour:
   OnGroundThreshold: 0.565
   OnGroundDetectOffset: 0.3
   HitWallThreshold: 0.4
-  HitWallDetectOffset: 0.45
+  HitWallTopDetectOffset: 0.5
+  HitWallDownDetectOffset: 0.5
   HitTopThreshold: 0.565
   HitTopDetectOffset: 0.3
 --- !u!114 &856160150
@@ -1194,6 +1196,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1216514273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976651962471586699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9fa3de4c1d544a4bb62a11c544a55fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5174943617219690175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1322,21 +1336,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
-        type: 3}
-      propertyPath: EmissionModule.rateOverDistance.scalar
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
-        type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.key0.g
-      value: 0.8611775
-      objectReference: {fileID: 0}
-    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
-        type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.key0.b
-      value: 0.2688679
-      objectReference: {fileID: 0}
     - target: {fileID: 1795985497174622767, guid: 7d4287958db43784ca8167e12fcbb521,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1351,6 +1350,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 0.8611775
+      objectReference: {fileID: 0}
+    - target: {fileID: 875255749136712747, guid: 7d4287958db43784ca8167e12fcbb521,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 0.2688679
       objectReference: {fileID: 0}
     - target: {fileID: 751581284570195768, guid: 7d4287958db43784ca8167e12fcbb521,
         type: 3}

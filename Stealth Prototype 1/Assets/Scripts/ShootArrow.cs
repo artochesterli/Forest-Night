@@ -24,7 +24,7 @@ public class ShootArrow : MonoBehaviour
     private const float AimDirectionFastRotationSpeed = 60;
     
     private const float AimDirectionSlowChangeThreshold = 0.2f;
-    private const float AimDirectionFastChangeThreshold = 1f;
+    private const float AimDirectionFastChangeThreshold = 0.8f;
 
     private const float AimRotationLimit = 150;
 
