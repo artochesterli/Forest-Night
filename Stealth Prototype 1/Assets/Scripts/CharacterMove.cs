@@ -155,8 +155,7 @@ public class CharacterMove : MonoBehaviour
     public void Move()
     {
         Vector2 temp = speed+DashSpeed + PlatformSpeed;
-
-        if (!IsMainCharacterDashing())
+        /*if (!IsMainCharacterDashing())
         {
             if (temp.y > 0 && temp.y * Time.deltaTime > TopDis)
             {
@@ -180,6 +179,46 @@ public class CharacterMove : MonoBehaviour
             {
                 temp.x = -LeftWallDis / Time.deltaTime;
                 DashSpeed.x = 0;
+            }
+        }*/
+
+        if (temp.y > 0 && temp.y * Time.deltaTime > TopDis)
+        {
+            temp.y = TopDis / Time.deltaTime;
+            DashSpeed.y = 0;
+            if (IsMainCharacterDashing())
+            {
+                GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.OverDash;
+            }
+        }
+
+        if (!IsMainCharacterDashing())
+        {
+            if (temp.y < 0 && temp.y * Time.deltaTime < -GroundDis)
+            {
+                temp.y = -GroundDis / Time.deltaTime;
+                if (!IsMainCharacterDashing())
+                {
+                    DashSpeed.y = 0;
+                }
+            }
+
+            if (temp.x > 0 && temp.x * Time.deltaTime > RightWallDis)
+            {
+                temp.x = RightWallDis / Time.deltaTime;
+                if (!IsMainCharacterDashing())
+                {
+                    DashSpeed.x = 0;
+                }
+            }
+
+            if (temp.x < 0 && temp.x * Time.deltaTime < -LeftWallDis)
+            {
+                temp.x = -LeftWallDis / Time.deltaTime;
+                if (!IsMainCharacterDashing())
+                {
+                    DashSpeed.x = 0;
+                }
             }
         }
 

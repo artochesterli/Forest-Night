@@ -11,7 +11,7 @@ public class Dash_To_Fairy : MonoBehaviour
     public float over_dash_velocity;
     public float OverDashDeceleration;
 
-
+    private GameObject SpiritLine;
     private Player player;
     // Start is called before the first frame update
     void Start()
@@ -37,7 +37,19 @@ public class Dash_To_Fairy : MonoBehaviour
         CheckOverDash();
     }
 
-
+    private void CreateSpiritLine()
+    {
+        SpiritLine = (GameObject)Instantiate(Resources.Load("Prefabs/VFX/SpiritLine"));
+        Vector3 Start = transform.position;
+        Vector3 End = Character_Manager.Fairy.transform.position + (Vector3)Character_Manager.Fairy.GetComponent<Float_Point>().DashOffset;
+        foreach(Transform child in SpiritLine.transform)
+        {
+            child.GetComponent<LineRenderer>().SetPosition(0, -(End - Start).magnitude / 2 * Vector3.right);
+            child.GetComponent<LineRenderer>().SetPosition(1, (End - Start).magnitude / 2 * Vector3.right);
+        }
+        SpiritLine.transform.rotation = Quaternion.Euler(0, 0, Vector2.SignedAngle(Vector2.right, Start-End));
+        SpiritLine.transform.position = (End + Start) / 2;
+    }
 
     private void lock_fairy()
     {
@@ -46,14 +58,14 @@ public class Dash_To_Fairy : MonoBehaviour
         {
             return;
         }
-        GameObject Aim_Icon = Character_Manager.Fairy.transform.Find("Aim_Icon").gameObject;
         if (detect_float_fairy)
         {
-            Aim_Icon.GetComponent<SpriteRenderer>().enabled = true;
+            Destroy(SpiritLine);
+            CreateSpiritLine();
         }
         else
         {
-            Aim_Icon.GetComponent<SpriteRenderer>().enabled = false;
+            Destroy(SpiritLine);
         }
         if (Main_Character_Status.status==MainCharacterStatus.Dashing || Main_Character_Status.status == MainCharacterStatus.OverDash)
         {
@@ -98,8 +110,7 @@ public class Dash_To_Fairy : MonoBehaviour
     private IEnumerator Dash()
     {
         detect_float_fairy = false;
-        GameObject Aim_Icon = Character_Manager.Fairy.transform.Find("Aim_Icon").gameObject;
-        Aim_Icon.GetComponent<SpriteRenderer>().enabled = false;
+        Destroy(SpiritLine);
 
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
         
@@ -121,6 +132,10 @@ public class Dash_To_Fairy : MonoBehaviour
         {
             GetComponent<CharacterMove>().speed = Vector2.zero;
             GetComponent<CharacterMove>().DashSpeed = dash_speed * direction;
+            if (Main_Character_Status.status != MainCharacterStatus.Dashing)
+            {
+                yield break;
+            }
             if(Vector2.Dot(direction, target - (Vector2)transform.position) < 0)
             {
                 transform.position = target;

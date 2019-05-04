@@ -69,7 +69,7 @@ public class ShootArrow : MonoBehaviour
             {
                 Charging = true;
                 ChargingTimeCount = 0;
-                Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/Arrow"));
+                Connected_Arrow = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/Arrow"));
                 Connected_Arrow.transform.parent = transform;
 
                 Vector2 direction;
@@ -188,7 +188,7 @@ public class ShootArrow : MonoBehaviour
         int num = Mathf.FloorToInt((hit.point - StartPoint).magnitude*AimLineUnitPerMeter)+1;
         for(int i = 0; i < num; i++)
         {
-            GameObject unit = (GameObject)Instantiate(Resources.Load("Prefabs/AimLineUnit"), StartPoint + direction * (1.0f/AimLineUnitPerMeter)*i, Quaternion.Euler(0,0,Vector2.SignedAngle(Vector2.right ,direction)));
+            GameObject unit = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/AimLineUnit"), StartPoint + direction * (1.0f/AimLineUnitPerMeter)*i, Quaternion.Euler(0,0,Vector2.SignedAngle(Vector2.right ,direction)));
             Aim_Line.Add(unit);
         }
         if (hit.collider.gameObject.CompareTag("Mirror"))

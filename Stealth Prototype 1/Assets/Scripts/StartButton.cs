@@ -25,7 +25,7 @@ public class StartButton : MonoBehaviour
     {
         if (Click.Button == gameObject)
         {
-            GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/LoadingLevelData"));
+            GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/LoadingLevelData"));
             g.GetComponent<LoadingLevelData>().Scene = "Level 1";
             g.name= "LoadingLevelData";
             DontDestroyOnLoad(g);

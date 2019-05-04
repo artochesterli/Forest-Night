@@ -63,7 +63,7 @@ public class Portal : MonoBehaviour
             }
         }
 
-        GameObject Light = (GameObject)Instantiate(Resources.Load("Prefabs/Light"));
+        GameObject Light = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/Light"));
         Light.GetComponent<Light>().intensity = 0;
 
         float timecount = 0;
@@ -82,7 +82,7 @@ public class Portal : MonoBehaviour
             yield return null;
         }
 
-        GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/SceneLoadData"));
+        GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/SceneLoadData"));
         SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel = true;
         SceneLoadData.name = "SceneLoadData";
         DontDestroyOnLoad(SceneLoadData);
