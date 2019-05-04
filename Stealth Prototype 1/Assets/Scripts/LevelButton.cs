@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ContinueButton : MonoBehaviour
+public class LevelButton : MonoBehaviour
 {
+    public int Level;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,15 +27,11 @@ public class ContinueButton : MonoBehaviour
     {
         if (Click.Button == gameObject)
         {
-            /*GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/LoadingLevelData"));
-            Data data = SaveDataManager.LoadData();
-            g.GetComponent<LoadingLevelData>().Scene = "Level "+data.CurrentLevel.ToString();
+            GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/LoadingLevelData"));
+            g.GetComponent<LoadingLevelData>().Scene = "Level " + Level;
             g.name = "LoadingLevelData";
             DontDestroyOnLoad(g);
-            SceneManager.LoadScene("Loading");*/
-            EventManager.instance.Fire(new EnterLevelSelection());
-            EventManager.instance.Fire(new ExitMainMenu());
+            SceneManager.LoadScene("Loading");
         }
     }
-
 }

@@ -27,7 +27,7 @@ public class PlayerId : MonoBehaviour
 
     }
 
-    void OnControllerConnected(ControllerStatusChangedEventArgs args)
+    /*void OnControllerConnected(ControllerStatusChangedEventArgs args)
     {
         if (args.controllerType != ControllerType.Joystick) return; // skip if this isn't a Joystick
 
@@ -43,5 +43,5 @@ public class PlayerId : MonoBehaviour
             p.controllers.AddController(j, true); // assign joystick to player
             return;
         }
-    }
+    }*/
 }

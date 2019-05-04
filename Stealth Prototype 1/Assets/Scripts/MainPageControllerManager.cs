@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class Controller_Manager : MonoBehaviour
+public class MainPageControllerManager : MonoBehaviour
 {
     Joystick MainCharacterJoystick;
     Joystick FairyJoystick;
-    // Start is called before the first frame update
 
+    public static Player MainCharacter;
+    public static Player Fairy;
+    // Start is called before the first frame update
     void Start()
     {
         MainCharacterJoystick = null;
         FairyJoystick = null;
+        MainCharacter = ReInput.players.GetPlayer(0);
+        Fairy = ReInput.players.GetPlayer(1);
         ReInput.ControllerConnectedEvent += OnControllerConnect;
         ReInput.ControllerDisconnectedEvent += OnControllerDisconnect;
 
@@ -21,12 +25,12 @@ public class Controller_Manager : MonoBehaviour
             if (MainCharacterJoystick == null)
             {
                 MainCharacterJoystick = j;
-                GameObject.Find("Main_Character").GetComponent<PlayerId>().player.controllers.AddController(MainCharacterJoystick, false);
+                MainCharacter.controllers.AddController(MainCharacterJoystick, false);
             }
             else if (FairyJoystick == null)
             {
                 FairyJoystick = j;
-                GameObject.Find("Fairy").GetComponent<PlayerId>().player.controllers.AddController(FairyJoystick, false);
+                Fairy.controllers.AddController(FairyJoystick, false);
             }
 
         }
@@ -41,21 +45,20 @@ public class Controller_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
-
 
     private void OnControllerConnect(ControllerStatusChangedEventArgs args)
     {
         if (MainCharacterJoystick == null)
         {
             MainCharacterJoystick = ReInput.controllers.GetController<Joystick>(args.controllerId);
-            Character_Manager.Main_Character.GetComponent<PlayerId>().player.controllers.AddController(MainCharacterJoystick, false);
+            MainCharacter.controllers.AddController(MainCharacterJoystick, false);
         }
         else if (FairyJoystick == null)
         {
             FairyJoystick = ReInput.controllers.GetController<Joystick>(args.controllerId);
-            Character_Manager.Fairy.GetComponent<PlayerId>().player.controllers.AddController(FairyJoystick, false);
+            Fairy.controllers.AddController(FairyJoystick, false);
         }
     }
 
@@ -65,7 +68,7 @@ public class Controller_Manager : MonoBehaviour
         {
             MainCharacterJoystick = null;
         }
-        else if(FairyJoystick!=null && FairyJoystick.id == args.controllerId)
+        else if (FairyJoystick != null && FairyJoystick.id == args.controllerId)
         {
             FairyJoystick = null;
         }

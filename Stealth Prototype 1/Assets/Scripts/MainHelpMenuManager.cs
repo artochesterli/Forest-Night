@@ -38,6 +38,12 @@ public class MainHelpMenuManager : MonoBehaviour
     {
         if (Active&&!EnterThisFrame)
         {
+            if (MainPageControllerManager.MainCharacter.GetButtonDown("B"))
+            {
+                EventManager.instance.Fire(new EnterMainMenu());
+                EventManager.instance.Fire(new ExitMainHelpMenu());
+            }
+
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 EventManager.instance.Fire(new EnterMainMenu());
