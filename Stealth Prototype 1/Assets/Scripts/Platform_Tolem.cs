@@ -28,6 +28,7 @@ public class Platform_Tolem : MonoBehaviour
     public IEnumerator Move()
     {
         moving = true;
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = true;
         Vector2 direction = Vector2.zero;
         Vector3 EndPoint = Vector3.zero;
         float speed = ((Vector2)(SecondPoint - FirstPoint)).magnitude/move_period;
@@ -78,6 +79,7 @@ public class Platform_Tolem : MonoBehaviour
             Character_Manager.Fairy.GetComponent<CharacterMove>().PlatformSpeed = Vector2.zero;
         }
         At_First_Point = !At_First_Point;
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = false;
         moving = false;
     }
 
