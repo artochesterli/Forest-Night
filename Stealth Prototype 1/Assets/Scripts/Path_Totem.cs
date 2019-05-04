@@ -56,7 +56,7 @@ public class Path_Totem : MonoBehaviour
         }
         for (int i = 0; i < PathUnitNumber; i++)
         {
-            GameObject Unit = (GameObject)Instantiate(Resources.Load("Prefabs/Path_Unit"), Path.transform.position + Vector3.down * (((float)i + 1) / PathSpritePerMeter + 0.5f / PathSpritePerMeter), new Quaternion(0, 0, 0, 0));
+            GameObject Unit = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/PathUnit"), Path.transform.position + Vector3.down * (((float)i + 1) / PathSpritePerMeter + 0.5f / PathSpritePerMeter), new Quaternion(0, 0, 0, 0));
             Unit.GetComponent<SpriteRenderer>().sprite = PathSprites[i % PathUnitNumber];
             Unit.transform.parent = Path.transform;
             Path.GetComponent<BoxCollider2D>().size = new Vector2(Path_Collider_Width, (i+1)*(1.0f/PathSpritePerMeter) + 1);

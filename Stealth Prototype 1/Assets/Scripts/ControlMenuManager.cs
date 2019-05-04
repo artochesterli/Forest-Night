@@ -27,6 +27,12 @@ public class ControlMenuManager : MonoBehaviour
     {
         if (Active)
         {
+            if (MainPageControllerManager.MainCharacter.GetButtonDown("B"))
+            {
+                EventManager.instance.Fire(new ExitControlMenu());
+                EventManager.instance.Fire(new EnterMainHelpMenu());
+            }
+
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 EventManager.instance.Fire(new ExitControlMenu());

@@ -38,6 +38,12 @@ public class ObjectsMenuManager : MonoBehaviour
     {
         if (Active)
         {
+            if (MainPageControllerManager.MainCharacter.GetButtonDown("B"))
+            {
+                EventManager.instance.Fire(new EnterMainHelpMenu());
+                EventManager.instance.Fire(new ExitObjectsMenu());
+            }
+
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 EventManager.instance.Fire(new EnterMainHelpMenu());

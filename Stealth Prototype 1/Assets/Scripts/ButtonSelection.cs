@@ -13,12 +13,20 @@ public class ButtonSelection : MonoBehaviour
     private Player MainCharacterPlayer;
     private Player FairyPlayer;
 
+    private float MoveTimeCount;
+    private bool First;
+    private bool Charging;
+    private float ChargeTimeCount;
+
+    private const float ChargeTime = 0.5f;
+    private const float MoveTime = 0.1f;
+    private const float StickYThreshold=0.7f;
+
     // Start is called before the first frame update
     void Start()
     {
         MainCharacterPlayer = ReInput.players.GetPlayer(0);
         FairyPlayer = ReInput.players.GetPlayer(1);
-        SelectedMenu = 0;
     }
 
     // Update is called once per frame
@@ -30,7 +38,112 @@ public class ButtonSelection : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if(MainPageControllerManager.MainCharacter.GetAxis("Left Stick Y")<-StickYThreshold)
+        {
+            if (First)
+            {
+                First = false;
+                if (SelectedMenu < ButtonList.Count - 1)
+                {
+                    GetComponents<AudioSource>()[1].Play();
+                    SelectedMenu++;
+                    if (MenuShowImage)
+                    {
+                        GetComponent<MenuMoveImage>().MoveImage(false, SelectedMenu);
+                    }
+                }
+                
+            }
+
+            if (Charging)
+            {
+                if (ChargeTimeCount > ChargeTime)
+                {
+                    Charging = false;
+                }
+                ChargeTimeCount += Time.deltaTime;
+            }
+            else
+            {
+                if (MoveTimeCount >= MoveTime)
+                {
+                    if (SelectedMenu < ButtonList.Count - 1)
+                    {
+                        GetComponents<AudioSource>()[1].Play();
+                        SelectedMenu++;
+                        if (MenuShowImage)
+                        {
+                            GetComponent<MenuMoveImage>().MoveImage(false, SelectedMenu);
+                        }
+                    }
+                    MoveTimeCount = 0;
+                }
+                MoveTimeCount += Time.deltaTime;
+            }
+        }
+
+        if (MainPageControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold)
+        {
+            if (First)
+            {
+                First = false;
+                if (SelectedMenu >= 1)
+                {
+                    GetComponents<AudioSource>()[1].Play();
+                    SelectedMenu--;
+                    if (MenuShowImage)
+                    {
+                        GetComponent<MenuMoveImage>().MoveImage(true, SelectedMenu);
+                    }
+                }
+                
+            }
+
+            if (Charging)
+            {
+                if (ChargeTimeCount > ChargeTime)
+                {
+                    Charging = false;
+                }
+                ChargeTimeCount += Time.deltaTime;
+            }
+            else
+            {
+                if (MoveTimeCount >= MoveTime)
+                {
+                    if (SelectedMenu >= 1)
+                    {
+                        GetComponents<AudioSource>()[1].Play();
+                        SelectedMenu--;
+                        if (MenuShowImage)
+                        {
+                            GetComponent<MenuMoveImage>().MoveImage(true, SelectedMenu);
+                        }
+                    }
+                    MoveTimeCount = 0;
+                }
+                MoveTimeCount += Time.deltaTime;
+            }
+        }
+
+        if(Mathf.Abs(MainPageControllerManager.MainCharacter.GetAxis("Left Stick Y")) < StickYThreshold)
+        {
+            First = true;
+            ChargeTimeCount = 0;
+            Charging = true;
+            MoveTimeCount = MoveTime;
+        }
+
+        if (MainPageControllerManager.MainCharacter.GetButtonDown("A"))
+        {
+            if (ButtonClickable)
+            {
+                EventManager.instance.Fire(new ButtonClicked(ButtonList[SelectedMenu]));
+                GetComponents<AudioSource>()[0].Play();
+            }
+        }
+
+        /*if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             GetComponents<AudioSource>()[1].Play();
             if (SelectedMenu - 1 < 0)
@@ -64,7 +177,7 @@ public class ButtonSelection : MonoBehaviour
                 EventManager.instance.Fire(new ButtonClicked(ButtonList[SelectedMenu]));
                 GetComponents<AudioSource>()[0].Play();
             }
-        }
+        }*/
     }
 
     private void SetMenuState()
