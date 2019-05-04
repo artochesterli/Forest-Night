@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SpiritLine
-  m_Shader: {fileID: 4800000, guid: a67970d0f00e5c9489ede4df40ea1fcb, type: 3}
+  m_Shader: {fileID: 4800000, guid: 1a22190dee4644648a97b87afa9eacad, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -40,4 +40,4 @@ Material:
     - __dirty: 0
     m_Colors:
     - _Color0: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
-    - _Speed: {r: -0.5, g: 0, b: 0, a: 0}
+    - _Speed: {r: 1.3, g: 0, b: 0, a: 0}
