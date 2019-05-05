@@ -193,20 +193,21 @@ public class ShootArrow : MonoBehaviour
         }
         if (hit.collider.gameObject.CompareTag("Mirror"))
         {
-            float MirrorTopY = hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y * hit.collider.gameObject.transform.localScale.y / 2;
-            if (hit.point.y < MirrorTopY-mirrorTopDownOffset)
+            if (direction.x > 0)
             {
-                if (direction.x > 0)
-                {
-                    StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
-                }
-                else
-                {
-                    StartPoint = hit.point + Vector2.right * mirroBounceStartPointOffset;
-                }
-                direction.x = -direction.x;
-                CreateAimLIne(direction, StartPoint);
+                StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
             }
+            else
+            {
+                StartPoint = hit.point + Vector2.right * mirroBounceStartPointOffset;
+            }
+            direction.x = -direction.x;
+            CreateAimLIne(direction, StartPoint);
+            //float MirrorTopY = hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y * hit.collider.gameObject.transform.localScale.y / 2;
+            /*if (hit.point.y < MirrorTopY-mirrorTopDownOffset)
+            {
+                
+            }*/
         }
 
     }
