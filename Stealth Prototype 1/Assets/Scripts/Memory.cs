@@ -6,16 +6,22 @@ public class Memory : MonoBehaviour
 {
     public float DisMax;
     public float DisMin;
-    public Color SavedColor;
+    public Color ActivateColor;
 
     private bool activated;
-
+    private const float ColorChangeTime = 0.2f;
+    private const float FadeTime = 2f;
+    private const float FadePauseTime = 1;
     // Start is called before the first frame update
     void Start()
     {
-        
+        EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
+    }
     // Update is called once per frame
     void Update()
     {
@@ -53,12 +59,51 @@ public class Memory : MonoBehaviour
             if (MainCharacterDis <= DisMin && FairyDis <= DisMin)
             {
                 activated = true;
-                foreach (Transform child in transform)
-                {
-                    child.GetComponent<SpriteRenderer>().color = SavedColor;
-                }
+                StartCoroutine(ChangeColor());
                 EventManager.instance.Fire(new SaveLevel());
             }
+        }
+    }
+
+    private IEnumerator ChangeColor()
+    {
+        float timecount = 0;
+        while (timecount < ColorChangeTime)
+        {
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, ActivateColor, timecount / ColorChangeTime);
+            }
+            timecount += Time.deltaTime;
+            yield return null;
+        }
+        yield return StartCoroutine(Fade());
+    }
+
+    private IEnumerator Fade()
+    {
+        foreach (Transform child in transform)
+        {
+            child.GetComponent<SpriteRenderer>().color = ActivateColor;
+        }
+        yield return new WaitForSeconds(FadePauseTime);
+        float timecount = 0;
+        while (timecount < FadeTime)
+        {
+            foreach (Transform child in transform)
+            {
+                child.GetComponent<SpriteRenderer>().color = Color.Lerp(ActivateColor,new Color(ActivateColor.r,ActivateColor.g,ActivateColor.b,0), timecount / FadeTime);
+            }
+            timecount += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private void OnLoadLevel(LoadLevel L)
+    {
+        if (activated)
+        {
+            StartCoroutine(Fade());
         }
     }
 }

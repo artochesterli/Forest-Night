@@ -17,12 +17,12 @@ public class Totem_Status_Manager : MonoBehaviour
         if (Activated)
         {
             GetComponent<SpriteRenderer>().enabled = true;
-            GetComponent<BoxCollider2D>().enabled = true;
+            GetComponent<PolygonCollider2D>().enabled = true;
         }
         else
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<BoxCollider2D>().enabled = false;
+            GetComponent<PolygonCollider2D>().enabled = false;
         }
     }
 }

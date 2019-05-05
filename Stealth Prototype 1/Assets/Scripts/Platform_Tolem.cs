@@ -12,6 +12,7 @@ public class Platform_Tolem : MonoBehaviour
     public bool moving;
 
     private bool At_First_Point;
+    private const float LightAppearTime = 0.2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +29,8 @@ public class Platform_Tolem : MonoBehaviour
     public IEnumerator Move()
     {
         moving = true;
-        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = true;
+        StartCoroutine(LightChange(true));
+
         Vector2 direction = Vector2.zero;
         Vector3 EndPoint = Vector3.zero;
         float speed = ((Vector2)(SecondPoint - FirstPoint)).magnitude/move_period;
@@ -79,7 +81,7 @@ public class Platform_Tolem : MonoBehaviour
             Character_Manager.Fairy.GetComponent<CharacterMove>().PlatformSpeed = Vector2.zero;
         }
         At_First_Point = !At_First_Point;
-        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = false;
+        StartCoroutine(LightChange(false));
         moving = false;
     }
 
@@ -88,11 +90,31 @@ public class Platform_Tolem : MonoBehaviour
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
         if (ob.CompareTag("Slash") &&!moving)
         {
+            StopAllCoroutines();
             StartCoroutine(Move());
             if (Connected_Moving_Platform != null)
             {
                 Connected_Moving_Platform.GetComponent<Platform_Tolem>().StartCoroutine(Connected_Moving_Platform.GetComponent<Platform_Tolem>().Move());
             }
+        }
+    }
+
+    private IEnumerator LightChange(bool appear)
+    {
+        GameObject Light = transform.Find("ActivatedLight").gameObject;
+        float timecount = 0;
+        while (timecount < LightAppearTime)
+        {
+            if (appear)
+            {
+                Light.GetComponent<SpriteRenderer>().color = Color.Lerp(new Color(1, 1, 1, 0), Color.white, timecount / LightAppearTime);
+            }
+            else
+            {
+                Light.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), timecount / LightAppearTime);
+            }
+            timecount += Time.deltaTime;
+            yield return null;
         }
     }
 

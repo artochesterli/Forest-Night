@@ -10,17 +10,15 @@ public class Path_Totem : MonoBehaviour
     private float Path_Vertical_Offset = 0;
     private float PathOpenTime = 0.25f;
 
+    private const float LightAppearTime = 0.5f;
     private const int PathSpritePerMeter = 2;
     private const int PathSpriteNumber = 4;
 
-
+    private bool Activated;
     // Start is called before the first frame update
     void Start()
     {
-        if(!GetComponent<Totem_Status_Manager>().Activated)
-        {
-            StartCoroutine(CreatePath());
-        }
+
     }
 
     // Update is called once per frame
@@ -29,19 +27,19 @@ public class Path_Totem : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.CompareTag("Slash"))
+        if (ob.CompareTag("Slash")&&!Activated)
         {
-            var self_status = GetComponent<Totem_Status_Manager>();
-            self_status.Activated = false;
             StartCoroutine(CreatePath());
         }
     }
 
     private IEnumerator CreatePath()
     {
+        Activated = true;
+        yield return StartCoroutine(LightAppear());
         GameObject Path = transform.Find("Path").gameObject;
         Path.transform.Find("Path_End").GetComponent<BoxCollider2D>().enabled = true;
         Path.GetComponent<BoxCollider2D>().enabled = true;
@@ -63,6 +61,23 @@ public class Path_Totem : MonoBehaviour
             Path.GetComponent<BoxCollider2D>().offset = new Vector2(0, -(i+1) * (1.0f / PathSpritePerMeter) / 2 - Path_Vertical_Offset);
             yield return new WaitForSeconds(PathOpenTime/PathUnitNumber);
         }
+    }
+
+    private IEnumerator LightAppear()
+    {
+        GameObject Light = transform.Find("ActivatedLight").gameObject;
+        float timecount = 0;
+        while (timecount < LightAppearTime)
+        {
+            Light.GetComponent<SpriteRenderer>().color = Color.Lerp(new Color(1, 1, 1, 0), Color.white, timecount / LightAppearTime);
+            timecount += Time.deltaTime;
+            yield return null;
+        }
+
+        Light.GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<PolygonCollider2D>().enabled = false;
+        Instantiate(Resources.Load("Prefabs/VFX/PathTotemDisappear"), transform.position, Quaternion.Euler(0, 0, 0));
     }
 
 }

@@ -16,6 +16,8 @@ public class Portal : MonoBehaviour
 
     private const float LightingTime = 1;
     private const float ScreenFadeTime = 1f;
+    private const float ColorChangeTime = 0.2f;
+    private const float PauseTime = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,16 +55,23 @@ public class Portal : MonoBehaviour
 
     }
 
+    private IEnumerator ChangeColor()
+    {
+        GameObject Gate = transform.Find("GoalPortal").gameObject;
+        float timecount = 0;
+        while (timecount < ColorChangeTime)
+        {
+            var main = Gate.GetComponent<ParticleSystem>();
+            main.startColor = Color.Lerp(Color.white, ActivateColor, timecount / ColorChangeTime);
+            timecount += Time.deltaTime;
+            yield return null;
+        }
+    }
+
     private IEnumerator Activate()
     {
-        foreach(Transform child in transform)
-        {
-            if (child.GetComponent<SpriteRenderer>() != null)
-            {
-                child.GetComponent<SpriteRenderer>().color = ActivateColor;
-            }
-        }
-
+        yield return StartCoroutine(ChangeColor());
+        yield return new WaitForSeconds(PauseTime);
         GameObject Light = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/Light"));
         Light.GetComponent<Light>().intensity = 0;
 
