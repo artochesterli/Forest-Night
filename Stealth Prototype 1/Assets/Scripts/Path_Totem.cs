@@ -10,7 +10,7 @@ public class Path_Totem : MonoBehaviour
     private float Path_Vertical_Offset = 0;
     private float PathOpenTime = 0.25f;
 
-    private const float LightAppearTime = 0.5f;
+    private const float LightAppearTime = 0.2f;
     private const int PathSpritePerMeter = 2;
     private const int PathSpriteNumber = 4;
 

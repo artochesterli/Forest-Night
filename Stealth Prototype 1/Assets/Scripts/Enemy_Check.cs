@@ -348,21 +348,20 @@ public class Enemy_Check : MonoBehaviour
 
             if (hit.collider.gameObject.CompareTag("Mirror"))
             {
-                if (hit.point.y < hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y / 2)
+                CurrentLaserState = LaserState.HitMirror;
+                if (direction.x > 0)
                 {
-                    CurrentLaserState = LaserState.HitMirror;
-                    if (direction.x > 0)
-                    {
-                        StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
-                    }
-                    else
-                    {
-                        StartPoint = hit.point + Vector2.right * mirroBounceStartPointOffset;
-                    }
-
-                    direction.x = -direction.x;
-                    GenerateLaserLine(direction, StartPoint);
+                    StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
                 }
+                else
+                {
+                    StartPoint = hit.point + Vector2.right * mirroBounceStartPointOffset;
+                }
+
+                direction.x = -direction.x;
+                GenerateLaserLine(direction, StartPoint);
+
+
             }
             else
             {

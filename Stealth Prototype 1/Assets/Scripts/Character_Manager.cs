@@ -11,6 +11,8 @@ public class Character_Manager : MonoBehaviour
     public float Invisible_Dis_Theshold;
 
     private GameObject Memory;
+    private GameObject InvisibleShield;
+
 
     private void OnEnable()
     {
@@ -34,6 +36,7 @@ public class Character_Manager : MonoBehaviour
     void Update()
     {
         CheckIfInvisible();
+        SetShield();
     }
 
     private void CheckIfInvisible()
@@ -51,6 +54,22 @@ public class Character_Manager : MonoBehaviour
                 Main_Character.GetComponent<Invisible>().invisible = false;
                 Fairy.GetComponent<Invisible>().invisible = false;
             }
+        }
+    }
+
+    private void SetShield()
+    {
+        if(Main_Character.GetComponent<Invisible>().invisible&& Fairy.GetComponent<Invisible>().invisible)
+        {
+            if (InvisibleShield == null)
+            {
+                InvisibleShield = (GameObject)Instantiate(Resources.Load("Prefabs/VFX/InvisibleShield"));
+            }
+            InvisibleShield.transform.position = (Main_Character.transform.position + Fairy.transform.position) / 2;
+        }
+        else
+        {
+            Destroy(InvisibleShield);
         }
     }
 

@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisMax: 5
   DisMin: 1
-  SavedColor: {r: 0.35686275, g: 0.9529412, b: 0.9137255, a: 1}
+  ActivateColor: {r: 0.4575472, g: 0.99572873, b: 1, a: 1}
 --- !u!1 &3615607868345564391
 GameObject:
   m_ObjectHideFlags: 0

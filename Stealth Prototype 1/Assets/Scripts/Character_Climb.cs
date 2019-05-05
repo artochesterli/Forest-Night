@@ -19,7 +19,7 @@ public class Character_Climb : MonoBehaviour
     private bool AbleToClimb;
     public GameObject ConnectedPath;
 
-    private const float climb_threshold = 0.8f;
+    private const float climb_threshold = 0.9f;
     private const float climb_jump_threshold = 0.4f;
     // Start is called before the first frame update
     void Start()
