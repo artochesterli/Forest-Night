@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4161543798090476387}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.46, y: 1.22, z: -1.61}
   m_LocalScale: {x: -1.151435, y: 0.9496368, z: 0.9496368}
   m_Children: []
@@ -101,7 +101,7 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 0.8703848, b: 0.3254717, a: 1}
-      key1: {r: 1, g: 0.5330188, b: 0.5989455, a: 1}
+      key1: {r: 1, g: 0.7028302, b: 0.7452831, a: 1}
       key2: {r: 1, g: 0.8703848, b: 0.3254717, a: 1}
       key3: {r: 0.7401965, g: 0, b: 0.9056604, a: 0}
       key4: {r: 0.7401965, g: 0, b: 0.9056604, a: 0}
