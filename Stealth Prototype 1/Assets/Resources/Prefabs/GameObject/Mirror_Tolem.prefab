@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1257436837558254637}
   - component: {fileID: 1257436837558254636}
-  - component: {fileID: 4467072664786024684}
   - component: {fileID: 8745278826679232994}
+  - component: {fileID: 8426958293847704853}
   m_Layer: 16
   m_Name: Mirror_Tolem
   m_TagString: Mirror_Totem
@@ -82,8 +82,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4467072664786024684
-BoxCollider2D:
+--- !u!114 &8745278826679232994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257436837558254632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b3a6b65661c424fabba6586eaeba33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConnectedMirrors: []
+--- !u!60 &8426958293847704853
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -105,22 +118,16 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 1.5}
-  m_EdgeRadius: 0
---- !u!114 &8745278826679232994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1257436837558254632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8b3a6b65661c424fabba6586eaeba33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConnectedMirrors: []
+  m_Points:
+    m_Paths:
+    - - {x: 0.2, y: 0.75}
+      - {x: -0.2, y: 0.75}
+      - {x: -0.45, y: 0}
+      - {x: -0.45, y: -0.4}
+      - {x: -0.15, y: -0.75}
+      - {x: 0.15, y: -0.75}
+      - {x: 0.45, y: -0.4}
+      - {x: 0.45, y: 0}
 --- !u!1 &4884130915894732441
 GameObject:
   m_ObjectHideFlags: 0
