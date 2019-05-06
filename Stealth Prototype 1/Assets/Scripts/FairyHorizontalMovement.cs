@@ -27,7 +27,7 @@ public class FairyHorizontalMovement : MonoBehaviour
     void Update()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != FairyStatus.Climbing && Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Transporting && Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status != FairyStatus.KnockBack)
+        if (Fairy_Status.status != FairyStatus.Climbing && Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status != FairyStatus.KnockBack)
         {
             check_input();
         }

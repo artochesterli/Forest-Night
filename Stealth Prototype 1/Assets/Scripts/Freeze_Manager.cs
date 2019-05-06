@@ -49,7 +49,6 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Main_Character.GetComponent<MainCharacterHorizontalMovement>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<Character_Jump>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<Character_Climb>().enabled = false;
-                Character_Manager.Main_Character.GetComponent<Transport>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<Dash_To_Fairy>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<Slash>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<CharacterMove>().enabled = false;
@@ -60,7 +59,6 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Fairy.GetComponent<FairyHorizontalMovement>().enabled = false;
                 Character_Manager.Fairy.GetComponent<Character_Jump>().enabled = false;
                 Character_Manager.Fairy.GetComponent<Float>().enabled = false;
-                Character_Manager.Fairy.GetComponent<Transport>().enabled = false;
                 Character_Manager.Fairy.GetComponent<Float_Point>().enabled = false;
                 Character_Manager.Fairy.GetComponent<ShootArrow>().enabled = false;
                 Character_Manager.Fairy.GetComponent<CharacterMove>().enabled = false;
@@ -89,7 +87,6 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Main_Character.GetComponent<MainCharacterHorizontalMovement>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<Character_Jump>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<Character_Climb>().enabled = true;
-                Character_Manager.Main_Character.GetComponent<Transport>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<Dash_To_Fairy>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<Slash>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<CharacterMove>().enabled = true;
@@ -100,7 +97,6 @@ public class Freeze_Manager : MonoBehaviour
                 Character_Manager.Fairy.GetComponent<FairyHorizontalMovement>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Character_Jump>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Float>().enabled = true;
-                Character_Manager.Fairy.GetComponent<Transport>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Float_Point>().enabled = true;
                 if (GetComponent<Level_Manager>().LevelIndex > 2)
                 {

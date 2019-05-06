@@ -5,6 +5,7 @@ using Rewired;
 
 public class MainHelpMenuManager : MonoBehaviour
 {
+    public GameObject MainMenu;
 
     private Player MainCharacterPlayer;
     private Player FairyPlayer;
@@ -18,14 +19,14 @@ public class MainHelpMenuManager : MonoBehaviour
         MainCharacterPlayer = ReInput.players.GetPlayer(0);
         FairyPlayer = ReInput.players.GetPlayer(1);
 
-        EventManager.instance.AddHandler<EnterMainHelpMenu>(OnEnterMainHelpMenu);
-        EventManager.instance.AddHandler<ExitMainHelpMenu>(OnExitMainHelpMenu);
+        EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<EnterMainHelpMenu>(OnEnterMainHelpMenu);
-        EventManager.instance.RemoveHandler<ExitMainHelpMenu>(OnExitMainHelpMenu);
+        EventManager.instance.RemoveHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
 
     // Update is called once per frame
@@ -40,37 +41,43 @@ public class MainHelpMenuManager : MonoBehaviour
         {
             if (MainPageControllerManager.MainCharacter.GetButtonDown("B"))
             {
-                EventManager.instance.Fire(new EnterMainMenu());
-                EventManager.instance.Fire(new ExitMainHelpMenu());
+                EventManager.instance.Fire(new EnterMenu(MainMenu));
+                EventManager.instance.Fire(new ExitMenu(gameObject));
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                EventManager.instance.Fire(new EnterMainMenu());
-                EventManager.instance.Fire(new ExitMainHelpMenu());
+                EventManager.instance.Fire(new EnterMenu(MainMenu));
+                EventManager.instance.Fire(new ExitMenu(gameObject));
             }
         }
         EnterThisFrame = false;
     }
 
-    private void OnExitMainHelpMenu(ExitMainHelpMenu E)
+    private void OnEnterMenu(EnterMenu E)
     {
-        Active = false;
-        GetComponent<ButtonSelection>().enabled = false;
-        foreach (Transform child in transform)
+        if (E.Menu == gameObject)
         {
-            child.gameObject.SetActive(false);
+            EnterThisFrame = true;
+            Active = true;
+            GetComponent<ButtonSelection>().enabled = true;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(true);
+            }
         }
     }
 
-    private void OnEnterMainHelpMenu(EnterMainHelpMenu E)
+    private void OnExitMenu(ExitMenu E)
     {
-        EnterThisFrame = true;
-        Active = true;
-        GetComponent<ButtonSelection>().enabled = true;
-        foreach (Transform child in transform)
+        if (E.Menu == gameObject)
         {
-            child.gameObject.SetActive(true);
+            Active = false;
+            GetComponent<ButtonSelection>().enabled = false;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
         }
     }
 }

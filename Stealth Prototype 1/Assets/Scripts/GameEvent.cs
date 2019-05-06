@@ -28,23 +28,23 @@ public class SaveLevel : GameEvent { }
 
 public class LoadLevel : GameEvent { }
 
-public class EnterControlMenu : GameEvent { }
-public class ExitControlMenu : GameEvent { }
+public class EnterMenu : GameEvent
+{
+    public GameObject Menu;
+    public EnterMenu(GameObject M)
+    {
+        Menu = M;
+    }
+}
 
-public class EnterObjectsMenu : GameEvent { }
-public class ExitObjectsMenu : GameEvent { }
-
-public class EnterAbilitiesMenu : GameEvent { }
-public class ExitAbilitiesMenu : GameEvent { }
-
-public class EnterMainHelpMenu : GameEvent { }
-public class ExitMainHelpMenu : GameEvent { }
-
-public class EnterMainMenu : GameEvent { }
-public class ExitMainMenu : GameEvent { }
-
-public class EnterLevelSelection : GameEvent { }
-public class ExitLevelSelection : GameEvent { }
+public class ExitMenu : GameEvent
+{
+    public GameObject Menu;
+    public ExitMenu(GameObject M)
+    {
+        Menu = M;
+    }
+}
 
 public class EnterLevel : GameEvent
 {

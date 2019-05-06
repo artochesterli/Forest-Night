@@ -10,7 +10,6 @@ public enum FairyStatus
     FloatPlatform,
     Aiming,
     Climbing,
-    Transporting,
     Aimed,
     KnockBack,
 }
@@ -59,7 +58,7 @@ public class Fairy_Status_Manager : MonoBehaviour
         {
             GetComponent<Invisible>().AbleToInvisible = true;
         }
-        else if (status == FairyStatus.Float || status == FairyStatus.FloatPlatform || status == FairyStatus.Climbing || status == FairyStatus.Aiming || status == FairyStatus.Transporting || status == FairyStatus.Aimed)
+        else if (status == FairyStatus.Float || status == FairyStatus.FloatPlatform || status == FairyStatus.Climbing || status == FairyStatus.Aiming || status == FairyStatus.Aimed)
         {
             GetComponent<Invisible>().AbleToInvisible = false;
         }

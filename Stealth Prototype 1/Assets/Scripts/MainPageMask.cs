@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MainPageMask : MonoBehaviour
 {
+    public GameObject MainMenu;
     public Color MainMenuColor;
     public Color SubMenuColor;
 
@@ -16,14 +17,14 @@ public class MainPageMask : MonoBehaviour
     void Start()
     {
         ToSubMenu = false;
-        EventManager.instance.AddHandler<EnterMainMenu>(OnEnterMainMenu);
-        EventManager.instance.AddHandler<ExitMainMenu>(OnExitMainMenu);
+        EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<EnterMainMenu>(OnEnterMainMenu);
-        EventManager.instance.RemoveHandler<ExitMainMenu>(OnExitMainMenu);
+        EventManager.instance.RemoveHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
 
     private void Update()
@@ -47,13 +48,19 @@ public class MainPageMask : MonoBehaviour
         GetComponent<RawImage>().color = Color.Lerp(MainMenuColor, SubMenuColor, TimeCount/ChangeTime);
     }
 
-    private void OnEnterMainMenu(EnterMainMenu E)
+    private void OnEnterMenu(EnterMenu E)
     {
-        ToSubMenu = false;
+        if (E.Menu == MainMenu)
+        {
+            ToSubMenu = false;
+        }
     }
 
-    private void OnExitMainMenu(ExitMainMenu E)
+    private void OnExitMenu(ExitMenu E)
     {
-        ToSubMenu = true;
+        if (E.Menu == MainMenu)
+        {
+            ToSubMenu = true;
+        }
     }
 }

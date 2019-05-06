@@ -633,6 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6568181665fea24bb6677ac77d81253, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainHelpMenu: {fileID: 706324582}
 --- !u!1 &84320552
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,6 +874,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c74cf580a626b4e82b13159c406f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainHelpMenu: {fileID: 706324582}
+  ControlMenu: {fileID: 2118099414}
 --- !u!114 &101014418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2135,6 +2138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1216f80ffc1e31748adaf92831ce10ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainHelpMenu: {fileID: 706324582}
 --- !u!1 &337580912
 GameObject:
   m_ObjectHideFlags: 0
@@ -3508,6 +3512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df6bfb00db6c014b928d7e961cfd1a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainHelpMenu: {fileID: 706324582}
 --- !u!1 &608887368
 GameObject:
   m_ObjectHideFlags: 0
@@ -4251,6 +4256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bb440d45295ca49ae69fc309747787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainMenu: {fileID: 990258249}
 --- !u!114 &703794767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4733,6 +4739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efd3427c03ade4c4494fc9e64c75a186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainMenu: {fileID: 990258249}
 --- !u!1 &722542393
 GameObject:
   m_ObjectHideFlags: 0
@@ -5558,6 +5565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea55bd7ca81b4e6449ad47d5504ceee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ObjectsMenu: {fileID: 316091643}
 --- !u!1 &843285303
 GameObject:
   m_ObjectHideFlags: 0
@@ -8683,6 +8691,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a399e44b312372499ce758d99c84689, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainMenu: {fileID: 990258249}
   MainMenuColor: {r: 0, g: 0, b: 0, a: 0.2509804}
   SubMenuColor: {r: 0, g: 0, b: 0, a: 0.7529412}
   ChangeTime: 0.2
@@ -10025,6 +10034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6335c1b6c19076549b6994fd0b3ad25a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LevelSelection: {fileID: 703794764}
 --- !u!1 &1801956937
 GameObject:
   m_ObjectHideFlags: 0
@@ -10864,6 +10874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ed05c10b66d7654da185927eee43e1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainMenu: {fileID: 990258249}
 --- !u!1 &1917661817
 GameObject:
   m_ObjectHideFlags: 0
@@ -12518,6 +12529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a30c1e5cb48594468c04c6dc5c841e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainHelpMenu: {fileID: 706324582}
 --- !u!1 &2119357786
 GameObject:
   m_ObjectHideFlags: 0
@@ -12909,3 +12921,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9f00d5dbad263e4f9da9daf9897caae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AbilitiesMenu: {fileID: 570886638}
+  MainHelpMenu: {fileID: 706324582}

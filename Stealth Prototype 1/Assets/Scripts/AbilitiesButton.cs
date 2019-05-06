@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AbilitiesButton : MonoBehaviour
 {
+    public GameObject AbilitiesMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +22,8 @@ public class AbilitiesButton : MonoBehaviour
 
         if (Click.Button == gameObject)
         {
-            EventManager.instance.Fire(new ExitMainHelpMenu());
-            EventManager.instance.Fire(new EnterAbilitiesMenu());
+            EventManager.instance.Fire(new ExitMenu(transform.parent.gameObject));
+            EventManager.instance.Fire(new EnterMenu(AbilitiesMenu));
         }
     }
 }

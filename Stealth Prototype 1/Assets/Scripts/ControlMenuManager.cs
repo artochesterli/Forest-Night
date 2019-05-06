@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class ControlMenuManager : MonoBehaviour
 {
+    public GameObject MainHelpMenu;
+
     private bool Active;
     // Start is called before the first frame update
     void Start()
     {
-        EventManager.instance.AddHandler<EnterControlMenu>(OnEnterControlMenu);
-        EventManager.instance.AddHandler<ExitControlMenu>(OnExitControlMenu);
+        EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<EnterControlMenu>(OnEnterControlMenu);
-        EventManager.instance.RemoveHandler<ExitControlMenu>(OnExitControlMenu);
+        EventManager.instance.RemoveHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
     // Update is called once per frame
     void Update()
@@ -29,33 +31,40 @@ public class ControlMenuManager : MonoBehaviour
         {
             if (MainPageControllerManager.MainCharacter.GetButtonDown("B"))
             {
-                EventManager.instance.Fire(new ExitControlMenu());
-                EventManager.instance.Fire(new EnterMainHelpMenu());
+                EventManager.instance.Fire(new ExitMenu(gameObject));
+                EventManager.instance.Fire(new EnterMenu(MainHelpMenu));
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                EventManager.instance.Fire(new ExitControlMenu());
-                EventManager.instance.Fire(new EnterMainHelpMenu());
+                EventManager.instance.Fire(new ExitMenu(gameObject));
+                EventManager.instance.Fire(new EnterMenu(MainHelpMenu));
             }
         }
     }
 
-    private void OnEnterControlMenu(EnterControlMenu E)
+    private void OnEnterMenu(EnterMenu E)
     {
-        Active = true;
-        foreach (Transform child in transform)
+        if (E.Menu == gameObject)
         {
-            child.gameObject.SetActive(true);
+            Active = true;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(true);
+            }
         }
     }
 
-    private void OnExitControlMenu(ExitControlMenu E)
+    private void OnExitMenu(ExitMenu E)
     {
-        Active = false;
-        foreach (Transform child in transform)
+        if (E.Menu == gameObject)
         {
-            child.gameObject.SetActive(false);
+            Active = false;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
         }
     }
+
 }

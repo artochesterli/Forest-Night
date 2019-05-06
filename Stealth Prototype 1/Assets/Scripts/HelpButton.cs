@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HelpButton : MonoBehaviour
 {
+    public GameObject MainHelpMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,8 +26,8 @@ public class HelpButton : MonoBehaviour
     {
         if (Click.Button == gameObject)
         {
-            EventManager.instance.Fire(new ExitMainMenu());
-            EventManager.instance.Fire(new EnterMainHelpMenu());
+            EventManager.instance.Fire(new ExitMenu(transform.parent.gameObject));
+            EventManager.instance.Fire(new EnterMenu(MainHelpMenu));
             
         }
     }

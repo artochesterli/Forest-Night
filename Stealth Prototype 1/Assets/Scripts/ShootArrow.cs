@@ -52,7 +52,7 @@ public class ShootArrow : MonoBehaviour
     {
         
         var status = GetComponent<Fairy_Status_Manager>();
-        if (status.status != FairyStatus.Transporting&&status.status!=FairyStatus.Aimed && status.status!=FairyStatus.KnockBack)
+        if (status.status!=FairyStatus.Aimed && status.status!=FairyStatus.KnockBack)
         {
             Check_Input();
         }
@@ -232,6 +232,7 @@ public class ShootArrow : MonoBehaviour
     private void OnLoadLevel(LoadLevel L)
     {
         ChargingTimeCount = 0;
+        ClearAimLine();
         Destroy(Connected_Arrow);
     }
 
@@ -239,6 +240,7 @@ public class ShootArrow : MonoBehaviour
     {
         if (C.Character == gameObject)
         {
+            ChargingTimeCount = 0;
             ClearAimLine();
             Destroy(Connected_Arrow);
         }

@@ -13,7 +13,8 @@ public class Character_Manager : MonoBehaviour
     private GameObject Memory;
     private GameObject InvisibleShield;
 
-
+    private const int InvisibleUnlockLevel = 2;
+    private const int ArrowUnlockLevel = 3;
     private void OnEnable()
     {
         Main_Character = GameObject.Find("Main_Character").gameObject;
@@ -75,13 +76,12 @@ public class Character_Manager : MonoBehaviour
 
     private void OnEnterLevel(EnterLevel E)
     {
-        if (E.Level == 1)
+        if (E.Level < InvisibleUnlockLevel)
         {
             Main_Character.GetComponent<Invisible>().enabled = false;
             Fairy.GetComponent<Invisible>().enabled = false;
-            Fairy.GetComponent<ShootArrow>().enabled = false;
         }
-        else if(E.Level == 2)
+        if(E.Level < ArrowUnlockLevel)
         {
             Fairy.GetComponent<ShootArrow>().enabled = false;
         }

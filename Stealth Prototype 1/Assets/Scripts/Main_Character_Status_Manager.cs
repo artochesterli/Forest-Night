@@ -9,7 +9,6 @@ public enum MainCharacterStatus
     Dashing,
     OverDash,
     Climbing,
-    Transporting,
     Aimed,
     KnockBack,
 }

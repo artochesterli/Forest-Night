@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ObjectsButton : MonoBehaviour
 {
+    public GameObject ObjectsMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +20,8 @@ public class ObjectsButton : MonoBehaviour
     {
         if (Click.Button == gameObject)
         {
-            EventManager.instance.Fire(new EnterObjectsMenu());
-            EventManager.instance.Fire(new ExitMainHelpMenu());
+            EventManager.instance.Fire(new EnterMenu(ObjectsMenu));
+            EventManager.instance.Fire(new ExitMenu(transform.parent.gameObject));
         }
     }
 }

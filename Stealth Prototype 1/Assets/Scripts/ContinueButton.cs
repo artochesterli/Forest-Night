@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ContinueButton : MonoBehaviour
 {
+    public GameObject LevelSelection;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,14 +27,8 @@ public class ContinueButton : MonoBehaviour
     {
         if (Click.Button == gameObject)
         {
-            /*GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/LoadingLevelData"));
-            Data data = SaveDataManager.LoadData();
-            g.GetComponent<LoadingLevelData>().Scene = "Level "+data.CurrentLevel.ToString();
-            g.name = "LoadingLevelData";
-            DontDestroyOnLoad(g);
-            SceneManager.LoadScene("Loading");*/
-            EventManager.instance.Fire(new EnterLevelSelection());
-            EventManager.instance.Fire(new ExitMainMenu());
+            EventManager.instance.Fire(new EnterMenu(LevelSelection));
+            EventManager.instance.Fire(new ExitMenu(transform.parent.gameObject));
         }
     }
 

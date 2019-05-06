@@ -6,6 +6,7 @@ using Rewired;
 
 public class AbilitiesMenuManager : MonoBehaviour
 {
+    public GameObject MainHelpMenu;
 
     private Player MainCharacterPlayer;
     private Player FairyPlayer;
@@ -18,14 +19,14 @@ public class AbilitiesMenuManager : MonoBehaviour
         MainCharacterPlayer = ReInput.players.GetPlayer(0);
         FairyPlayer = ReInput.players.GetPlayer(1);
 
-        EventManager.instance.AddHandler<EnterAbilitiesMenu>(OnEnterAbilitiesMenu);
-        EventManager.instance.AddHandler<ExitAbilitiesMenu>(OnExitAbilitiesMenu);
+        EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<EnterAbilitiesMenu>(OnEnterAbilitiesMenu);
-        EventManager.instance.RemoveHandler<ExitAbilitiesMenu>(OnExitAbilitiesMenu);
+        EventManager.instance.RemoveHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
 
     // Update is called once per frame
@@ -41,46 +42,53 @@ public class AbilitiesMenuManager : MonoBehaviour
         {
             if (MainPageControllerManager.MainCharacter.GetButtonDown("B"))
             {
-                EventManager.instance.Fire(new ExitAbilitiesMenu());
-                EventManager.instance.Fire(new EnterMainHelpMenu());
+                EventManager.instance.Fire(new ExitMenu(gameObject));
+                EventManager.instance.Fire(new EnterMenu(MainHelpMenu));
             }
 
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
-                EventManager.instance.Fire(new ExitAbilitiesMenu());
-                EventManager.instance.Fire(new EnterMainHelpMenu());
+                EventManager.instance.Fire(new ExitMenu(gameObject));
+                EventManager.instance.Fire(new EnterMenu(MainHelpMenu));
             }
         }
     }
 
-    private void OnEnterAbilitiesMenu(EnterAbilitiesMenu E)
+    private void OnEnterMenu(EnterMenu E)
     {
-        Active = true;
-        GetComponent<ButtonSelection>().enabled = true;
-        GetComponent<MenuMoveImage>().enabled = true;
-        var MenuMoveImage = GetComponent<MenuMoveImage>();
-        MenuMoveImage.Image.GetComponent<Image>().enabled = true;
-        MenuMoveImage.Image.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
-        MenuMoveImage.BackImage.GetComponent<Image>().enabled = true;
-        MenuMoveImage.BackImage.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
-        MenuMoveImage.BackImage.GetComponent<RectTransform>().anchoredPosition = MenuMoveImage.Image.GetComponent<RectTransform>().anchoredPosition + Vector2.up * height;
-        foreach (Transform child in transform)
+        if (E.Menu == gameObject)
         {
-            child.gameObject.SetActive(true);
+            Active = true;
+            GetComponent<ButtonSelection>().enabled = true;
+            GetComponent<MenuMoveImage>().enabled = true;
+            var MenuMoveImage = GetComponent<MenuMoveImage>();
+            MenuMoveImage.Image.GetComponent<Image>().enabled = true;
+            MenuMoveImage.Image.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
+            MenuMoveImage.BackImage.GetComponent<Image>().enabled = true;
+            MenuMoveImage.BackImage.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
+            MenuMoveImage.BackImage.GetComponent<RectTransform>().anchoredPosition = MenuMoveImage.Image.GetComponent<RectTransform>().anchoredPosition + Vector2.up * height;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(true);
+            }
         }
     }
 
-    private void OnExitAbilitiesMenu(ExitAbilitiesMenu E)
+    private void OnExitMenu(ExitMenu E)
     {
-        Active = false;
-        GetComponent<ButtonSelection>().enabled = false;
-        GetComponent<MenuMoveImage>().enabled = false;
-        var MenuMoveImage = GetComponent<MenuMoveImage>();
-        MenuMoveImage.Image.GetComponent<Image>().enabled = false;
-        MenuMoveImage.BackImage.GetComponent<Image>().enabled = false;
-        foreach (Transform child in transform)
+        if (E.Menu == gameObject)
         {
-            child.gameObject.SetActive(false);
+            Active = false;
+            GetComponent<ButtonSelection>().enabled = false;
+            GetComponent<MenuMoveImage>().enabled = false;
+            var MenuMoveImage = GetComponent<MenuMoveImage>();
+            MenuMoveImage.Image.GetComponent<Image>().enabled = false;
+            MenuMoveImage.BackImage.GetComponent<Image>().enabled = false;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
         }
     }
+
 }

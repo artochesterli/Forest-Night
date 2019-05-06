@@ -23,16 +23,16 @@ public class MainMenuManager : MonoBehaviour
     {
         Active = true;
         
-        EventManager.instance.AddHandler<EnterMainMenu>(OnEnterMainMenu);
-        EventManager.instance.AddHandler<ExitMainMenu>(OnExitMainMenu);
+        EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
 
         SetMenu();
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<EnterMainMenu>(OnEnterMainMenu);
-        EventManager.instance.RemoveHandler<ExitMainMenu>(OnExitMainMenu);
+        EventManager.instance.RemoveHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
 
     private bool HaveData()
@@ -42,20 +42,25 @@ public class MainMenuManager : MonoBehaviour
         return File.Exists(DataPath);
     }
 
-
-    private void OnExitMainMenu(ExitMainMenu E)
+    private void OnEnterMenu(EnterMenu E)
     {
-        GetComponent<ButtonSelection>().enabled = false;
-        foreach (Transform child in transform)
+        if (E.Menu == gameObject)
         {
-            child.gameObject.SetActive(false);
+            GetComponent<ButtonSelection>().enabled = true;
+            SetMenu();
         }
     }
 
-    private void OnEnterMainMenu(EnterMainMenu E)
+    private void OnExitMenu(ExitMenu E)
     {
-        GetComponent<ButtonSelection>().enabled = true;
-        SetMenu();
+        if (E.Menu == gameObject)
+        {
+            GetComponent<ButtonSelection>().enabled = false;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void SetMenu()
