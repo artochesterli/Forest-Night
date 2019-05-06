@@ -1800,6 +1800,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e5997d33f86cd714b923b618e23bad7f,
         type: 3}
+    - target: {fileID: 7178471449600765663, guid: c29ec56a9fb49bc4fb7f21d609d38748,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c29ec56a9fb49bc4fb7f21d609d38748, type: 3}
 --- !u!4 &240553614 stripped
@@ -2519,6 +2524,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f5dc6fd3c7b17954a84c1560ad572051,
         type: 3}
+    - target: {fileID: 7178471449600765663, guid: c29ec56a9fb49bc4fb7f21d609d38748,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c29ec56a9fb49bc4fb7f21d609d38748, type: 3}
 --- !u!4 &500292241 stripped
@@ -3468,6 +3478,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: bdd3e755b3bf41c4c8266fb3a256de44,
         type: 3}
+    - target: {fileID: 7178471449600765663, guid: c29ec56a9fb49bc4fb7f21d609d38748,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c29ec56a9fb49bc4fb7f21d609d38748, type: 3}
 --- !u!4 &676584613 stripped
@@ -4551,6 +4566,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: fbe9f3385a751a249829138fd3b5b752,
         type: 3}
+    - target: {fileID: 7178471449600765663, guid: c29ec56a9fb49bc4fb7f21d609d38748,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c29ec56a9fb49bc4fb7f21d609d38748, type: 3}
 --- !u!4 &1004777805 stripped
@@ -8356,6 +8376,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Normal Tile (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7178471449600765648, guid: c29ec56a9fb49bc4fb7f21d609d38748,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7178471449600765662, guid: c29ec56a9fb49bc4fb7f21d609d38748,
         type: 3}
