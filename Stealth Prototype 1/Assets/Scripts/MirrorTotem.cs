@@ -23,7 +23,7 @@ public class MirrorTotem : MonoBehaviour
         {
             for(int i = 0; i < ConnectedMirrors.Count; i++)
             {
-                ConnectedMirrors[i].GetComponent<Totem_Status_Manager>().Activated = !ConnectedMirrors[i].GetComponent<Totem_Status_Manager>().Activated;
+                ConnectedMirrors[i].GetComponent<MirrorStateManager>().Activated = !ConnectedMirrors[i].GetComponent<MirrorStateManager>().Activated;
             }
         }
     }
