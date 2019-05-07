@@ -44,6 +44,16 @@ public class MainCharacterHorizontalMovement : MonoBehaviour
             moveVector.Normalize();
         }
 
+        if (moveVector.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (moveVector.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+        }
 
         if (moveVector.x > 0 && !CharacterMove.HitRightWall || moveVector.x < 0 && !CharacterMove.HitLeftWall)
         {
@@ -87,16 +97,7 @@ public class MainCharacterHorizontalMovement : MonoBehaviour
                 }
             }
 
-            if (moveVector.x > 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-            }
-            else if (moveVector.x < 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-            }
+            
         }
         else
         {

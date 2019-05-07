@@ -6,9 +6,7 @@ using Rewired;
 public class TutorialFrame : MonoBehaviour
 {
 
-    private Player MainCharacterPlayer;
-    private Player FairyPlayer;
-
+    private bool MenuOpening;
     private bool Opening;
     private const float OpenCloseTime = 0.3f;
 
@@ -16,17 +14,18 @@ public class TutorialFrame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        MainCharacterPlayer = ReInput.players.GetPlayer(0);
-        FairyPlayer = ReInput.players.GetPlayer(1);
-
         EventManager.instance.AddHandler<TutorialOpen>(OnTutorialOpen);
         EventManager.instance.AddHandler<TutorialClose>(OnTutorialClose);
+        EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
+        EventManager.instance.AddHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<TutorialOpen>(OnTutorialOpen);
         EventManager.instance.RemoveHandler<TutorialClose>(OnTutorialClose);
+        EventManager.instance.RemoveHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
+        EventManager.instance.RemoveHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
     }
 
     // Update is called once per frame
@@ -37,9 +36,9 @@ public class TutorialFrame : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Opening)
+        if (Opening&&!MenuOpening)
         {
-            if (MainCharacterPlayer.GetButtonDown("A") || FairyPlayer.GetButtonDown("A"))
+            if (ControllerManager.MainCharacter.GetButtonDown("A") || ControllerManager.Fairy.GetButtonDown("A"))
             {
                 EventManager.instance.Fire(new TutorialClose(gameObject));
                 Opening = false;
@@ -63,6 +62,17 @@ public class TutorialFrame : MonoBehaviour
         }
     }
 
+    private void OnGameSceneMenuOpen(GameSceneMenuOpen G)
+    {
+        MenuOpening = true;
+    }
+
+    private void OnGameSceneMenuClose(GameSceneMenuClose G)
+    {
+        MenuOpening = false;
+    }
+
+
     private IEnumerator Open()
     {
         GameObject Content = transform.Find("Content").gameObject;
@@ -71,13 +81,10 @@ public class TutorialFrame : MonoBehaviour
             child.GetComponent<SpriteRenderer>().enabled = true;
             child.transform.localScale = Vector3.zero;
         }
-        //GameObject Image = transform.Find("Image").gameObject;
-        //Image.transform.localScale = Vector3.zero;
-        //Image.GetComponent<SpriteRenderer>().enabled = true;
+
         float timecount = 0;
         while (timecount < OpenCloseTime)
         {
-            //Image.transform.localScale = Vector3.one * timecount / OpenCloseTime;
             foreach (Transform child in Content.transform)
             {
                 child.transform.localScale = Vector3.one * timecount / OpenCloseTime;
@@ -85,7 +92,7 @@ public class TutorialFrame : MonoBehaviour
             timecount += Time.deltaTime;
             yield return null;
         }
-        //Image.transform.localScale = Vector3.one;
+
         Opening = true;
     }
 
@@ -98,13 +105,10 @@ public class TutorialFrame : MonoBehaviour
             
             child.transform.localScale = Vector3.one;
         }
-        //GameObject Image = transform.Find("Image").gameObject;
-        //Image.transform.localScale = Vector3.one;
 
         float timecount = 0;
         while (timecount < OpenCloseTime)
         {
-            ///Image.transform.localScale = Vector3.one * (1-timecount / OpenCloseTime);
             foreach (Transform child in Content.transform)
             {
                 child.transform.localScale = Vector3.one * (1-timecount / OpenCloseTime);
@@ -117,7 +121,6 @@ public class TutorialFrame : MonoBehaviour
             child.GetComponent<SpriteRenderer>().enabled = false;
             child.transform.localScale = Vector3.zero;
         }
-        //Image.GetComponent<SpriteRenderer>().enabled = false;
-        //Image.transform.localScale = Vector3.zero;
+
     }
 }
