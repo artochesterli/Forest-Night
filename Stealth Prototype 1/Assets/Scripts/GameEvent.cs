@@ -83,12 +83,12 @@ public class TutorialClose : GameEvent
     }
 }
 
-public class MenuOpen : GameEvent
+public class GameSceneMenuOpen: GameEvent
 {
 
 }
 
-public class MenuClose : GameEvent
+public class GameSceneMenuClose : GameEvent
 {
 
 }

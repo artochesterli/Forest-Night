@@ -422,15 +422,39 @@ public class Enemy_Check : MonoBehaviour
     {
         if (C.DeadCharacter == detected_character)
         {
-            shoot_star_time_count = 0;
             alert_time_count = 0;
             stun_time_count = 0;
-            detected_character = null;
-            detected_star = null;
-            hit_enemy = null;
-            LaserLine_disappear_time_count = 0;
-            CurrentLaserState = LaserState.Null;
-            ClearLaserLine();
+            RemoveLaser();
         }
+    }
+
+    public void RemoveLaser()
+    {
+        if (detected_character != null)
+        {
+            if (detected_character.CompareTag("Main_Character"))
+            {
+                if (detected_character.GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.Aimed)
+                {
+                    detected_character.GetComponent<Main_Character_Status_Manager>().status = MainCharacterStatus.Normal;
+                }
+            }
+            else if (detected_character.CompareTag("Fairy"))
+            {
+                if (detected_character.GetComponent<Fairy_Status_Manager>().status == FairyStatus.Aimed)
+                {
+                    detected_character.GetComponent<Fairy_Status_Manager>().status = FairyStatus.Normal;
+                }
+            }
+        }
+        shoot_star_time_count = 0;
+        detected_character = null;
+        detected_star = null;
+        detected_character = null;
+        detected_star = null;
+        hit_enemy = null;
+        LaserLine_disappear_time_count = 0;
+        CurrentLaserState = LaserState.Null;
+        ClearLaserLine();
     }
 }

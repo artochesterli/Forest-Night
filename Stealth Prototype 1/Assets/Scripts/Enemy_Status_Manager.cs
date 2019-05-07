@@ -107,6 +107,7 @@ public class Enemy_Status_Manager : MonoBehaviour
             GetComponent<AudioSource>().Play();
             GetComponent<Enemy_Check>().stun_time_count = 0;
             status = EnemyStatus.Stunned;
+            GetComponent<Enemy_Check>().RemoveLaser();
         }
     }
 

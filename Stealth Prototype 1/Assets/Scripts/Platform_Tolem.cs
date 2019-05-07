@@ -29,7 +29,7 @@ public class Platform_Tolem : MonoBehaviour
     public IEnumerator Move()
     {
         moving = true;
-        StartCoroutine(LightChange(true));
+        yield return StartCoroutine(LightChange(true));
 
         Vector2 direction = Vector2.zero;
         Vector3 EndPoint = Vector3.zero;
@@ -81,7 +81,7 @@ public class Platform_Tolem : MonoBehaviour
             Character_Manager.Fairy.GetComponent<CharacterMove>().PlatformSpeed = Vector2.zero;
         }
         At_First_Point = !At_First_Point;
-        StartCoroutine(LightChange(false));
+        yield return StartCoroutine(LightChange(false));
         moving = false;
     }
 

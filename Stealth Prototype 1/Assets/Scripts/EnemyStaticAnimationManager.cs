@@ -20,9 +20,19 @@ public class EnemyStaticAnimationManager : MonoBehaviour
     private void SetAnimation()
     {
         GetComponent<Animator>().speed = MaxPlaySpeed;
-        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("EnemyStaticIdle"))
+        if (GetComponent<Enemy_Status_Manager>().status == EnemyStatus.Stunned)
         {
-            GetComponent<Animator>().Play("EnemyStaticIdle", 0, 0);
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("EnemyStaticStunned"))
+            {
+                GetComponent<Animator>().Play("EnemyStaticStunned", 0, 0);
+            }
+        }
+        else
+        {
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("EnemyStaticIdle"))
+            {
+                GetComponent<Animator>().Play("EnemyStaticIdle", 0, 0);
+            }
         }
     }
 }

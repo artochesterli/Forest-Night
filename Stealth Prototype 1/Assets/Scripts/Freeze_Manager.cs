@@ -22,16 +22,16 @@ public class Freeze_Manager : MonoBehaviour
         
         EventManager.instance.AddHandler<TutorialOpen>(OnTutorialOpen);
         EventManager.instance.AddHandler<TutorialClose>(OnTutorialClose);
-        EventManager.instance.AddHandler<MenuOpen>(OnMenuOpen);
-        EventManager.instance.AddHandler<MenuClose>(OnMenuClose);
+        EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
+        EventManager.instance.AddHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<TutorialOpen>(OnTutorialOpen);
         EventManager.instance.RemoveHandler<TutorialClose>(OnTutorialClose);
-        EventManager.instance.RemoveHandler<MenuOpen>(OnMenuOpen);
-        EventManager.instance.RemoveHandler<MenuClose>(OnMenuClose);
+        EventManager.instance.RemoveHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
+        EventManager.instance.RemoveHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
     }
     // Update is called once per frame
     void Update()
@@ -46,6 +46,7 @@ public class Freeze_Manager : MonoBehaviour
         {
             if (Character_Manager.Main_Character != null)
             {
+                Character_Manager.Main_Character.GetComponent<Animator>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<MainCharacterHorizontalMovement>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<Character_Jump>().enabled = false;
                 Character_Manager.Main_Character.GetComponent<Character_Climb>().enabled = false;
@@ -56,6 +57,7 @@ public class Freeze_Manager : MonoBehaviour
 
             if (Character_Manager.Fairy != null)
             {
+                Character_Manager.Fairy.GetComponent<Animator>().enabled = false;
                 Character_Manager.Fairy.GetComponent<FairyHorizontalMovement>().enabled = false;
                 Character_Manager.Fairy.GetComponent<Character_Jump>().enabled = false;
                 Character_Manager.Fairy.GetComponent<Float>().enabled = false;
@@ -66,6 +68,7 @@ public class Freeze_Manager : MonoBehaviour
 
             for (int i = 0; i < AllEnemy.transform.childCount; i++)
             {
+                AllEnemy.transform.GetChild(i).GetComponent<Animator>().enabled = false;
                 AllEnemy.transform.GetChild(i).GetComponent<Enemy_Patrol>().enabled = false;
                 AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = false;
             }
@@ -76,6 +79,14 @@ public class Freeze_Manager : MonoBehaviour
                 {
                     AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = false;
                 }
+                else if (AllLevelMechanics.transform.GetChild(i).CompareTag("Mirror_Totem"))
+                {
+                    AllLevelMechanics.transform.GetChild(i).GetComponent<MirrorTotem>().enabled = false;
+                }
+                else if (AllLevelMechanics.transform.GetChild(i).CompareTag("Path_Totem"))
+                {
+                    AllLevelMechanics.transform.GetChild(i).GetComponent<Path_Totem>().enabled = false;
+                }
             }
 
         }
@@ -84,6 +95,7 @@ public class Freeze_Manager : MonoBehaviour
 
             if (Character_Manager.Main_Character != null)
             {
+                Character_Manager.Main_Character.GetComponent<Animator>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<MainCharacterHorizontalMovement>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<Character_Jump>().enabled = true;
                 Character_Manager.Main_Character.GetComponent<Character_Climb>().enabled = true;
@@ -94,6 +106,7 @@ public class Freeze_Manager : MonoBehaviour
 
             if (Character_Manager.Fairy != null)
             {
+                Character_Manager.Fairy.GetComponent<Animator>().enabled = true;
                 Character_Manager.Fairy.GetComponent<FairyHorizontalMovement>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Character_Jump>().enabled = true;
                 Character_Manager.Fairy.GetComponent<Float>().enabled = true;
@@ -107,6 +120,7 @@ public class Freeze_Manager : MonoBehaviour
 
             for (int i = 0; i < AllEnemy.transform.childCount; i++)
             {
+                AllEnemy.transform.GetChild(i).GetComponent<Animator>().enabled = true;
                 AllEnemy.transform.GetChild(i).GetComponent<Enemy_Patrol>().enabled = true;
                 AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = true;
             }
@@ -116,6 +130,14 @@ public class Freeze_Manager : MonoBehaviour
                 if (AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
                 {
                     AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = true;
+                }
+                else if (AllLevelMechanics.transform.GetChild(i).CompareTag("Mirror_Totem"))
+                {
+                    AllLevelMechanics.transform.GetChild(i).GetComponent<MirrorTotem>().enabled = true;
+                }
+                else if (AllLevelMechanics.transform.GetChild(i).CompareTag("Path_Totem"))
+                {
+                    AllLevelMechanics.transform.GetChild(i).GetComponent<Path_Totem>().enabled = true;
                 }
             }
         }
@@ -127,7 +149,7 @@ public class Freeze_Manager : MonoBehaviour
         ChangeFreeze();
     }
 
-    private void OnMenuOpen(MenuOpen M)
+    private void OnGameSceneMenuOpen(GameSceneMenuOpen M)
     {
         ShowMenu = true;
         if (!ShowTutorial)
@@ -142,7 +164,7 @@ public class Freeze_Manager : MonoBehaviour
         ChangeFreeze();
     }
 
-    private void OnMenuClose(MenuClose M)
+    private void OnGameSceneMenuClose(GameSceneMenuClose M)
     {
         ShowMenu = false;
         if (!ShowTutorial)

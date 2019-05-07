@@ -27,7 +27,7 @@ public class FairyHorizontalMovement : MonoBehaviour
     void Update()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status != FairyStatus.Climbing && Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status != FairyStatus.KnockBack)
+        if (Fairy_Status.status==FairyStatus.Normal||Fairy_Status.status==FairyStatus.Float || Fairy_Status.status==FairyStatus.Aiming)
         {
             check_input();
         }
@@ -65,7 +65,21 @@ public class FairyHorizontalMovement : MonoBehaviour
             Fast = true;
         }
 
-        
+        if (GetComponent<Fairy_Status_Manager>().status != FairyStatus.Aiming)
+        {
+            if (moveVector.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (moveVector.x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+
+
 
         if ( moveVector.x > 0 && !CharacterMove.HitRightWall || moveVector.x < 0 && !CharacterMove.HitLeftWall)
         {
@@ -110,19 +124,7 @@ public class FairyHorizontalMovement : MonoBehaviour
 
             }
 
-            if (GetComponent<Fairy_Status_Manager>().status != FairyStatus.Aiming)
-            {
-                if (moveVector.x > 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 0, 0);
-                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-                }
-                else if (moveVector.x < 0)
-                {
-                    transform.rotation = Quaternion.Euler(0, 180, 0);
-                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-                }
-            }
+            
         }
         else
         {
