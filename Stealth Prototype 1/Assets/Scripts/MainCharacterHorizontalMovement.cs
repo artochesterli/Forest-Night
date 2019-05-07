@@ -14,7 +14,7 @@ public class MainCharacterHorizontalMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<PlayerId>().player;
+        player = ControllerManager.MainCharacter;
 
     }
 

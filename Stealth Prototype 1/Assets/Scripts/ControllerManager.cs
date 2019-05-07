@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class MainPageControllerManager : MonoBehaviour
+public class ControllerManager : MonoBehaviour
 {
     Joystick MainCharacterJoystick;
     Joystick FairyJoystick;
@@ -45,7 +45,7 @@ public class MainPageControllerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     private void OnControllerConnect(ControllerStatusChangedEventArgs args)

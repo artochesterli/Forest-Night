@@ -13,18 +13,24 @@ public class Character_Jump : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<PlayerId>().player;
-        
+        if (gameObject.CompareTag("Fairy"))
+        {
+            player = ControllerManager.Fairy;
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            player = ControllerManager.MainCharacter;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        check_avaliability();
-        check_jump();
+        CheckAvaliability();
+        CheckJump();
     }
 
-    private void check_jump()
+    private void CheckJump()
     {
         if (player.GetButtonDown("A") && GetComponent<CharacterMove>().OnGround && AbleToJump)
         {
@@ -33,7 +39,7 @@ public class Character_Jump : MonoBehaviour
 
     }
 
-    private void check_avaliability()
+    private void CheckAvaliability()
     {
         if (gameObject.CompareTag("Fairy"))
         {

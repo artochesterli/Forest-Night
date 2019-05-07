@@ -16,7 +16,7 @@ public class Dash_To_Fairy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<PlayerId>().player;
+        player = ControllerManager.MainCharacter;
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
     }
 

@@ -19,7 +19,7 @@ public class FairyHorizontalMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<PlayerId>().player;
+        player = ControllerManager.Fairy;
 
     }
 

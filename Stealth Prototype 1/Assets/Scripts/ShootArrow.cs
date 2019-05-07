@@ -35,7 +35,7 @@ public class ShootArrow : MonoBehaviour
     void Start()
     {
         ArrowAngle = 90;
-        player = GetComponent<PlayerId>().player;
+        player = ControllerManager.Fairy;
         Aim_Line = new List<GameObject>();
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnHitSpineEdge);

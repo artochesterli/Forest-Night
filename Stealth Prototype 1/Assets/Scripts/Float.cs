@@ -9,7 +9,7 @@ public class Float : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<PlayerId>().player;
+        player = ControllerManager.Fairy;
     }
 
     // Update is called once per frame

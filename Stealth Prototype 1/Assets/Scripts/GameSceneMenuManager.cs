@@ -3,22 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Rewired;
 
-public class MainHelpMenuManager : MonoBehaviour
+public class GameSceneMenuManager : MonoBehaviour
 {
-    public GameObject MainMenu;
-
-    private Player MainCharacterPlayer;
-    private Player FairyPlayer;
 
     private bool Active;
-    private bool EnterThisFrame;
 
     // Start is called before the first frame update
     void Start()
     {
-        MainCharacterPlayer = ReInput.players.GetPlayer(0);
-        FairyPlayer = ReInput.players.GetPlayer(1);
-
         EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
         EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
     }
@@ -37,31 +29,34 @@ public class MainHelpMenuManager : MonoBehaviour
 
     private void CheckInput()
     {
-        if (Active&&!EnterThisFrame)
+        if (ControllerManager.MainCharacter.GetButtonDown("Start"))
         {
-            if (ControllerManager.MainCharacter.GetButtonDown("B"))
-            {
-                EventManager.instance.Fire(new EnterMenu(MainMenu));
-                EventManager.instance.Fire(new ExitMenu(gameObject));
-            }
-
-            if (Input.GetKeyDown(KeyCode.Backspace))
-            {
-                EventManager.instance.Fire(new EnterMenu(MainMenu));
-                EventManager.instance.Fire(new ExitMenu(gameObject));
-            }
+            EventManager.instance.Fire(new EnterMenu(gameObject));
         }
-        EnterThisFrame = false;
+
+        if (ControllerManager.MainCharacter.GetButtonDown("B"))
+        {
+            EventManager.instance.Fire(new ExitMenu(gameObject));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            EventManager.instance.Fire(new EnterMenu(gameObject));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            EventManager.instance.Fire(new ExitMenu(gameObject));
+        }
     }
 
     private void OnEnterMenu(EnterMenu E)
     {
         if (E.Menu == gameObject)
         {
-            EnterThisFrame = true;
             Active = true;
             GetComponent<ButtonSelection>().enabled = true;
-            foreach (Transform child in transform)
+            foreach(Transform child in transform)
             {
                 child.gameObject.SetActive(true);
             }

@@ -299,7 +299,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896336684232812320}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -449,7 +449,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &2976651961969813635
@@ -689,7 +689,6 @@ GameObject:
   - component: {fileID: 6230072628315609938}
   - component: {fileID: 2976651962471586673}
   - component: {fileID: 2976651962471586672}
-  - component: {fileID: 2976651962471586674}
   - component: {fileID: 2976651962471586701}
   - component: {fileID: 2976651962471586700}
   - component: {fileID: 2976651962471586703}
@@ -859,19 +858,6 @@ MonoBehaviour:
   dash_speed: 20
   over_dash_velocity: 20
   OverDashDeceleration: 70
---- !u!114 &2976651962471586674
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2976651962471586699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c386865a07ea8684f9eea75e2650cc55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Id: 0
 --- !u!114 &2976651962471586701
 MonoBehaviour:
   m_ObjectHideFlags: 0

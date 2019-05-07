@@ -40,7 +40,7 @@ public class ObjectsMenuManager : MonoBehaviour
     {
         if (Active)
         {
-            if (MainPageControllerManager.MainCharacter.GetButtonDown("B"))
+            if (ControllerManager.MainCharacter.GetButtonDown("B"))
             {
                 EventManager.instance.Fire(new EnterMenu(MainHelpMenu));
                 EventManager.instance.Fire(new ExitMenu(gameObject));

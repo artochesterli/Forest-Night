@@ -18,7 +18,7 @@ public class Slash : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<PlayerId>().player;
+        player = ControllerManager.MainCharacter;
         Weapon = transform.Find("Slash").gameObject;
         Slashing = false;
         Weapon.GetComponent<BoxCollider2D>().enabled = false;

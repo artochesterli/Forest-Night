@@ -30,7 +30,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player= GetComponent<PlayerId>().player;
+        player = ControllerManager.MainCharacter;
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);

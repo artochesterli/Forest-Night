@@ -24,7 +24,15 @@ public class Character_Climb : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponent<PlayerId>().player;
+        if (gameObject.CompareTag("Fairy"))
+        {
+            player = ControllerManager.Fairy;
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            player = ControllerManager.MainCharacter;
+        }
+
         ConnectedPath = null;
         InPathEnd = false;
         IsClimbing = false;

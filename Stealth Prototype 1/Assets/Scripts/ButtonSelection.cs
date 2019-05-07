@@ -38,7 +38,7 @@ public class ButtonSelection : MonoBehaviour
 
     private void CheckInput()
     {
-        if(MainPageControllerManager.MainCharacter.GetAxis("Left Stick Y")<-StickYThreshold)
+        if(ControllerManager.MainCharacter.GetAxis("Left Stick Y")<-StickYThreshold)
         {
             if (First)
             {
@@ -82,7 +82,7 @@ public class ButtonSelection : MonoBehaviour
             }
         }
 
-        if (MainPageControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold)
+        if (ControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold)
         {
             if (First)
             {
@@ -126,7 +126,7 @@ public class ButtonSelection : MonoBehaviour
             }
         }
 
-        if(Mathf.Abs(MainPageControllerManager.MainCharacter.GetAxis("Left Stick Y")) < StickYThreshold)
+        if(Mathf.Abs(ControllerManager.MainCharacter.GetAxis("Left Stick Y")) < StickYThreshold)
         {
             First = true;
             ChargeTimeCount = 0;
@@ -134,7 +134,7 @@ public class ButtonSelection : MonoBehaviour
             MoveTimeCount = MoveTime;
         }
 
-        if (MainPageControllerManager.MainCharacter.GetButtonDown("A"))
+        if (ControllerManager.MainCharacter.GetButtonDown("A"))
         {
             if (ButtonClickable)
             {
