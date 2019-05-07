@@ -61,6 +61,7 @@ public class LevelSelectionMenu : MonoBehaviour
                     GetComponent<ButtonSelection>().ButtonList.Add(child.gameObject);
                 }
             }
+            GetComponent<ButtonSelection>().SelectedMenu = GetComponent<ButtonSelection>().ButtonList.Count - 1;
         }
     }
 

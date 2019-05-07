@@ -24,6 +24,24 @@ public class CharacterHitSpineEdge : GameEvent
     }
 }
 
+public class FreezeGame : GameEvent
+{
+    public int CurrentLevel;
+    public FreezeGame(int L)
+    {
+        CurrentLevel = L;
+    }
+}
+
+public class UnFreezeGame : GameEvent
+{
+    public int CurrentLevel;
+    public UnFreezeGame(int L)
+    {
+        CurrentLevel = L;
+    }
+}
+
 public class SaveLevel : GameEvent { }
 
 public class LoadLevel : GameEvent { }
@@ -83,12 +101,12 @@ public class TutorialClose : GameEvent
     }
 }
 
-public class MenuOpen : GameEvent
+public class GameSceneMenuOpen: GameEvent
 {
 
 }
 
-public class MenuClose : GameEvent
+public class GameSceneMenuClose : GameEvent
 {
 
 }

@@ -9,6 +9,8 @@ public class LoadingText : MonoBehaviour
     private float Factor;
     private bool down;
     private float Speed = 2;
+
+    private const float MinimalLoadTime = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,13 +46,16 @@ public class LoadingText : MonoBehaviour
 
     private IEnumerator LoadScene(string s)
     {
+        float timecount = 0;
+
         GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/SceneLoadData"));
         SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel = false;
         SceneLoadData.name = "SceneLoadData";
         DontDestroyOnLoad(SceneLoadData);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(s);
-        while (!asyncLoad.isDone)
+        while (!asyncLoad.isDone || timecount<MinimalLoadTime)
         {
+            timecount += Time.deltaTime;
             yield return null;
         }
     }

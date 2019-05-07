@@ -159,7 +159,7 @@ public class ShootArrow : MonoBehaviour
             CreateAimLIne(direction, Connected_Arrow.transform.position);
             Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
 
-            if (player.GetButtonUp("RT"))
+            if (!player.GetButton("RT"))
             {
                 ClearAimLine();
                 if (!Charging)

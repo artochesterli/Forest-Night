@@ -11,14 +11,14 @@ public class GameSceneMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
-        EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
+        EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
+        EventManager.instance.AddHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
     }
 
     private void OnDestroy()
     {
-        EventManager.instance.RemoveHandler<EnterMenu>(OnEnterMenu);
-        EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
+        EventManager.instance.RemoveHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
+        EventManager.instance.RemoveHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
     }
 
     // Update is called once per frame
@@ -31,48 +31,42 @@ public class GameSceneMenuManager : MonoBehaviour
     {
         if (ControllerManager.MainCharacter.GetButtonDown("Start"))
         {
-            EventManager.instance.Fire(new EnterMenu(gameObject));
+            EventManager.instance.Fire(new GameSceneMenuOpen());
         }
 
         if (ControllerManager.MainCharacter.GetButtonDown("B"))
         {
-            EventManager.instance.Fire(new ExitMenu(gameObject));
+            EventManager.instance.Fire(new GameSceneMenuClose());
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            EventManager.instance.Fire(new EnterMenu(gameObject));
+            EventManager.instance.Fire(new GameSceneMenuOpen());
         }
 
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            EventManager.instance.Fire(new ExitMenu(gameObject));
+            EventManager.instance.Fire(new GameSceneMenuClose());
         }
     }
 
-    private void OnEnterMenu(EnterMenu E)
+    private void OnGameSceneMenuOpen(GameSceneMenuOpen M)
     {
-        if (E.Menu == gameObject)
+        Active = true;
+        GetComponent<ButtonSelection>().enabled = true;
+        for (int i = 0; i < GetComponent<ButtonSelection>().ButtonList.Count; i++)
         {
-            Active = true;
-            GetComponent<ButtonSelection>().enabled = true;
-            foreach(Transform child in transform)
-            {
-                child.gameObject.SetActive(true);
-            }
+            GetComponent<ButtonSelection>().ButtonList[i].SetActive(true);
         }
     }
 
-    private void OnExitMenu(ExitMenu E)
+    private void OnGameSceneMenuClose(GameSceneMenuClose M)
     {
-        if (E.Menu == gameObject)
+        Active = false;
+        GetComponent<ButtonSelection>().enabled = false;
+        for (int i = 0; i < GetComponent<ButtonSelection>().ButtonList.Count; i++)
         {
-            Active = false;
-            GetComponent<ButtonSelection>().enabled = false;
-            foreach (Transform child in transform)
-            {
-                child.gameObject.SetActive(false);
-            }
+            GetComponent<ButtonSelection>().ButtonList[i].SetActive(false);
         }
     }
 }
