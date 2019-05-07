@@ -20,8 +20,6 @@ public class Fairy_Status_Manager : MonoBehaviour
 
     private float AimedTimeCount;
     private Player player;
-    private bool Frozen;
-
 
     private const float AimedDiedTime = 1;
 
@@ -38,8 +36,6 @@ public class Fairy_Status_Manager : MonoBehaviour
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
-        EventManager.instance.AddHandler<FreezeGame>(OnFreezeGame);
-        EventManager.instance.AddHandler<UnFreezeGame>(OnUnFreezeGame);
     }
 
     private void OnDestroy()
@@ -47,8 +43,6 @@ public class Fairy_Status_Manager : MonoBehaviour
         EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.RemoveHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
         EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
-        EventManager.instance.RemoveHandler<FreezeGame>(OnFreezeGame);
-        EventManager.instance.RemoveHandler<UnFreezeGame>(OnUnFreezeGame);
     }
     // Update is called once per frame
     void Update()
@@ -73,7 +67,7 @@ public class Fairy_Status_Manager : MonoBehaviour
 
     private void FloatGoingDown()
     {
-        if (status == FairyStatus.Float&&!Frozen)
+        if (status == FairyStatus.Float&&!Freeze_Manager.Frozen)
         {
             GetComponent<CharacterMove>().speed.y = -GetComponent<Gravity_Data>().float_down_speed;
         }
@@ -89,7 +83,7 @@ public class Fairy_Status_Manager : MonoBehaviour
 
     private void CheckAimed()
     {
-        if (!Frozen)
+        if (!Freeze_Manager.Frozen)
         {
             if (status == FairyStatus.Aimed)
             {
@@ -129,16 +123,6 @@ public class Fairy_Status_Manager : MonoBehaviour
             Instantiate(Resources.Load("Prefabs/VFX/FairyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
             player.SetVibration(1, DeadVibration, DeadVibrationTime);
         }
-    }
-
-    private void OnFreezeGame(FreezeGame F)
-    {
-        Frozen = true;
-    }
-
-    private void OnUnFreezeGame(UnFreezeGame F)
-    {
-        Frozen = false;
     }
 
     private void OnLoadLevel(LoadLevel L)

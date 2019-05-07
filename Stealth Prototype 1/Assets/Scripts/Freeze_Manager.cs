@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class Freeze_Manager : MonoBehaviour
 {
+    public static bool Frozen;
     public static bool ShowTutorial;
 
     public GameObject AllEnemy;
@@ -35,6 +36,7 @@ public class Freeze_Manager : MonoBehaviour
 
     private void Freeze()
     {
+        Frozen = true;
         for (int i = 0; i < AllEnemy.transform.childCount; i++)
         {
             AllEnemy.transform.GetChild(i).GetComponent<Animator>().enabled = false;
@@ -42,7 +44,7 @@ public class Freeze_Manager : MonoBehaviour
             AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = false;
         }
 
-        for (int i = 0; i < AllLevelMechanics.transform.childCount; i++)
+        /*for (int i = 0; i < AllLevelMechanics.transform.childCount; i++)
         {
             if (AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
             {
@@ -56,12 +58,13 @@ public class Freeze_Manager : MonoBehaviour
             {
                 AllLevelMechanics.transform.GetChild(i).GetComponent<Path_Totem>().enabled = false;
             }
-        }
+        }*/
         EventManager.instance.Fire(new FreezeGame(GetComponent<Level_Manager>().LevelIndex));
     }
 
     private void UnFreeze()
     {
+        Frozen = false;
         for (int i = 0; i < AllEnemy.transform.childCount; i++)
         {
             AllEnemy.transform.GetChild(i).GetComponent<Animator>().enabled = true;

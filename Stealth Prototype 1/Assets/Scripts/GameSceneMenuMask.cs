@@ -20,6 +20,7 @@ public class GameSceneMenuMask : MonoBehaviour
         EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
         EventManager.instance.AddHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
         EventManager.instance.AddHandler<ButtonClicked>(OnButtonClicked);
+        timecount = FadeTime;
     }
 
     private void OnDestroy()
@@ -50,8 +51,11 @@ public class GameSceneMenuMask : MonoBehaviour
 
     private void OnGameSceneMenuOpen(GameSceneMenuOpen M)
     {
-        timecount = 0;
-        Fading = true;
+        if (!Fading)
+        {
+            timecount = 0;
+            Fading = true;
+        }
     }
 
     private void OnGameSceneMenuClose(GameSceneMenuClose M)
