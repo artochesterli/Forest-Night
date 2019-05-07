@@ -46,7 +46,7 @@ public class Character_Manager : MonoBehaviour
 
     private void CheckIfInvisible()
     {
-        if (Main_Character != null && Fairy != null && Main_Character.GetComponent<Invisible>()!=null && Fairy.GetComponent<Invisible>()!=null)
+        if (Main_Character.GetComponent<Invisible>().enabled && Fairy.GetComponent<Invisible>().enabled)
         {
             float dis = Vector2.Distance(Main_Character.transform.position, Fairy.transform.position);
             if (Main_Character.GetComponent<Invisible>().AbleToInvisible && Fairy.GetComponent<Invisible>().AbleToInvisible && dis < Invisible_Dis_Theshold)
@@ -59,6 +59,11 @@ public class Character_Manager : MonoBehaviour
                 Main_Character.GetComponent<Invisible>().invisible = false;
                 Fairy.GetComponent<Invisible>().invisible = false;
             }
+        }
+        else
+        {
+            Main_Character.GetComponent<Invisible>().invisible = false;
+            Fairy.GetComponent<Invisible>().invisible = false;
         }
     }
 
