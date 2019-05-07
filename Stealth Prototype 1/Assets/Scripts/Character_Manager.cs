@@ -20,6 +20,8 @@ public class Character_Manager : MonoBehaviour
         Main_Character = GameObject.Find("Main_Character").gameObject;
         Fairy = GameObject.Find("Fairy").gameObject;
         EventManager.instance.AddHandler<EnterLevel>(OnEnterLevel);
+        EventManager.instance.AddHandler<FreezeGame>(OnFreezeGame);
+        EventManager.instance.AddHandler<UnFreezeGame>(OnUnFreezeGame);
     }
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,8 @@ public class Character_Manager : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<EnterLevel>(OnEnterLevel);
+        EventManager.instance.RemoveHandler<FreezeGame>(OnFreezeGame);
+        EventManager.instance.RemoveHandler<UnFreezeGame>(OnUnFreezeGame);
     }
 
     // Update is called once per frame
@@ -74,6 +78,7 @@ public class Character_Manager : MonoBehaviour
         }
     }
 
+
     private void OnEnterLevel(EnterLevel E)
     {
         if (E.Level < InvisibleUnlockLevel)
@@ -87,4 +92,44 @@ public class Character_Manager : MonoBehaviour
         }
     }
 
+    private void OnFreezeGame(FreezeGame F)
+    {
+        Main_Character.GetComponent<Animator>().enabled = false;
+        Main_Character.GetComponent<MainCharacterHorizontalMovement>().enabled = false;
+        Main_Character.GetComponent<Character_Jump>().enabled = false;
+        Main_Character.GetComponent<Character_Climb>().enabled = false;
+        Main_Character.GetComponent<Dash_To_Fairy>().enabled = false;
+        Main_Character.GetComponent<Slash>().enabled = false;
+        Main_Character.GetComponent<CharacterMove>().enabled = false;
+
+        Fairy.GetComponent<Animator>().enabled = false;
+        Fairy.GetComponent<FairyHorizontalMovement>().enabled = false;
+        Fairy.GetComponent<Character_Jump>().enabled = false;
+        Fairy.GetComponent<Float>().enabled = false;
+        Fairy.GetComponent<Float_Point>().enabled = false;
+        Fairy.GetComponent<ShootArrow>().enabled = false;
+        Fairy.GetComponent<CharacterMove>().enabled = false;
+    }
+
+    private void OnUnFreezeGame(UnFreezeGame F)
+    {
+        Main_Character.GetComponent<Animator>().enabled = true;
+        Main_Character.GetComponent<MainCharacterHorizontalMovement>().enabled = true;
+        Main_Character.GetComponent<Character_Jump>().enabled = true;
+        Main_Character.GetComponent<Character_Climb>().enabled = true;
+        Main_Character.GetComponent<Dash_To_Fairy>().enabled = true;
+        Main_Character.GetComponent<Slash>().enabled = true;
+        Main_Character.GetComponent<CharacterMove>().enabled = true;
+
+        Fairy.GetComponent<Animator>().enabled = true;
+        Fairy.GetComponent<FairyHorizontalMovement>().enabled = true;
+        Fairy.GetComponent<Character_Jump>().enabled = true;
+        Fairy.GetComponent<Float>().enabled = true;
+        Fairy.GetComponent<Float_Point>().enabled = true;
+        if (GetComponent<Level_Manager>().LevelIndex >= ArrowUnlockLevel)
+        {
+            Fairy.GetComponent<ShootArrow>().enabled = true;
+        }
+        Fairy.GetComponent<CharacterMove>().enabled = true;
+    }
 }

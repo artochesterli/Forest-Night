@@ -12,12 +12,21 @@ public class Arrow : MonoBehaviour
 
     private float RotationSpeed;
     private float RotaionAngle;
+    private bool Frozen;
 
     // Start is called before the first frame update
     void Start()
     {
         direction = Vector2.zero;
         Emited = false;
+        EventManager.instance.AddHandler<FreezeGame>(OnFreezeGame);
+        EventManager.instance.AddHandler<UnFreezeGame>(OnUnFreezeGame);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.instance.RemoveHandler<FreezeGame>(OnFreezeGame);
+        EventManager.instance.RemoveHandler<UnFreezeGame>(OnUnFreezeGame);
     }
 
     // Update is called once per frame
@@ -28,38 +37,13 @@ public class Arrow : MonoBehaviour
 
     private void SetTransform()
     {
-        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[GetComponent<ParticleSystem>().particleCount];
-        GetComponent<ParticleSystem>().GetParticles(particles);
-        if (Emited)
+        if (!Frozen)
         {
-            if (OutBound())
-            {
-                Destroy(gameObject);
-            }
-            RotationSpeed = EmitRotationSpeed;
+            transform.position += speed * (Vector3)direction * Time.deltaTime;
         }
-        else
-        {
-            RotationSpeed = PrepareRotationSpeed;
-        }
-        transform.position += speed * (Vector3)direction * Time.deltaTime;
-        
         
     }
 
-    private bool OutBound()
-    {
-        float bound_y = Camera.main.orthographicSize;
-        float bound_x = Camera.main.orthographicSize * Camera.main.pixelWidth / Camera.main.pixelHeight;
-        if (transform.position.x > bound_x || transform.position.x < -bound_x || transform.position.y > bound_y || transform.position.y < -bound_y)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -86,6 +70,18 @@ public class Arrow : MonoBehaviour
                 direction.x = -direction.x;
             }
         }
+    }
+
+    private void OnFreezeGame(FreezeGame F)
+    {
+        Frozen = true;
+        GetComponent<ParticleSystem>().Pause(true);
+    }
+
+    private void OnUnFreezeGame(UnFreezeGame F)
+    {
+        Frozen = false;
+        GetComponent<ParticleSystem>().Play(true);
     }
 
 }

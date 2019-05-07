@@ -19,6 +19,7 @@ public class Main_Character_Status_Manager : MonoBehaviour
 
     private float AimedTimeCount;
     private Player player;
+    private bool Frozen;
 
     private const float AimedDiedTime = 1;
 
@@ -34,6 +35,8 @@ public class Main_Character_Status_Manager : MonoBehaviour
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.AddHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
         EventManager.instance.AddHandler<LoadLevel>(OnLoadLevel);
+        EventManager.instance.AddHandler<FreezeGame>(OnFreezeGame);
+        EventManager.instance.AddHandler<UnFreezeGame>(OnUnFreezeGame);
     }
 
     private void OnDestroy()
@@ -41,6 +44,8 @@ public class Main_Character_Status_Manager : MonoBehaviour
         EventManager.instance.RemoveHandler<CharacterDied>(OnCharacterDied);
         EventManager.instance.RemoveHandler<CharacterHitSpineEdge>(OnCharacterHitSpineEdge);
         EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
+        EventManager.instance.RemoveHandler<FreezeGame>(OnFreezeGame);
+        EventManager.instance.RemoveHandler<UnFreezeGame>(OnUnFreezeGame);
     }
     // Update is called once per frame
     void Update()
@@ -96,24 +101,27 @@ public class Main_Character_Status_Manager : MonoBehaviour
 
     private void CheckAimed()
     {
-        if (status == MainCharacterStatus.Aimed)
+        if (!Frozen)
         {
-            GetComponent<CharacterMove>().speed = Vector2.zero;
-            player.SetVibration(0, AimedVibration, Time.deltaTime);
-            AimedTimeCount += Time.deltaTime;
-            if (AimedTimeCount > AimedDiedTime)
+            if (status == MainCharacterStatus.Aimed)
             {
-                if (Character_Manager.Main_Character.activeSelf && Character_Manager.Fairy.activeSelf)
+                GetComponent<CharacterMove>().speed = Vector2.zero;
+                player.SetVibration(0, AimedVibration, Time.deltaTime);
+                AimedTimeCount += Time.deltaTime;
+                if (AimedTimeCount > AimedDiedTime)
                 {
-                    EventManager.instance.Fire(new CharacterDied(gameObject));
-                    
+                    if (Character_Manager.Main_Character.activeSelf && Character_Manager.Fairy.activeSelf)
+                    {
+                        EventManager.instance.Fire(new CharacterDied(gameObject));
+
+                    }
+                    gameObject.SetActive(false);
                 }
-                gameObject.SetActive(false);
             }
-        }
-        else
-        {
-            AimedTimeCount = 0;
+            else
+            {
+                AimedTimeCount = 0;
+            }
         }
     }
 
@@ -133,6 +141,16 @@ public class Main_Character_Status_Manager : MonoBehaviour
             Instantiate(Resources.Load("Prefabs/VFX/BigGuyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
             player.SetVibration(0, DeadVibration, DeadVibrationTime);
         }
+    }
+
+    private void OnFreezeGame(FreezeGame F)
+    {
+        Frozen = true;
+    }
+
+    private void OnUnFreezeGame(UnFreezeGame F)
+    {
+        Frozen = false;
     }
 
     private void OnLoadLevel(LoadLevel L)

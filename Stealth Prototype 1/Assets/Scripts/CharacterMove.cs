@@ -84,36 +84,29 @@ public class CharacterMove : MonoBehaviour
 
     private void SetGravity()
     {
-        if (!Freeze_Manager.freeze)
+        if (gameObject.CompareTag("Main_Character"))
         {
-            if (gameObject.CompareTag("Main_Character"))
+            MainCharacterStatus status = GetComponent<Main_Character_Status_Manager>().status;
+            if ((status == MainCharacterStatus.Normal || status == MainCharacterStatus.KnockBack) && !OnGround)
             {
-                MainCharacterStatus status = GetComponent<Main_Character_Status_Manager>().status;
-                if ((status == MainCharacterStatus.Normal || status==MainCharacterStatus.KnockBack) && !OnGround)
-                {
-                    Gravity = GetComponent<Gravity_Data>().normal_gravityScale;
-                }
-                else
-                {
-                    Gravity = 0;
-                }
+                Gravity = GetComponent<Gravity_Data>().normal_gravityScale;
             }
-            else if (gameObject.CompareTag("Fairy"))
+            else
             {
-                FairyStatus status = GetComponent<Fairy_Status_Manager>().status;
-                if ((status == FairyStatus.Normal || status==FairyStatus.KnockBack) && !OnGround)
-                {
-                    Gravity = GetComponent<Gravity_Data>().normal_gravityScale;
-                }
-                else
-                {
-                    Gravity = 0;
-                }
+                Gravity = 0;
             }
         }
-        else
+        else if (gameObject.CompareTag("Fairy"))
         {
-            Gravity = 0;
+            FairyStatus status = GetComponent<Fairy_Status_Manager>().status;
+            if ((status == FairyStatus.Normal || status == FairyStatus.KnockBack) && !OnGround)
+            {
+                Gravity = GetComponent<Gravity_Data>().normal_gravityScale;
+            }
+            else
+            {
+                Gravity = 0;
+            }
         }
 
     }
