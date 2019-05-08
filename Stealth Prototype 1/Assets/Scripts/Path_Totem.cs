@@ -59,7 +59,12 @@ public class Path_Totem : MonoBehaviour
             Unit.transform.parent = Path.transform;
             Path.GetComponent<BoxCollider2D>().size = new Vector2(Path_Collider_Width, (i+1)*(1.0f/PathSpritePerMeter) + 1);
             Path.GetComponent<BoxCollider2D>().offset = new Vector2(0, -(i+1) * (1.0f / PathSpritePerMeter) / 2 - Path_Vertical_Offset);
+
             yield return new WaitForSeconds(PathOpenTime/PathUnitNumber);
+            while (Freeze_Manager.Frozen)
+            {
+                yield return null;
+            }
         }
     }
 
@@ -70,7 +75,10 @@ public class Path_Totem : MonoBehaviour
         while (timecount < LightAppearTime)
         {
             Light.GetComponent<SpriteRenderer>().color = Color.Lerp(new Color(1, 1, 1, 0), Color.white, timecount / LightAppearTime);
-            timecount += Time.deltaTime;
+            if (!Freeze_Manager.Frozen)
+            {
+                timecount += Time.deltaTime;
+            }
             yield return null;
         }
 

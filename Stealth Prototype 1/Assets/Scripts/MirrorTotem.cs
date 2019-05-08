@@ -41,7 +41,10 @@ public class MirrorTotem : MonoBehaviour
         while (timecount < LightingTime)
         {
             MirrorLight.GetComponent<SpriteRenderer>().color = Color.Lerp(new Color(1, 1, 1, 0), Color.white, timecount / LightingTime);
-            timecount += Time.deltaTime;
+            if (!Freeze_Manager.Frozen)
+            {
+                timecount += Time.deltaTime;
+            }
             yield return null;
         }
 
@@ -49,7 +52,10 @@ public class MirrorTotem : MonoBehaviour
         while (timecount < LightingTime)
         {
             MirrorLight.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.white, new Color(1, 1, 1, 0), timecount / LightingTime);
-            timecount += Time.deltaTime;
+            if (!Freeze_Manager.Frozen)
+            {
+                timecount += Time.deltaTime;
+            }
             yield return null;
         }
     }

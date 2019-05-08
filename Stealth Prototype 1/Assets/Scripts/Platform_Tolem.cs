@@ -32,16 +32,19 @@ public class Platform_Tolem : MonoBehaviour
         yield return StartCoroutine(LightChange(true));
 
         Vector2 direction = Vector2.zero;
+        Vector3 StartPoint = Vector3.zero;
         Vector3 EndPoint = Vector3.zero;
         float speed = ((Vector2)(SecondPoint - FirstPoint)).magnitude/move_period;
         if (At_First_Point)
         {
             direction = SecondPoint - FirstPoint;
+            StartPoint = FirstPoint;
             EndPoint = SecondPoint;
         }
         else
         {
             direction = FirstPoint - SecondPoint;
+            StartPoint = SecondPoint;
             EndPoint = FirstPoint;
         }
         direction.Normalize();
@@ -57,11 +60,19 @@ public class Platform_Tolem : MonoBehaviour
         {
             Character_Manager.Fairy.GetComponent<CharacterMove>().PlatformSpeed = new Vector2(CurrentSpeed.x, CurrentSpeed.y);
         }
-        while (Vector2.Dot(direction, transform.position - EndPoint) < 0)
+
+        float timecount = 0;
+        while (timecount < move_period)
         {
-            transform.position += (Vector3)CurrentSpeed * Time.deltaTime;
+            if (!Freeze_Manager.Frozen)
+            {
+                timecount += Time.deltaTime;
+            }
+            transform.position = Vector3.Lerp(StartPoint, EndPoint, timecount/move_period);
+            
             yield return null;
         }
+
         if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
         {
             Character_Manager.Main_Character.transform.position += EndPoint - transform.position;
@@ -113,7 +124,10 @@ public class Platform_Tolem : MonoBehaviour
             {
                 Light.GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, new Color(1, 1, 1, 0), timecount / LightAppearTime);
             }
-            timecount += Time.deltaTime;
+            if (!Freeze_Manager.Frozen)
+            {
+                timecount += Time.deltaTime;
+            }
             yield return null;
         }
     }
