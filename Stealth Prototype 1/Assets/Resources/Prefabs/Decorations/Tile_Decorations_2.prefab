@@ -33,7 +33,6 @@ Transform:
   - {fileID: 4229892215702550730}
   - {fileID: 4229892215331799589}
   - {fileID: 257280573826016360}
-  - {fileID: 257280574176756320}
   - {fileID: 7432387586916778174}
   - {fileID: 8879666421103233335}
   - {fileID: 4229892215093866578}
@@ -93,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 2027315732153924735, guid: 8cbd70e526902454d92854925b86285e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2027315732153924735, guid: 8cbd70e526902454d92854925b86285e,
         type: 3}
@@ -183,7 +182,7 @@ PrefabInstance:
     - target: {fileID: 6749499416811239380, guid: 89d7fb01c9225684ea262f819185ebaf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6749499416811239380, guid: 89d7fb01c9225684ea262f819185ebaf,
         type: 3}
@@ -363,7 +362,7 @@ PrefabInstance:
     - target: {fileID: 2027315732153924735, guid: 8cbd70e526902454d92854925b86285e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2027315732153924735, guid: 8cbd70e526902454d92854925b86285e,
         type: 3}
@@ -453,7 +452,7 @@ PrefabInstance:
     - target: {fileID: 17368276669411484, guid: 07f9e4fdbd5474340b2b8ffbcc179390,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 17368276669411484, guid: 07f9e4fdbd5474340b2b8ffbcc179390,
         type: 3}
@@ -685,6 +684,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cirrus_2
       objectReference: {fileID: 0}
+    - target: {fileID: 2027315732153924733, guid: 8cbd70e526902454d92854925b86285e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2027315732153924735, guid: 8cbd70e526902454d92854925b86285e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -813,7 +817,7 @@ PrefabInstance:
     - target: {fileID: 17368276669411484, guid: 07f9e4fdbd5474340b2b8ffbcc179390,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 17368276669411484, guid: 07f9e4fdbd5474340b2b8ffbcc179390,
         type: 3}
@@ -852,96 +856,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 17368276669411484, guid: 07f9e4fdbd5474340b2b8ffbcc179390,
     type: 3}
   m_PrefabInstance: {fileID: 7428847541574119458}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &7428847541724050993
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 7428847542356740887}
-    m_Modifications:
-    - target: {fileID: 7244772460348109907, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_Name
-      value: Cirrus_4 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.81705856
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.4142375
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.6198355
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.5331918
-      objectReference: {fileID: 0}
-    - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.5331918
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2675acfa686ecef489cd8b4428eded7e, type: 3}
---- !u!4 &257280574176756320 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
-    type: 3}
-  m_PrefabInstance: {fileID: 7428847541724050993}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7428847541829170943
 PrefabInstance:
@@ -993,7 +907,7 @@ PrefabInstance:
     - target: {fileID: 6186418500192905741, guid: 09723c37ad6d7b54ab51666904fc8207,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 6186418500192905741, guid: 09723c37ad6d7b54ab51666904fc8207,
         type: 3}
@@ -1119,6 +1033,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cirrus_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7244772460348109907, guid: 2675acfa686ecef489cd8b4428eded7e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7244772460348109905, guid: 2675acfa686ecef489cd8b4428eded7e,
         type: 3}
