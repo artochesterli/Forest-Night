@@ -137,7 +137,7 @@ public class Enemy_Check : MonoBehaviour
                 GameObject CurrentDetectedCharacter = hit.collider.gameObject;
                 if (!CurrentDetectedCharacter.GetComponent<Invisible>().invisible)
                 {
-                    if (Enemy_Status.status != EnemyStatus.ShootCharacter)
+                    if (Enemy_Status.status != EnemyStatus.ShootCharacter && Enemy_Status.status!=EnemyStatus.ShootStar)
                     {
                         if (detected_character==null || (CurrentDetectedCharacter.transform.position - transform.position).magnitude < (detected_character.transform.position - transform.position).magnitude)
                         {
@@ -158,7 +158,7 @@ public class Enemy_Check : MonoBehaviour
                     }
                     else
                     {
-                        if (detected_character.CompareTag(CurrentDetectedCharacter.tag))
+                        if (detected_character!=null&&detected_character.CompareTag(CurrentDetectedCharacter.tag))
                         {
                             DetectedCharacterInSight = true;
                         }
@@ -178,7 +178,6 @@ public class Enemy_Check : MonoBehaviour
                     }
                     return;
                 }
-                
             }
 
         }

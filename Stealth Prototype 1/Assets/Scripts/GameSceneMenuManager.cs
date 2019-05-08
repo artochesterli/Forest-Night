@@ -7,18 +7,24 @@ public class GameSceneMenuManager : MonoBehaviour
 {
 
     private bool Active;
+    private bool EnterThisFrame;
 
     // Start is called before the first frame update
     void Start()
     {
         EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
         EventManager.instance.AddHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
+        EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
+
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
         EventManager.instance.RemoveHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
+        EventManager.instance.RemoveHandler<EnterMenu>(OnEnterMenu);
+        EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
 
     // Update is called once per frame
@@ -34,9 +40,12 @@ public class GameSceneMenuManager : MonoBehaviour
             EventManager.instance.Fire(new GameSceneMenuOpen());
         }
 
-        if (ControllerManager.MainCharacter.GetButtonDown("B"))
+        if (Active && !EnterThisFrame)
         {
-            EventManager.instance.Fire(new GameSceneMenuClose());
+            if (ControllerManager.MainCharacter.GetButtonDown("B"))
+            {
+                EventManager.instance.Fire(new GameSceneMenuClose());
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -44,10 +53,15 @@ public class GameSceneMenuManager : MonoBehaviour
             EventManager.instance.Fire(new GameSceneMenuOpen());
         }
 
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Active && !EnterThisFrame)
         {
-            EventManager.instance.Fire(new GameSceneMenuClose());
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                EventManager.instance.Fire(new GameSceneMenuClose());
+            }
         }
+
+        EnterThisFrame = false;
     }
 
     private void OnGameSceneMenuOpen(GameSceneMenuOpen M)
@@ -67,6 +81,33 @@ public class GameSceneMenuManager : MonoBehaviour
         for (int i = 0; i < GetComponent<ButtonSelection>().ButtonList.Count; i++)
         {
             GetComponent<ButtonSelection>().ButtonList[i].SetActive(false);
+        }
+    }
+
+    private void OnEnterMenu(EnterMenu M)
+    {
+        if (M.Menu == gameObject)
+        {
+            Active = true;
+            EnterThisFrame = true;
+            GetComponent<ButtonSelection>().enabled = true;
+            for (int i = 0; i < GetComponent<ButtonSelection>().ButtonList.Count; i++)
+            {
+                GetComponent<ButtonSelection>().ButtonList[i].SetActive(true);
+            }
+        }
+    }
+
+    private void OnExitMenu(ExitMenu M)
+    {
+        if (M.Menu == gameObject)
+        {
+            Active = false;
+            GetComponent<ButtonSelection>().enabled = false;
+            for (int i = 0; i < GetComponent<ButtonSelection>().ButtonList.Count; i++)
+            {
+                GetComponent<ButtonSelection>().ButtonList[i].SetActive(false);
+            }
         }
     }
 }
