@@ -48,14 +48,6 @@ public class Invisible : MonoBehaviour
  
     private void CheckStatus()
     {
-        if (AbleToInvisible)
-        {
-            transform.Find("AbleToInvisibleIndicator").GetComponent<SpriteRenderer>().enabled = false;
-        }
-        else
-        {
-            transform.Find("AbleToInvisibleIndicator").GetComponent<SpriteRenderer>().enabled = false;
-        }
         if (invisible)
         {
             Color current_color = GetComponent<SpriteRenderer>().color;
