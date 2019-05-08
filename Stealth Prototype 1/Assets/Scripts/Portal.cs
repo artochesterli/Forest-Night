@@ -18,6 +18,8 @@ public class Portal : MonoBehaviour
     private const float ScreenFadeTime = 1f;
     private const float ColorChangeTime = 0.2f;
     private const float PauseTime = 0.5f;
+    private const int MaxLevel = 9;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -90,12 +92,18 @@ public class Portal : MonoBehaviour
             timecount += Time.deltaTime;
             yield return null;
         }
-
-        GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/SceneLoadData"));
-        SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel = true;
-        SceneLoadData.name = "SceneLoadData";
-        DontDestroyOnLoad(SceneLoadData);
-        SceneManager.LoadSceneAsync("Level "+ConnectedLevel.ToString());
+        if (ConnectedLevel <= MaxLevel)
+        {
+            GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/SceneLoadData"));
+            SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel = true;
+            SceneLoadData.name = "SceneLoadData";
+            DontDestroyOnLoad(SceneLoadData);
+            SceneManager.LoadSceneAsync("Level " + ConnectedLevel.ToString());
+        }
+        else
+        {
+            SceneManager.LoadSceneAsync("MainPage");
+        }
     }
 
     private IEnumerator ScreenFade(Color C)

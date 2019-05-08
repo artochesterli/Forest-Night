@@ -7,7 +7,7 @@ public class Path_Totem : MonoBehaviour
     public float Path_Length;
 
     private float Path_Collider_Width = 0.3f;
-    private float Path_Vertical_Offset = 0;
+    private float Path_Vertical_Offset = 0.5f;
     private float PathOpenTime = 0.25f;
 
     private const float LightAppearTime = 0.2f;
@@ -46,7 +46,7 @@ public class Path_Totem : MonoBehaviour
         Path.GetComponent<BoxCollider2D>().size = new Vector2(Path_Collider_Width, Path_Length + 1);
         Path.GetComponent<BoxCollider2D>().offset = new Vector2(0, -Path_Length / 2 - Path_Vertical_Offset);
 
-        int PathUnitNumber = Mathf.RoundToInt(Path_Length * PathSpritePerMeter);
+        int PathUnitNumber = Mathf.RoundToInt((Path_Length+1) * PathSpritePerMeter);
         Sprite[] PathSprites = new Sprite[PathUnitNumber];
         for (int i = 0; i < PathUnitNumber; i++)
         {
@@ -54,11 +54,11 @@ public class Path_Totem : MonoBehaviour
         }
         for (int i = 0; i < PathUnitNumber; i++)
         {
-            GameObject Unit = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/PathUnit"), Path.transform.position + Vector3.down * (((float)i + 1) / PathSpritePerMeter + 0.5f / PathSpritePerMeter), new Quaternion(0, 0, 0, 0));
+            GameObject Unit = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/PathUnit"), Path.transform.position + Vector3.down * ((float)i / PathSpritePerMeter - 0.5f / PathSpritePerMeter), new Quaternion(0, 0, 0, 0));
             Unit.GetComponent<SpriteRenderer>().sprite = PathSprites[i % PathUnitNumber];
             Unit.transform.parent = Path.transform;
-            Path.GetComponent<BoxCollider2D>().size = new Vector2(Path_Collider_Width, (i+1)*(1.0f/PathSpritePerMeter) + 1);
-            Path.GetComponent<BoxCollider2D>().offset = new Vector2(0, -(i+1) * (1.0f / PathSpritePerMeter) / 2 - Path_Vertical_Offset);
+            Path.GetComponent<BoxCollider2D>().size = new Vector2(Path_Collider_Width, (i+1)*(1.0f/PathSpritePerMeter));
+            Path.GetComponent<BoxCollider2D>().offset = new Vector2(0, -(i+1) * (1.0f / PathSpritePerMeter) / 2 + Path_Vertical_Offset);
 
             yield return new WaitForSeconds(PathOpenTime/PathUnitNumber);
             while (Freeze_Manager.Frozen)
