@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum EnemyStatus
 {
@@ -15,6 +16,9 @@ public enum EnemyStatus
 public class Enemy_Status_Manager : MonoBehaviour
 {
     public EnemyStatus status;
+    public GameObject Indicator;
+    public GameObject IndicatorRed;
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,30 +41,30 @@ public class Enemy_Status_Manager : MonoBehaviour
 
     private void SetIndicatorIcon()
     {
-        GameObject Indicator = transform.Find("Indicator").gameObject;
+
         if (status == EnemyStatus.Patrol)
         {
-            Indicator.GetComponent<SpriteRenderer>().enabled = false;
+            Indicator.GetComponent<Image>().enabled = false;
+            IndicatorRed.GetComponent<Image>().enabled = false;
         }
         else if(status==EnemyStatus.Alert || status == EnemyStatus.AlertRelease)
         {
             var EnemyCheck = GetComponent<Enemy_Check>();
-            Indicator.GetComponent<SpriteRenderer>().enabled = true;
-            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
-            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1 - EnemyCheck.alert_time_count / EnemyCheck.Alert_Time, 1 - EnemyCheck.alert_time_count / EnemyCheck.Alert_Time);
+            Indicator.GetComponent<Image>().enabled = true;
+            IndicatorRed.GetComponent<Image>().enabled = true;
+            IndicatorRed.GetComponent<Image>().fillAmount = EnemyCheck.alert_time_count / EnemyCheck.Alert_Time;
         }
         else if (status == EnemyStatus.ShootCharacter)
         {
             var EnemyCheck = GetComponent<Enemy_Check>();
-            Indicator.GetComponent<SpriteRenderer>().enabled = true;
-            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
-            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1 - EnemyCheck.alert_time_count / EnemyCheck.Alert_Time, 1 - EnemyCheck.alert_time_count / EnemyCheck.Alert_Time);
+            Indicator.GetComponent<Image>().enabled = true;
+            IndicatorRed.GetComponent<Image>().enabled = true;
+            IndicatorRed.GetComponent<Image>().fillAmount = 1;
         }
         else if (status == EnemyStatus.Stunned)
         {
-            /*Indicator.GetComponent<SpriteRenderer>().enabled = true;
-            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/StunIcon", typeof(Sprite)) as Sprite;
-            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);*/
+            Indicator.GetComponent<Image>().enabled = false;
+            IndicatorRed.GetComponent<Image>().enabled = false;
         }
     }
 

@@ -241,13 +241,9 @@ public class Enemy_Check : MonoBehaviour
     private void Shoot_Character()
     {
         var Enemy_Status = GetComponent<Enemy_Status_Manager>();
-        GameObject Indicator = transform.Find("Indicator").gameObject;
         if (Enemy_Status.status == EnemyStatus.ShootCharacter)
         {
-            Indicator.GetComponent<SpriteRenderer>().enabled = true;
-            Indicator.GetComponent<SpriteRenderer>().sprite = Resources.Load("Sprite/exclamation_mark", typeof(Sprite)) as Sprite;
             alert_time_count = Alert_Time;
-            Indicator.GetComponent<SpriteRenderer>().color = new Color(1, 1 - alert_time_count / Alert_Time, 1 - alert_time_count / Alert_Time);
 
             if(CurrentLaserState==LaserState.Null || CurrentLaserState == LaserState.HitOther || CurrentLaserState == LaserState.HitCharacter)
             {
