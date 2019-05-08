@@ -18,11 +18,13 @@ public class Enemy_Status_Manager : MonoBehaviour
     public EnemyStatus status;
     public GameObject Indicator;
     public GameObject IndicatorRed;
+    public GameObject AngryEffect;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        AngryEffect.GetComponent<ParticleSystem>().Stop(true);
         DeActivateStunEffect();
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);
     }
@@ -41,11 +43,11 @@ public class Enemy_Status_Manager : MonoBehaviour
 
     private void SetIndicatorIcon()
     {
-
         if (status == EnemyStatus.Patrol)
         {
             Indicator.GetComponent<Image>().enabled = false;
             IndicatorRed.GetComponent<Image>().enabled = false;
+            AngryEffect.GetComponent<ParticleSystem>().Stop(true);
         }
         else if(status==EnemyStatus.Alert || status == EnemyStatus.AlertRelease)
         {
@@ -53,6 +55,7 @@ public class Enemy_Status_Manager : MonoBehaviour
             Indicator.GetComponent<Image>().enabled = true;
             IndicatorRed.GetComponent<Image>().enabled = true;
             IndicatorRed.GetComponent<Image>().fillAmount = EnemyCheck.alert_time_count / EnemyCheck.Alert_Time;
+            AngryEffect.GetComponent<ParticleSystem>().Stop(true);
         }
         else if (status == EnemyStatus.ShootCharacter)
         {
@@ -60,11 +63,22 @@ public class Enemy_Status_Manager : MonoBehaviour
             Indicator.GetComponent<Image>().enabled = true;
             IndicatorRed.GetComponent<Image>().enabled = true;
             IndicatorRed.GetComponent<Image>().fillAmount = 1;
+            if (!AngryEffect.GetComponent<ParticleSystem>().isPlaying)
+            {
+                AngryEffect.GetComponent<ParticleSystem>().Play(true);
+            }
+        }
+        else if (status == EnemyStatus.ShootStar)
+        {
+            Indicator.GetComponent<Image>().enabled = false;
+            IndicatorRed.GetComponent<Image>().enabled = false;
+            AngryEffect.GetComponent<ParticleSystem>().Stop(true);
         }
         else if (status == EnemyStatus.Stunned)
         {
             Indicator.GetComponent<Image>().enabled = false;
             IndicatorRed.GetComponent<Image>().enabled = false;
+            AngryEffect.GetComponent<ParticleSystem>().Stop(true);
         }
     }
 
