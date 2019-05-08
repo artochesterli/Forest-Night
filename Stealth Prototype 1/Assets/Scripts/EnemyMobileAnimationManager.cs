@@ -20,17 +20,30 @@ public class EnemyMobileAnimationManager : MonoBehaviour
 
     private void SetAnimation()
     {
-        if(GetComponent<Enemy_Status_Manager>().status==EnemyStatus.Patrol && !GetComponent<Enemy_Patrol>().IsObserving)
-        {
-            GetComponent<Animator>().speed = WalkingPlaySpeed;
-        }
-        else
+        if(GetComponent<Enemy_Status_Manager>().status==EnemyStatus.Patrol && GetComponent<Enemy_Patrol>().IsObserving)
         {
             GetComponent<Animator>().speed = StopPlaySpeed;
         }
-        if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("EnemyMobileMoving"))
+        else
         {
-            GetComponent<Animator>().Play("EnemyMobileMoving", 0, 0);
+            GetComponent<Animator>().speed = WalkingPlaySpeed;
         }
+
+        if (GetComponent<Enemy_Status_Manager>().status == EnemyStatus.Stunned)
+        {
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("EnemyMobileStunned"))
+            {
+                GetComponent<Animator>().Play("EnemyMobileStunned", 0, 0);
+            }
+        }
+        else
+        {
+            if (!GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("EnemyMobileMoving"))
+            {
+                GetComponent<Animator>().Play("EnemyMobileMoving", 0, 0);
+            }
+
+        }
+        
     }
 }
