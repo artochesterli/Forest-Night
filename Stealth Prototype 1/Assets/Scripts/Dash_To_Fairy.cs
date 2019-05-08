@@ -109,6 +109,8 @@ public class Dash_To_Fairy : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        transform.Find("DashEffect").GetComponent<AudioSource>().Play();
+
         detect_float_fairy = false;
         Destroy(SpiritLine);
 

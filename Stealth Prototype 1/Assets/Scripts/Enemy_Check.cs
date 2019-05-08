@@ -229,6 +229,10 @@ public class Enemy_Check : MonoBehaviour
             {
                 shoot_star_time_count = 0;
                 Enemy_Status.status = EnemyStatus.AlertRelease;
+                if (alert_time_count == 0)
+                {
+                    Enemy_Status.status = EnemyStatus.Patrol;
+                }
                 Destroy(detected_star);
                 return;
             }
@@ -257,6 +261,7 @@ public class Enemy_Check : MonoBehaviour
                 if (LaserLine_disappear_time_count >= LaserLine_disappear_time)
                 {
                     Enemy_Status.status = EnemyStatus.AlertRelease;
+                    
                     if (hit_enemy != null)
                     {
                         Instantiate(Resources.Load("Prefabs/VFX/EnemyDeath"), transform.position, Quaternion.Euler(0, 0, 0));

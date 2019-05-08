@@ -300,7 +300,7 @@ MonoBehaviour:
   Stunned_Time: 3
   Alert_Distance: 8
   Shoot_Distance: 5
-  Shoot_Star_Distance: 3
+  Shoot_Star_Distance: 2
   stun_time_count: 0
   shoot_star_time_count: 0
   alert_time_count: 0
