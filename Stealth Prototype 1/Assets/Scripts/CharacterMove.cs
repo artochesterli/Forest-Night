@@ -133,6 +133,14 @@ public class CharacterMove : MonoBehaviour
         {
             speed = Vector2.zero;
             DashSpeed = Vector2.zero;
+            if (!OnGround)
+            {
+                PlatformSpeed = Vector2.zero;
+            }
+            else
+            {
+                PlatformSpeed = ConnectedMovingPlatform.GetComponent<Platform_Tolem>().CurrentSpeed;
+            }
         }
         if (IsFairyIgnorePlatformSpeed())
         {
