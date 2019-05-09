@@ -18,6 +18,16 @@ public class Enemy_Patrol : MonoBehaviour
     void Start()
     {
         Observation_Time_Count = 0;
+
+        if (Patrol_Right)
+        {
+            Observing_Right = true;
+        }
+        else
+        {
+            Observing_Right = false;
+        }
+
         if (Patrol_Speed == 0)
         {
             IsObserving = true;
