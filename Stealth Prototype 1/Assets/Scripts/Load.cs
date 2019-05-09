@@ -12,6 +12,7 @@ public class Load : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
         string scene;
         scene = GameObject.Find("LoadingLevelData").GetComponent<LoadingLevelData>().Scene;
         StartCoroutine(LoadScene(scene));
