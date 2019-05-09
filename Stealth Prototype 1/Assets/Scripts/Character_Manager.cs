@@ -79,7 +79,7 @@ public class Character_Manager : MonoBehaviour
             }
             InvisibleShield.transform.position = (Main_Character.transform.position + Fairy.transform.position) / 2;
             float MainCharacterGroundDis = Main_Character.GetComponent<CharacterMove>().OnGroundThreshold;
-            float FairyGroundDis = Fairy.GetComponent<CharacterMove>().OnGroundThreshold;
+            float FairyGroundDis = Fairy.GetComponent<CharacterMove>().OnGroundThreshold - Fairy.GetComponent<CharacterMove>().BodyOffset.y;
             if (Main_Character.transform.position.y- MainCharacterGroundDis >  Fairy.transform.position.y - FairyGroundDis)
             {
                 ShieldEnergy.transform.position = new Vector3(InvisibleShield.transform.position.x, Fairy.transform.position.y - FairyGroundDis, InvisibleShield.transform.position.z);
