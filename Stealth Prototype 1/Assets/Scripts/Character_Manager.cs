@@ -12,6 +12,7 @@ public class Character_Manager : MonoBehaviour
 
     private GameObject Memory;
     private GameObject InvisibleShield;
+    private GameObject ShieldEnergy;
 
     private const int InvisibleUnlockLevel = 2;
     private const int ArrowUnlockLevel = 3;
@@ -74,12 +75,24 @@ public class Character_Manager : MonoBehaviour
             if (InvisibleShield == null)
             {
                 InvisibleShield = (GameObject)Instantiate(Resources.Load("Prefabs/VFX/InvisibleShield"));
+                ShieldEnergy = (GameObject)Instantiate(Resources.Load("Prefabs/VFX/ShieldEnergy"));
             }
             InvisibleShield.transform.position = (Main_Character.transform.position + Fairy.transform.position) / 2;
+            float MainCharacterGroundDis = Main_Character.GetComponent<CharacterMove>().OnGroundThreshold;
+            float FairyGroundDis = Fairy.GetComponent<CharacterMove>().OnGroundThreshold - Fairy.GetComponent<CharacterMove>().BodyOffset.y;
+            if (Main_Character.transform.position.y- MainCharacterGroundDis >  Fairy.transform.position.y - FairyGroundDis)
+            {
+                ShieldEnergy.transform.position = new Vector3(InvisibleShield.transform.position.x, Fairy.transform.position.y - FairyGroundDis, InvisibleShield.transform.position.z);
+            }
+            else
+            {
+                ShieldEnergy.transform.position = new Vector3(InvisibleShield.transform.position.x, Main_Character.transform.position.y - MainCharacterGroundDis, InvisibleShield.transform.position.z);
+            }
         }
         else
         {
             Destroy(InvisibleShield);
+            Destroy(ShieldEnergy);
         }
     }
 
