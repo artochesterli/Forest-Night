@@ -6478,7 +6478,7 @@ MonoBehaviour:
   SpriteList:
   - {fileID: 21300000, guid: 24050f3235cb38b49ba6ad247ece8eee, type: 3}
   - {fileID: 21300000, guid: 28c65843d3a00b2459da4105c9448788, type: 3}
-  - {fileID: 21300000, guid: 8caa5a774dac6e648ab1a3b681a76d2b, type: 3}
+  - {fileID: 21300000, guid: 24050f3235cb38b49ba6ad247ece8eee, type: 3}
   - {fileID: 21300000, guid: b2e5fa5f90ab78c45af52af84a7d8b15, type: 3}
   - {fileID: 21300000, guid: 6c4d61176972e764f8161c328991ab4e, type: 3}
   Image: {fileID: 1598874670}
