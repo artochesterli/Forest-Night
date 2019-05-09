@@ -45,7 +45,7 @@ public class Slash : MonoBehaviour
 
     private void Check_Input()
     {
-        if (Input.GetKeyDown(KeyCode.S)||player.GetButtonDown("X")&&!Slashing)
+        if (player.GetButtonDown("X")&&!Slashing)
         {
             Slashing = true;
             Weapon.GetComponent<AudioSource>().Play();
