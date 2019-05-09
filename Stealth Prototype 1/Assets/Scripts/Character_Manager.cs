@@ -18,6 +18,7 @@ public class Character_Manager : MonoBehaviour
     private const int ArrowUnlockLevel = 3;
     private void OnEnable()
     {
+        Cursor.visible = false;
         Main_Character = GameObject.Find("Main_Character").gameObject;
         Fairy = GameObject.Find("Fairy").gameObject;
         EventManager.instance.AddHandler<EnterLevel>(OnEnterLevel);
