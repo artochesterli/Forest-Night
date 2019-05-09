@@ -10,6 +10,9 @@ public class ButtonSelection : MonoBehaviour
     public List<GameObject> ButtonList;
     public int SelectedMenu;
 
+    private Player MainCharacterPlayer;
+    private Player FairyPlayer;
+
     private float MoveTimeCount;
     private bool First;
     private bool Charging;
@@ -22,7 +25,8 @@ public class ButtonSelection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        MainCharacterPlayer = ReInput.players.GetPlayer(0);
+        FairyPlayer = ReInput.players.GetPlayer(1);
     }
 
     // Update is called once per frame
