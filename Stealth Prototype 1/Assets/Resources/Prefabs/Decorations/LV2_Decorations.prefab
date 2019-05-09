@@ -164,6 +164,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_Decorations_2
       objectReference: {fileID: 0}
+    - target: {fileID: 7428847542356740880, guid: 3b197d4e136a15144a8790bbd793ac75,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7428847542356740887, guid: 3b197d4e136a15144a8790bbd793ac75,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -239,6 +244,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_Decorations_4 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3536432075139632825, guid: 41d5de8230250fc46a20ba51fc72bb79,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3536432075139632806, guid: 41d5de8230250fc46a20ba51fc72bb79,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -313,6 +323,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile_Decorations_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6058423544556920720, guid: 6084591c30f880e42a60902a2bcf6105,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6058423544556920719, guid: 6084591c30f880e42a60902a2bcf6105,
         type: 3}
@@ -473,6 +488,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile_Decorations_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3536432075139632825, guid: 41d5de8230250fc46a20ba51fc72bb79,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3536432075139632806, guid: 41d5de8230250fc46a20ba51fc72bb79,
         type: 3}
@@ -2289,6 +2309,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_Decorations_3
       objectReference: {fileID: 0}
+    - target: {fileID: 8724854697940084699, guid: d10930d2a7d183f4da427594ffa07184,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8724854697940084676, guid: d10930d2a7d183f4da427594ffa07184,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2448,6 +2473,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tile_Decorations_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891948881612303300, guid: 6f9a2d08ebdca7d4b82b254d6dcaa1a6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4891948881612303323, guid: 6f9a2d08ebdca7d4b82b254d6dcaa1a6,
         type: 3}
