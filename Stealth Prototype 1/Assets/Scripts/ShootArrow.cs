@@ -17,7 +17,7 @@ public class ShootArrow : MonoBehaviour
 
     private const float Velocity_Charge_Speed = 10;
     private const float Aim_offset = 0.8f;
-    private const float mirroBounceStartPointOffset = 0.05f;
+    private const float mirroBounceStartPointOffset = 0.01f;
     private const float AimLineUnitPerMeter = 2;
 
     private const float AimDirectionSlowRotationSpeed = 2;
@@ -28,7 +28,7 @@ public class ShootArrow : MonoBehaviour
 
     private const float AimRotationLimit = 150;
 
-    private const float mirrorTopDownOffset = 0.05f;
+    //private const float mirrorTopDownOffset = 0.05f;
 
     
     // Start is called before the first frame update
