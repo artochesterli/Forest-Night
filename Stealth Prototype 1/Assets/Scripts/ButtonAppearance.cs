@@ -30,12 +30,12 @@ public class ButtonAppearance : MonoBehaviour
     void Update()
     {
         ChangeAppearance();
-        ImageChange();
+        //ImageChange();
     }
 
     private void Init()
     {
-        transform.Find("TextSelected").localScale = Vector3.one * SelectedScale;
+        //transform.Find("TextSelected").localScale = Vector3.one * SelectedScale;
         ChangeAppearance();
     }
 
@@ -44,17 +44,20 @@ public class ButtonAppearance : MonoBehaviour
 
         if (state == ButtonStatus.NotSelected)
         {
-            GetComponent<Image>().enabled = false;
+            //GetComponent<Image>().enabled = false;
             transform.Find("TextNotSelected").GetComponent<Text>().enabled = true;
             transform.Find("TextSelected").GetComponent<Text>().enabled = false;
-
+            transform.Find("LeafLeft").GetComponent<Image>().enabled = false;
+            transform.Find("LeafRight").GetComponent<Image>().enabled = false;
         }
         else if(state == ButtonStatus.Selected)
         {
-            GetComponent<Image>().enabled = true;
+            //GetComponent<Image>().enabled = true;
             transform.Find("TextNotSelected").GetComponent<Text>().enabled = false;
             transform.Find("TextSelected").GetComponent<Text>().enabled = true;
-            
+            transform.Find("LeafLeft").GetComponent<Image>().enabled = true;
+            transform.Find("LeafRight").GetComponent<Image>().enabled = true;
+
         }
     }
 
