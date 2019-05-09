@@ -25,6 +25,12 @@ public class Dash_To_Fairy : MonoBehaviour
         EventManager.instance.RemoveHandler<LoadLevel>(OnLoadLevel);
     }
 
+    private void OnDisable()
+    {
+        Destroy(SpiritLine);
+        detect_float_fairy = false;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -33,6 +39,11 @@ public class Dash_To_Fairy : MonoBehaviour
         {
             lock_fairy();
             Check_Input();
+        }
+        else
+        {
+            Destroy(SpiritLine);
+            detect_float_fairy = false;
         }
         CheckOverDash();
     }
@@ -54,10 +65,6 @@ public class Dash_To_Fairy : MonoBehaviour
     private void lock_fairy()
     {
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-        if (Character_Manager.Fairy == null)
-        {
-            return;
-        }
         if (detect_float_fairy)
         {
             Destroy(SpiritLine);
@@ -66,11 +73,6 @@ public class Dash_To_Fairy : MonoBehaviour
         else
         {
             Destroy(SpiritLine);
-        }
-        if (Main_Character_Status.status==MainCharacterStatus.Dashing || Main_Character_Status.status == MainCharacterStatus.OverDash)
-        {
-            detect_float_fairy = false;
-            return;
         }
         GameObject fairy = Character_Manager.Fairy;
         float current_dis = ((Vector2)(transform.position) - (Vector2)(fairy.transform.position)).magnitude;
@@ -176,6 +178,7 @@ public class Dash_To_Fairy : MonoBehaviour
 
     private void OnLoadLevel(LoadLevel L)
     {
+        Destroy(SpiritLine);
         detect_float_fairy = false;
     }
 
