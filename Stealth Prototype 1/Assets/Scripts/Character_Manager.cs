@@ -71,7 +71,7 @@ public class Character_Manager : MonoBehaviour
 
     private void SetShield()
     {
-        if(Main_Character.GetComponent<Invisible>().invisible&& Fairy.GetComponent<Invisible>().invisible)
+        if(Main_Character.activeSelf&&Fairy.activeSelf&&Main_Character.GetComponent<Invisible>().invisible&& Fairy.GetComponent<Invisible>().invisible)
         {
             if (InvisibleShield == null)
             {
@@ -151,4 +151,5 @@ public class Character_Manager : MonoBehaviour
         }
         Fairy.GetComponent<CharacterMove>().enabled = true;
     }
+
 }
