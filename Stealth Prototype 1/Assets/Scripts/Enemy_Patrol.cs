@@ -12,30 +12,12 @@ public class Enemy_Patrol : MonoBehaviour
     public bool Patrol_Right;
     public bool IsObserving;
 
-    private float Observation_Time_Count;
-    private bool Observing_Right;
+    public float Observation_Time_Count;
+    public bool Observing_Right;
     // Start is called before the first frame update
     void Start()
     {
-        Observation_Time_Count = 0;
-        if (Patrol_Right)
-        {
-            Observing_Right = true;
-        }
-        else
-        {
-            Observing_Right = false;
-        }
-
-        if (Patrol_Speed == 0)
-        {
-            IsObserving = true;
-        }
-        else
-        {
-            IsObserving = false;
-        }
-
+        Init();
     }
 
     // Update is called once per frame
@@ -49,6 +31,29 @@ public class Enemy_Patrol : MonoBehaviour
         else
         {
             Observation_Time_Count = 0;
+        }
+    }
+
+    private void Init()
+    {
+        if (Patrol_Right)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+            Observing_Right = true;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+            Observing_Right = false;
+        }
+
+        if (Patrol_Speed == 0)
+        {
+            IsObserving = true;
+        }
+        else
+        {
+            IsObserving = false;
         }
     }
 
