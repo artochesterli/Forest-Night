@@ -11,12 +11,12 @@ public class Platform_Tolem : MonoBehaviour
     public Vector2 CurrentSpeed;
     public bool moving;
 
-    private bool At_First_Point;
+    public bool At_First_Point;
     private const float LightAppearTime = 0.2f;
     // Start is called before the first frame update
     void Start()
     {
-        At_First_Point = true;
+        
     }
 
 

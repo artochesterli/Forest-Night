@@ -54,6 +54,10 @@ public class Character_Climb : MonoBehaviour
             {
                 Check_Input();
             }
+            else if (Status.status == FairyStatus.Aimed)
+            {
+                Reset();
+            }
 
         }
         else if (gameObject.CompareTag("Main_Character"))
@@ -62,6 +66,10 @@ public class Character_Climb : MonoBehaviour
             if ((Status.status == MainCharacterStatus.Normal || Status.status==MainCharacterStatus.Climbing) && !PathEndThrough)
             {
                 Check_Input();
+            }
+            else if (Status.status == MainCharacterStatus.Aimed)
+            {
+                Reset();
             }
         }
         
@@ -183,6 +191,7 @@ public class Character_Climb : MonoBehaviour
 
     private void Check_Status()
     {
+
         if (!IsClimbing)
         {
             if (gameObject.CompareTag("Fairy"))
@@ -289,11 +298,16 @@ public class Character_Climb : MonoBehaviour
     private void OnLoadLevel(LoadLevel L)
     {
         StopAllCoroutines();
+        Reset();
+        
+    }
+
+    private void Reset()
+    {
         AbleToClimb = false;
         InPathEnd = false;
         PathEndThrough = false;
         ConnectedPath = null;
         IsClimbing = false;
-        
     }
 }

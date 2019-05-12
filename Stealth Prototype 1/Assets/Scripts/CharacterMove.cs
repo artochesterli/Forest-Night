@@ -139,7 +139,10 @@ public class CharacterMove : MonoBehaviour
             }
             else
             {
-                PlatformSpeed = ConnectedMovingPlatform.GetComponent<Platform_Tolem>().CurrentSpeed;
+                if (ConnectedMovingPlatform != null)
+                {
+                    PlatformSpeed = ConnectedMovingPlatform.GetComponent<Platform_Tolem>().CurrentSpeed;
+                }
             }
         }
         if (IsFairyIgnorePlatformSpeed())

@@ -301,6 +301,7 @@ MonoBehaviour:
   move_period: 5
   CurrentSpeed: {x: 0, y: 0}
   moving: 0
+  At_First_Point: 1
 --- !u!50 &6608466871438105550
 Rigidbody2D:
   serializedVersion: 4
