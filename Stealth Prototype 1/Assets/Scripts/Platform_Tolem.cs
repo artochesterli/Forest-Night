@@ -9,9 +9,9 @@ public class Platform_Tolem : MonoBehaviour
     public Vector3 SecondPoint;
     public float move_period;
     public Vector2 CurrentSpeed;
-    public bool moving;
-
     public bool At_First_Point;
+
+    private bool moving;
     private const float LightAppearTime = 0.2f;
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class Platform_Tolem : MonoBehaviour
     public IEnumerator Move()
     {
         moving = true;
-        yield return StartCoroutine(LightChange(true));
+        
 
         Vector2 direction = Vector2.zero;
         Vector3 StartPoint = Vector3.zero;
@@ -48,8 +48,11 @@ public class Platform_Tolem : MonoBehaviour
             EndPoint = FirstPoint;
         }
         direction.Normalize();
-        yield return null;
-        
+
+        At_First_Point = !At_First_Point;
+
+        yield return StartCoroutine(LightChange(true));
+
 
         CurrentSpeed = speed * direction;
         if (Character_Manager.Main_Character.GetComponent<CharacterMove>().ConnectedMovingPlatform == gameObject)
@@ -91,7 +94,7 @@ public class Platform_Tolem : MonoBehaviour
         {
             Character_Manager.Fairy.GetComponent<CharacterMove>().PlatformSpeed = Vector2.zero;
         }
-        At_First_Point = !At_First_Point;
+
         yield return StartCoroutine(LightChange(false));
         moving = false;
     }
@@ -130,6 +133,38 @@ public class Platform_Tolem : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    public void DisableSelf()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<PolygonCollider2D>().enabled = false;
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = false;
+        transform.Find("Trigger").gameObject.SetActive(false);
+        GameObject Totem_Platform = transform.Find("Totem_Platform").gameObject;
+        Totem_Platform.SetActive(false);
+        this.enabled = false;
+    }
+
+    public void EnableSelf()
+    {
+        CurrentSpeed = Vector2.zero;
+        if (At_First_Point)
+        {
+            transform.position = FirstPoint;
+        }
+        else
+        {
+            transform.position = SecondPoint;
+        }
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<PolygonCollider2D>().enabled = true;
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = true;
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        transform.Find("Trigger").gameObject.SetActive(true);
+        GameObject Totem_Platform = transform.Find("Totem_Platform").gameObject;
+        Totem_Platform.SetActive(true);
+        this.enabled = true;
     }
 
 }

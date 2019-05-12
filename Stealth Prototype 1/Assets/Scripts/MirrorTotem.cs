@@ -59,4 +59,21 @@ public class MirrorTotem : MonoBehaviour
             yield return null;
         }
     }
+
+    public void DisableSelf()
+    {
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<PolygonCollider2D>().enabled = false;
+        this.enabled = false;
+    }
+
+    public void EnableSelf()
+    {
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = true;
+        transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
+        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponent<PolygonCollider2D>().enabled = true;
+        this.enabled = true;
+    }
 }

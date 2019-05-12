@@ -22,6 +22,7 @@ TagManager:
   - SpineKnockBack
   - Arrow
   - Slash
+  - PathUnit
   layers:
   - Default
   - TransparentFX

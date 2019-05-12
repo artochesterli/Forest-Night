@@ -49,7 +49,29 @@ public class CheckPoint : MonoBehaviour
         AllEnemyCopy.transform.parent = transform;
         AllLevelMechanicsCopy.transform.parent = transform;
         AllEnemyCopy.SetActive(false);
-        AllLevelMechanicsCopy.SetActive(false);
+
+
+        foreach(Transform child in AllLevelMechanicsCopy.transform)
+        {
+            if (child.CompareTag("Platform_Totem"))
+            {
+                child.GetComponent<Platform_Tolem>().DisableSelf();
+            }
+            else if (child.CompareTag("Mirror_Totem"))
+            {
+                child.GetComponent<MirrorTotem>().DisableSelf();
+            }
+            else if (child.CompareTag("Path_Totem"))
+            {
+                //child.gameObject.SetActive(false);
+                child.GetComponent<Path_Totem>().DisableSelf();
+            }
+            else
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+        //AllLevelMechanicsCopy.SetActive(false);
         MainCharacterPos = GameObject.Find("Main_Character").transform.position;
         FairyPos = GameObject.Find("Fairy").transform.position;
     }
@@ -95,7 +117,24 @@ public class CheckPoint : MonoBehaviour
         foreach(GameObject g in CopyLevelMechanicsList)
         {
             g.transform.parent = AllLevelMechanics.transform;
-            g.SetActive(true);
+            if (g.CompareTag("Platform_Totem"))
+            {
+                g.GetComponent<Platform_Tolem>().EnableSelf();
+            }
+            else if (g.CompareTag("Mirror_Totem"))
+            {
+                g.GetComponent<MirrorTotem>().EnableSelf();
+            }
+            else if (g.CompareTag("Path_Totem"))
+            {
+                //g.SetActive(false);
+                g.GetComponent<Path_Totem>().EnableSelf();
+            }
+            else
+            {
+                g.gameObject.SetActive(true);
+            }
+            //g.SetActive(true);
         }
         foreach(GameObject g in EnemyDestroylist)
         {
