@@ -122,11 +122,10 @@ public class Path_Totem : MonoBehaviour
     public void EnableSelf()
     {
         transform.Find("ActivatedLight").GetComponent<SpriteRenderer>().enabled = true;
+        GameObject Path = transform.Find("Path").gameObject;
+        Path.SetActive(true);
         if (Activated)
         {
-            GameObject Path = transform.Find("Path").gameObject;
-            Path.SetActive(true);
-
             int num = 0;
             foreach(Transform child in Path.transform)
             {
