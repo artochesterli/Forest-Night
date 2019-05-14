@@ -114,7 +114,7 @@ public class CharacterMove : MonoBehaviour
     private void RectifySpeed()
     {
         
-        if (!IsMainCharacterDashing())
+        if (!IsMainCharacterDashing() && !IsCharacterKnockedBack())
         {
             if (HitRightWall && speed.x>0 || HitLeftWall && speed.x<0)
             {
@@ -421,6 +421,12 @@ public class CharacterMove : MonoBehaviour
         {
             HitRightWall = false;
         }
+    }
+
+    private bool IsCharacterKnockedBack()
+    {
+        return gameObject == Character_Manager.Main_Character && GetComponent<Main_Character_Status_Manager>().status == MainCharacterStatus.KnockBack ||
+            gameObject == Character_Manager.Fairy && GetComponent<Fairy_Status_Manager>().status == FairyStatus.KnockBack;
     }
 
     private bool IsMainCharacterDashing()

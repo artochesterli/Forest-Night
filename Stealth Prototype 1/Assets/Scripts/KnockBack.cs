@@ -76,7 +76,7 @@ public class KnockBack : MonoBehaviour
         {
             return true;
         }
-        if (Grounded || GetComponent<CharacterMove>().OnGround && !GetComponent<CharacterMove>().Ground.CompareTag("SpineKnockBack"))
+        if (Grounded || GetComponent<CharacterMove>().OnGround && !GetComponent<CharacterMove>().Ground.CompareTag("SpineKnockBack") && transform.position.y < FreeHeight)
         {
             return true;
         }

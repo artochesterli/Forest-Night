@@ -299,7 +299,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896336684232812320}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -987,8 +987,8 @@ MonoBehaviour:
   OnGroundThreshold: 0.565
   OnGroundDetectOffset: 0.3
   HitWallThreshold: 0.4
-  HitWallTopDetectOffset: 0.5
-  HitWallDownDetectOffset: 0.5
+  HitWallTopDetectOffset: 0.55
+  HitWallDownDetectOffset: 0.55
   HitTopThreshold: 0.565
   HitTopDetectOffset: 0.3
 --- !u!114 &856160150
