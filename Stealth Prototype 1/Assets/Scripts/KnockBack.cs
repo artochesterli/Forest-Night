@@ -11,6 +11,9 @@ public class KnockBack : MonoBehaviour
     
     private bool LeaveGround;
     private bool Grounded;
+    private float TimeCount;
+
+    private const float KnockBackTime = 0.2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -68,6 +71,7 @@ public class KnockBack : MonoBehaviour
 
     private bool StopKnockBack()
     {
+        
         if(GetComponent<CharacterMove>().HitLeftWall && KnockBackDirection.x<0 || GetComponent<CharacterMove>().HitRightWall && KnockBackDirection.x > 0)
         {
             return true;
@@ -76,10 +80,19 @@ public class KnockBack : MonoBehaviour
         {
             return true;
         }
-        if (Grounded || GetComponent<CharacterMove>().OnGround && !GetComponent<CharacterMove>().Ground.CompareTag("SpineKnockBack") && transform.position.y < FreeHeight)
+        if (TimeCount > KnockBackTime)
         {
             return true;
         }
+        /*if ((Grounded || GetComponent<CharacterMove>().OnGround) && GetComponent<CharacterMove>().speed.y<0)
+        {
+            return true;
+        }*/
+        /*if (Grounded || GetComponent<CharacterMove>().OnGround && !GetComponent<CharacterMove>().Ground.CompareTag("SpineKnockBack") && transform.position.y < FreeHeight)
+        {
+            return true;
+        }*/
+        TimeCount += Time.deltaTime;
         return false;
 
     }
@@ -115,6 +128,7 @@ public class KnockBack : MonoBehaviour
     {
         if (C.Character == gameObject)
         {
+            TimeCount = 0;
             KnockBackDirection = C.Spine.GetComponent<KnockBackSpine>().KnockBackDirection;
             FreeHeight = C.Spine.GetComponent<KnockBackSpine>().FreeHeightOffset + transform.position.y;
         }
