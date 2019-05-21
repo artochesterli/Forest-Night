@@ -191,16 +191,17 @@ public class ShootArrow : MonoBehaviour
             GameObject unit = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/AimLineUnit"), StartPoint + direction * (1.0f/AimLineUnitPerMeter)*i, Quaternion.Euler(0,0,Vector2.SignedAngle(Vector2.right ,direction)));
             Aim_Line.Add(unit);
         }
-        if (hit.collider.gameObject.CompareTag("Mirror"))
+        if (hit&&hit.collider.gameObject.CompareTag("Mirror"))
         {
-            if (direction.x > 0)
+            StartPoint = hit.point;
+            /*if (direction.x > 0)
             {
                 StartPoint = hit.point + Vector2.left * mirroBounceStartPointOffset;
             }
             else
             {
                 StartPoint = hit.point + Vector2.right * mirroBounceStartPointOffset;
-            }
+            }*/
             direction.x = -direction.x;
             CreateAimLIne(direction, StartPoint);
             //float MirrorTopY = hit.collider.gameObject.transform.position.y + hit.collider.gameObject.GetComponent<BoxCollider2D>().size.y * hit.collider.gameObject.transform.localScale.y / 2;
