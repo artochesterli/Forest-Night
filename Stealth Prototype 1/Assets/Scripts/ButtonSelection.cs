@@ -11,7 +11,7 @@ public class ButtonSelection : MonoBehaviour
     public int SelectedMenu;
 
     private float MoveTimeCount;
-    private bool First;
+    private bool FirstPush;
     private bool Charging;
     private float ChargeTimeCount;
 
@@ -34,36 +34,33 @@ public class ButtonSelection : MonoBehaviour
 
     private void CheckInput()
     {
-        if(ControllerManager.MainCharacter.GetAxis("Left Stick Y")<-StickYThreshold)
+        if(ControllerManager.MainCharacter.GetAxis("Left Stick Y")<-StickYThreshold || ControllerManager.MainCharacter.GetButton("DownArrow"))
         {
-            if (First)
+            if(SelectedMenu < ButtonList.Count - 1)
             {
-                First = false;
-                if (SelectedMenu < ButtonList.Count - 1)
+                if (FirstPush)
                 {
+                    FirstPush = false;
                     GetComponents<AudioSource>()[1].Play();
                     SelectedMenu++;
                     if (MenuShowImage)
                     {
                         GetComponent<MenuMoveImage>().MoveImage(false, SelectedMenu);
                     }
-                }
-                
-            }
 
-            if (Charging)
-            {
-                if (ChargeTimeCount > ChargeTime)
-                {
-                    Charging = false;
                 }
-                ChargeTimeCount += Time.deltaTime;
-            }
-            else
-            {
-                if (MoveTimeCount >= MoveTime)
+
+                if (Charging)
                 {
-                    if (SelectedMenu < ButtonList.Count - 1)
+                    if (ChargeTimeCount > ChargeTime)
+                    {
+                        Charging = false;
+                    }
+                    ChargeTimeCount += Time.deltaTime;
+                }
+                else
+                {
+                    if (MoveTimeCount >= MoveTime)
                     {
                         GetComponents<AudioSource>()[1].Play();
                         SelectedMenu++;
@@ -71,20 +68,26 @@ public class ButtonSelection : MonoBehaviour
                         {
                             GetComponent<MenuMoveImage>().MoveImage(false, SelectedMenu);
                         }
+                        MoveTimeCount = 0;
                     }
-                    MoveTimeCount = 0;
+                    MoveTimeCount += Time.deltaTime;
                 }
-                MoveTimeCount += Time.deltaTime;
             }
+            else
+            {
+                ResetInputState();
+            }
+            
+            
         }
 
-        if (ControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold)
+        if (ControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold || ControllerManager.MainCharacter.GetButton("UpArrow"))
         {
-            if (First)
+            if(SelectedMenu >= 1)
             {
-                First = false;
-                if (SelectedMenu >= 1)
+                if (FirstPush)
                 {
+                    FirstPush = false;
                     GetComponents<AudioSource>()[1].Play();
                     SelectedMenu--;
                     if (MenuShowImage)
@@ -92,22 +95,18 @@ public class ButtonSelection : MonoBehaviour
                         GetComponent<MenuMoveImage>().MoveImage(true, SelectedMenu);
                     }
                 }
-                
-            }
 
-            if (Charging)
-            {
-                if (ChargeTimeCount > ChargeTime)
+                if (Charging)
                 {
-                    Charging = false;
+                    if (ChargeTimeCount > ChargeTime)
+                    {
+                        Charging = false;
+                    }
+                    ChargeTimeCount += Time.deltaTime;
                 }
-                ChargeTimeCount += Time.deltaTime;
-            }
-            else
-            {
-                if (MoveTimeCount >= MoveTime)
+                else
                 {
-                    if (SelectedMenu >= 1)
+                    if (MoveTimeCount >= MoveTime)
                     {
                         GetComponents<AudioSource>()[1].Play();
                         SelectedMenu--;
@@ -115,19 +114,21 @@ public class ButtonSelection : MonoBehaviour
                         {
                             GetComponent<MenuMoveImage>().MoveImage(true, SelectedMenu);
                         }
+                        MoveTimeCount = 0;
                     }
-                    MoveTimeCount = 0;
+                    MoveTimeCount += Time.deltaTime;
                 }
-                MoveTimeCount += Time.deltaTime;
             }
+            else
+            {
+                ResetInputState();
+            }
+            
         }
 
-        if(Mathf.Abs(ControllerManager.MainCharacter.GetAxis("Left Stick Y")) < StickYThreshold)
+        if(Mathf.Abs(ControllerManager.MainCharacter.GetAxis("Left Stick Y")) < StickYThreshold && !ControllerManager.MainCharacter.GetButton("UpArrow") && !ControllerManager.MainCharacter.GetButton("DownArrow"))
         {
-            First = true;
-            ChargeTimeCount = 0;
-            Charging = true;
-            MoveTimeCount = MoveTime;
+            ResetInputState();
         }
 
         if (ControllerManager.MainCharacter.GetButtonDown("A"))
@@ -189,6 +190,13 @@ public class ButtonSelection : MonoBehaviour
                 ButtonList[i].GetComponent<ButtonAppearance>().state = ButtonStatus.NotSelected;
             }
         }
+    }
 
+    private void ResetInputState()
+    {
+        FirstPush = true;
+        ChargeTimeCount = 0;
+        Charging = true;
+        MoveTimeCount = MoveTime;
     }
 }
