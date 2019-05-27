@@ -29,11 +29,23 @@ public class GameSceneControlMenu : MonoBehaviour
         CheckInput();
     }
 
+    private bool InputClose()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetButtonDown("B");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.Escape);
+        }
+    }
+
     private void CheckInput()
     {
         if (Active)
         {
-            if (ControllerManager.MainCharacter.GetButtonDown("B"))
+            if (InputClose())
             {
                 EventManager.instance.Fire(new EnterMenu(GameSceneMenu));
                 EventManager.instance.Fire(new ExitMenu(gameObject));

@@ -19,8 +19,8 @@ public class Character_Climb : MonoBehaviour
     private bool AbleToClimb;
     public GameObject ConnectedPath;
 
-    private const float climb_threshold = 0.9f;
-    private const float climb_jump_threshold = 0.4f;
+    private const float ClimbThreshold = 0.9f;
+    private const float JumpOffThreshold = 0.4f;
     // Start is called before the first frame update
     void Start()
     {
@@ -79,39 +79,33 @@ public class Character_Climb : MonoBehaviour
 
     private void Check_Input()
     {
-        if ( ConnectedPath!=null && AbleToClimb && !IsClimbing && (player.GetAxis("Left Stick Y") > climb_threshold && ConnectedPath.transform.position.y>transform.position.y|| player.GetAxis("Left Stick Y") < -climb_threshold && ConnectedPath.transform.position.y < transform.position.y))
+        if ( ConnectedPath!=null && AbleToClimb && !IsClimbing && (InputUp() && ConnectedPath.transform.position.y>transform.position.y|| InputDown()&& ConnectedPath.transform.position.y < transform.position.y))
         {
             IsClimbing = true;
             if (gameObject.CompareTag("Fairy"))
             {
                 var Status = GetComponent<Fairy_Status_Manager>();
-                if (player.GetAxis("Left Stick Y") > 0)
-                {
-                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
-                }
-                else
-                {
-                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
-                }
                 Status.status = FairyStatus.Climbing;
 
             }
             else if (gameObject.CompareTag("Main_Character"))
             {
                 var Status = GetComponent<Main_Character_Status_Manager>();
-                if (player.GetAxis("Left Stick Y") > 0)
-                {
-                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
-                }
-                else
-                {
-                    transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
-                }
                 Status.status = MainCharacterStatus.Climbing;
             }
+
+            if (InputUp())
+            {
+                transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
+            }
+            else
+            {
+                transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, 0);
+            }
+
             if (InPathEnd)
             {
-                if(player.GetAxis("Left Stick Y") > 0)
+                if(InputUp())
                 {
                     StartCoroutine(ThroughPathEnd(true));
                 }
@@ -122,6 +116,7 @@ public class Character_Climb : MonoBehaviour
                 return;
             }
         }
+
         if (!AbleToClimb)
         {
             IsClimbing = false;
@@ -131,9 +126,9 @@ public class Character_Climb : MonoBehaviour
         {
             transform.position = new Vector3(ConnectedPath.transform.position.x, transform.position.y, transform.position.z);
             GetComponent<CharacterMove>().speed.x = 0;
-            if (Mathf.Abs(player.GetAxis("Left Stick Y")) > climb_threshold)
+            if (InputUp()||InputDown())
             {
-                if (player.GetAxis("Left Stick Y") > 0)
+                if (InputUp())
                 {
                     GetComponent<CharacterMove>().speed.y = ClimbSpeed;
                 }
@@ -141,9 +136,10 @@ public class Character_Climb : MonoBehaviour
                 {
                     GetComponent<CharacterMove>().speed.y = -ClimbSpeed;
                 }
-                if (InPathEnd)
+
+                if (InPathEnd && !PathEndThrough)
                 {
-                    if (player.GetAxis("Left Stick Y") > 0)
+                    if (InputUp())
                     {
                         StartCoroutine(ThroughPathEnd(true));
                     }
@@ -151,29 +147,25 @@ public class Character_Climb : MonoBehaviour
                     {
                         StartCoroutine(ThroughPathEnd(false));
                     }
-                    return;
                 }
             }
             else
             {
                 GetComponent<CharacterMove>().speed.y = 0;
             }
-        }
 
-        if (IsClimbing)
-        {
-            if(player.GetAxis("Left Stick X") > climb_jump_threshold)
+            if (InputRight())
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
             }
-            else if(player.GetAxis("Left Stick X") < -climb_jump_threshold)
+            else if(InputLeft())
             {
                 transform.rotation = Quaternion.Euler(0, 180, 0);
                 transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-
             }
-            if (player.GetButtonDown("A"))
+
+            if (InputJumpOff())
             {
                 IsClimbing = false;
                 if (transform.right.x > 0)
@@ -184,9 +176,10 @@ public class Character_Climb : MonoBehaviour
                 {
                     GetComponent<CharacterMove>().speed = new Vector2(-JumpOffSpeed.x, JumpOffSpeed.y);
                 }
-                
             }
         }
+
+
     }
 
     private void Check_Status()
@@ -221,9 +214,157 @@ public class Character_Climb : MonoBehaviour
             }
         }
 
-
     }
 
+    private bool InputJumpOff()
+    {
+        if (gameObject.CompareTag("Fairy"))
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                return player.GetButtonDown("A");
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.Space);
+            }
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            if (ControllerManager.MainCharacterJoystick != null)
+            {
+                return player.GetButtonDown("A");
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.RightControl);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool InputRight()
+    {
+        if (gameObject.CompareTag("Fairy"))
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                return player.GetAxis("Left Stick X") > JumpOffThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A);
+            }
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            if (ControllerManager.MainCharacterJoystick != null)
+            {
+                return player.GetAxis("Left Stick Y") > JumpOffThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool InputLeft()
+    {
+        if (gameObject.CompareTag("Fairy"))
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                return player.GetAxis("Left Stick Y") < -JumpOffThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D);
+            }
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            if (ControllerManager.MainCharacterJoystick != null)
+            {
+                return player.GetAxis("Left Stick Y") > -JumpOffThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool InputUp()
+    {
+        if (gameObject.CompareTag("Fairy"))
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                return player.GetAxis("Left Stick Y") > ClimbThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S);
+            }
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            if (ControllerManager.MainCharacterJoystick != null)
+            {
+                return player.GetAxis("Left Stick Y") > ClimbThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool InputDown()
+    {
+        if (gameObject.CompareTag("Fairy"))
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                return player.GetAxis("Left Stick Y") < -ClimbThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W);
+            }
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            if (ControllerManager.MainCharacterJoystick != null)
+            {
+                return player.GetAxis("Left Stick Y") < -ClimbThreshold;
+            }
+            else
+            {
+                return Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow);
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
     private IEnumerator ThroughPathEnd(bool up)
     {
         GameObject PathEnd = ConnectedPath.transform.Find("Path_End").gameObject;

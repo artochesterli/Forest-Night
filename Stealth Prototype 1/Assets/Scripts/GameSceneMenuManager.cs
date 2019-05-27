@@ -33,29 +33,42 @@ public class GameSceneMenuManager : MonoBehaviour
         CheckInput();
     }
 
+    private bool InputOpen()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetButtonDown("Start");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.Escape);
+        }
+    }
+
+    private bool InputClose()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetButtonDown("B");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.Escape);
+        }
+    }
+
     private void CheckInput()
     {
-        if (ControllerManager.MainCharacter.GetButtonDown("Start"))
+        if (!Active)
         {
-            EventManager.instance.Fire(new GameSceneMenuOpen());
-        }
-
-        if (Active && !EnterThisFrame)
-        {
-            if (ControllerManager.MainCharacter.GetButtonDown("B"))
+            if (InputOpen())
             {
-                EventManager.instance.Fire(new GameSceneMenuClose());
+                EventManager.instance.Fire(new GameSceneMenuOpen());
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        else if (!EnterThisFrame)
         {
-            EventManager.instance.Fire(new GameSceneMenuOpen());
-        }
-
-        if (Active && !EnterThisFrame)
-        {
-            if (Input.GetKeyDown(KeyCode.Backspace))
+            if (InputClose())
             {
                 EventManager.instance.Fire(new GameSceneMenuClose());
             }

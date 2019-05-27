@@ -44,21 +44,6 @@ public class Freeze_Manager : MonoBehaviour
             AllEnemy.transform.GetChild(i).GetComponent<Enemy_Check>().enabled = false;
         }
 
-        /*for (int i = 0; i < AllLevelMechanics.transform.childCount; i++)
-        {
-            if (AllLevelMechanics.transform.GetChild(i).CompareTag("Platform_Totem"))
-            {
-                AllLevelMechanics.transform.GetChild(i).GetComponent<Platform_Tolem>().enabled = false;
-            }
-            else if (AllLevelMechanics.transform.GetChild(i).CompareTag("Mirror_Totem"))
-            {
-                AllLevelMechanics.transform.GetChild(i).GetComponent<MirrorTotem>().enabled = false;
-            }
-            else if (AllLevelMechanics.transform.GetChild(i).CompareTag("Path_Totem"))
-            {
-                AllLevelMechanics.transform.GetChild(i).GetComponent<Path_Totem>().enabled = false;
-            }
-        }*/
         EventManager.instance.Fire(new FreezeGame(GetComponent<Level_Manager>().LevelIndex));
     }
 

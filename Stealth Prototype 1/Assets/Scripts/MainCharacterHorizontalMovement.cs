@@ -10,7 +10,7 @@ public class MainCharacterHorizontalMovement : MonoBehaviour
 
     private Player player;
 
-    private const float moveVectorThreshold = 0.3f;
+    private const float MoveThreshold = 0.4f;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,42 +24,56 @@ public class MainCharacterHorizontalMovement : MonoBehaviour
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
         if (Main_Character_Status.status == MainCharacterStatus.Normal || Main_Character_Status.status == MainCharacterStatus.OverDash)
         {
-            check_input();
+            CheckInput();
         }
     }
 
-    private void check_input()
+    private bool InputRight()
     {
-        var CharacterMove = GetComponent<CharacterMove>();
-
-        Vector3 moveVector = Vector3.zero;
-        moveVector.x = player.GetAxis("Left Stick X");
-
-        if (Mathf.Abs(moveVector.x) < moveVectorThreshold)
+        if (ControllerManager.MainCharacterJoystick != null)
         {
-            moveVector.x = 0;
+            return player.GetAxis("Left Stick X") > MoveThreshold;
         }
         else
         {
-            moveVector.Normalize();
+            return Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow);
         }
+    }
 
-        if (moveVector.x > 0)
+    private bool InputLeft()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return player.GetAxis("Left Stick X") < -MoveThreshold;
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow);
+        }
+    }
+
+   
+
+    private void CheckInput()
+    {
+        var CharacterMove = GetComponent<CharacterMove>();
+
+        if (InputRight())
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
             transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
         }
-        else if (moveVector.x < 0)
+        else if (InputLeft())
         {
             transform.rotation = Quaternion.Euler(0, 180, 0);
             transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
         }
 
-        if (moveVector.x > 0 && !CharacterMove.HitRightWall || moveVector.x < 0 && !CharacterMove.HitLeftWall)
+        if (InputRight() && !CharacterMove.HitRightWall || InputLeft() && !CharacterMove.HitLeftWall)
         {
             if (CharacterMove.OnGround)
             {
-                if (moveVector.x > 0)
+                if (InputRight())
                 {
                     CharacterMove.speed.x = HorizontalSpeed;
                 }
@@ -71,7 +85,7 @@ public class MainCharacterHorizontalMovement : MonoBehaviour
             }
             else
             {
-                if (moveVector.x > 0)
+                if (InputRight())
                 {
                     if (CharacterMove.speed.x < 0)
                     {

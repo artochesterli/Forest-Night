@@ -5,8 +5,8 @@ using Rewired;
 
 public class ControllerManager : MonoBehaviour
 {
-    Joystick MainCharacterJoystick;
-    Joystick FairyJoystick;
+    public static Joystick MainCharacterJoystick;
+    public static Joystick FairyJoystick;
 
     public static Player MainCharacter;
     public static Player Fairy;

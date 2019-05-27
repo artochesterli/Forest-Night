@@ -38,10 +38,22 @@ public class Float_Point : MonoBehaviour
         }
     }
 
+    private bool InputAvailable()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetButton("LT");
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.C);
+        }
+    }
+
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (player.GetButton("LT"))
+        if (InputAvailable())
         {
             if(Fairy_Status.status != FairyStatus.FloatPlatform)
             {

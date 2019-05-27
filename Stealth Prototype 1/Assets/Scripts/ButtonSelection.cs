@@ -15,6 +15,8 @@ public class ButtonSelection : MonoBehaviour
     private bool Charging;
     private float ChargeTimeCount;
 
+    private bool EnableThisFrame;
+
     private const float ChargeTime = 0.5f;
     private const float MoveTime = 0.1f;
     private const float StickYThreshold=0.7f;
@@ -32,9 +34,56 @@ public class ButtonSelection : MonoBehaviour
         SetMenuState();
     }
 
+    private void OnEnable()
+    {
+        EnableThisFrame = true;
+        StartCoroutine(EnableSelf());
+    }
+
+    private bool InputUp()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold || ControllerManager.MainCharacter.GetButton("UpArrow");
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow);
+        }
+    }
+
+    private bool InputDown()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetAxis("Left Stick Y") < -StickYThreshold || ControllerManager.MainCharacter.GetButton("DownArrow");
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow);
+        }
+    }
+
+    private bool InputSelect()
+    {
+        if (EnableThisFrame)
+        {
+            return false;
+        }
+
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetButtonDown("A");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.Return);
+        }
+    }
+
     private void CheckInput()
     {
-        if(ControllerManager.MainCharacter.GetAxis("Left Stick Y")<-StickYThreshold || ControllerManager.MainCharacter.GetButton("DownArrow"))
+        if(InputDown())
         {
             if(SelectedMenu < ButtonList.Count - 1)
             {
@@ -81,7 +130,7 @@ public class ButtonSelection : MonoBehaviour
             
         }
 
-        if (ControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold || ControllerManager.MainCharacter.GetButton("UpArrow"))
+        if (InputUp())
         {
             if(SelectedMenu >= 1)
             {
@@ -126,12 +175,12 @@ public class ButtonSelection : MonoBehaviour
             
         }
 
-        if(Mathf.Abs(ControllerManager.MainCharacter.GetAxis("Left Stick Y")) < StickYThreshold && !ControllerManager.MainCharacter.GetButton("UpArrow") && !ControllerManager.MainCharacter.GetButton("DownArrow"))
+        if(!InputDown()&&!InputUp())
         {
             ResetInputState();
         }
 
-        if (ControllerManager.MainCharacter.GetButtonDown("A"))
+        if (InputSelect())
         {
             if (ButtonClickable)
             {
@@ -140,41 +189,6 @@ public class ButtonSelection : MonoBehaviour
             }
         }
 
-        /*if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            GetComponents<AudioSource>()[1].Play();
-            if (SelectedMenu - 1 < 0)
-            {
-                SelectedMenu += ButtonList.Count;
-            }
-            SelectedMenu = (SelectedMenu - 1) % ButtonList.Count;
-            if (MenuShowImage)
-            {
-                GetComponent<MenuMoveImage>().MoveImage(true, SelectedMenu);
-            }
-
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            GetComponents<AudioSource>()[1].Play();
-            SelectedMenu = (SelectedMenu + 1) % ButtonList.Count;
-            if (MenuShowImage)
-            {
-                GetComponent<MenuMoveImage>().MoveImage(false, SelectedMenu);
-            }
-            return;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (ButtonClickable)
-            {
-                EventManager.instance.Fire(new ButtonClicked(ButtonList[SelectedMenu]));
-                GetComponents<AudioSource>()[0].Play();
-            }
-        }*/
     }
 
     private void SetMenuState()
@@ -198,5 +212,11 @@ public class ButtonSelection : MonoBehaviour
         ChargeTimeCount = 0;
         Charging = true;
         MoveTimeCount = MoveTime;
+    }
+
+    private IEnumerator EnableSelf()
+    {
+        yield return null;
+        EnableThisFrame = false;
     }
 }

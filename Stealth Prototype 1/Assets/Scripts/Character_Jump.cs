@@ -32,11 +32,41 @@ public class Character_Jump : MonoBehaviour
 
     private void CheckJump()
     {
-        if (player.GetButtonDown("A") && GetComponent<CharacterMove>().OnGround && AbleToJump)
+        if (InputAvailable() && AbleToJump)
         {
             GetComponent<CharacterMove>().speed.y = JumpVerticalSpeed;
         }
 
+    }
+
+    private bool InputAvailable()
+    {
+        if (gameObject.CompareTag("Fairy"))
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                return player.GetButtonDown("A");
+            }
+            else
+            {
+                return Input.GetKeyDown(KeyCode.Space);
+            }
+        }
+        else if (gameObject.CompareTag("Main_Character"))
+        {
+            if (ControllerManager.MainCharacterJoystick != null)
+            {
+                return player.GetButtonDown("A");
+            }
+            else
+            {
+                return Input.GetKeyDown(KeyCode.RightControl);
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void CheckAvaliability()
@@ -44,7 +74,7 @@ public class Character_Jump : MonoBehaviour
         if (gameObject.CompareTag("Fairy"))
         {
             var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-            if (Fairy_Status.status == FairyStatus.Normal)
+            if (Fairy_Status.status == FairyStatus.Normal && GetComponent<CharacterMove>().OnGround)
             {
                 AbleToJump = true;
             }
@@ -56,7 +86,7 @@ public class Character_Jump : MonoBehaviour
         else if (gameObject.CompareTag("Main_Character"))
         {
             var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-            if (Main_Character_Status.status == MainCharacterStatus.Normal)
+            if (Main_Character_Status.status == MainCharacterStatus.Normal && GetComponent<CharacterMove>().OnGround)
             {
                 AbleToJump = true;
             }

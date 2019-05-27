@@ -38,12 +38,17 @@ public class TutorialFrame : MonoBehaviour
     {
         if (Opening&&!MenuOpening)
         {
-            if (ControllerManager.MainCharacter.GetButtonDown("A") || ControllerManager.Fairy.GetButtonDown("A"))
+            if (InputAvailable())
             {
                 EventManager.instance.Fire(new TutorialClose(gameObject));
                 Opening = false;
             }
         }
+    }
+
+    private bool InputAvailable()
+    {
+        return ControllerManager.MainCharacter.GetButtonDown("A") || ControllerManager.Fairy.GetButtonDown("A") || (Input.anyKeyDown && !Input.GetKeyDown(KeyCode.Escape));
     }
 
     private void OnTutorialOpen(TutorialOpen T)

@@ -23,7 +23,7 @@ public class Float : MonoBehaviour
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
         if (Fairy_Status.status != FairyStatus.Aimed && Fairy_Status.status!=FairyStatus.KnockBack&& Fairy_Status.status != FairyStatus.FloatPlatform && Fairy_Status.status != FairyStatus.Climbing&&!GetComponent<CharacterMove>().OnGround&&GetComponent<CharacterMove>().speed.y<=0)
         {
-            if (player.GetButton("A"))
+            if (InputAvailable())
             {
                 if(Fairy_Status.status != FairyStatus.Float)
                 {
@@ -45,6 +45,18 @@ public class Float : MonoBehaviour
             {
                 Fairy_Status.status = FairyStatus.Normal;
             }
+        }
+    }
+
+    private bool InputAvailable()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetButton("A");
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.Space);
         }
     }
 }

@@ -45,15 +45,32 @@ public class Slash : MonoBehaviour
 
     private void Check_Input()
     {
-        if (player.GetButtonDown("X")&&!Slashing)
+        if (InputAvailable()&&!Slashing)
         {
-            Slashing = true;
-            Weapon.GetComponent<AudioSource>().Play();
-            Weapon.GetComponent<SpriteRenderer>().enabled = true;
-            Weapon.GetComponent<Animator>().enabled = true;
-            Weapon.GetComponent<Animator>().Play("SlashEffect" ,0 ,0);
-            Weapon_Active_Time_count = 0;
+            ActivateSlash();
         }
+    }
+
+    private bool InputAvailable()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return player.GetButtonDown("X");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.Return);
+        }
+    }
+
+    private void ActivateSlash()
+    {
+        Slashing = true;
+        Weapon.GetComponent<AudioSource>().Play();
+        Weapon.GetComponent<SpriteRenderer>().enabled = true;
+        Weapon.GetComponent<Animator>().enabled = true;
+        Weapon.GetComponent<Animator>().Play("SlashEffect", 0, 0);
+        Weapon_Active_Time_count = 0;
     }
 
     private void Check_Status()

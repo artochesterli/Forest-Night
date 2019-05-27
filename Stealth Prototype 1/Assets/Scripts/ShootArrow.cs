@@ -59,10 +59,70 @@ public class ShootArrow : MonoBehaviour
         CheckIfAimed();
     }
 
+    private bool InputHolding()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetButton("RT");
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.V);
+        }
+    }
+
+    private bool InputUpFast()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Right Stick Y")>AimDirectionFastChangeThreshold;
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S);
+        }
+    }
+
+    private bool InputDownFast()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Right Stick Y") < -AimDirectionFastChangeThreshold;
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W);
+        }
+    }
+
+    private bool InputUpSlow()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Right Stick Y") > AimDirectionSlowChangeThreshold;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private bool InputDownSlow()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Right Stick Y") < -AimDirectionSlowChangeThreshold;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private void Check_Input()
     {
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
-        if (Fairy_Status.status==FairyStatus.Normal && GetComponent<CharacterMove>().OnGround && player.GetButton("RT"))
+        if (Fairy_Status.status==FairyStatus.Normal && GetComponent<CharacterMove>().OnGround && InputHolding())
         {
             Fairy_Status.status = FairyStatus.Aiming;
             if (Connected_Arrow == null)
@@ -106,10 +166,9 @@ public class ShootArrow : MonoBehaviour
                 ChargingTimeCount += Time.deltaTime;
             }
 
-            float RightStickY = player.GetAxis("Right Stick Y");
-            if (Mathf.Abs(RightStickY) >= AimDirectionFastChangeThreshold)
+            if (InputUpFast()||InputDownFast())
             {
-                if (RightStickY > 0)
+                if (InputUpFast())
                 {
                     ArrowAngle -= AimDirectionFastRotationSpeed * Time.deltaTime;
                     if (ArrowAngle < 0)
@@ -126,9 +185,9 @@ public class ShootArrow : MonoBehaviour
                     }
                 }
             }
-            else if (Mathf.Abs(RightStickY) >= AimDirectionSlowChangeThreshold)
+            else if (InputUpSlow()||InputDownSlow())
             {
-                if (RightStickY > 0)
+                if (InputUpSlow())
                 {
                     ArrowAngle -= AimDirectionSlowRotationSpeed * Time.deltaTime;
                     if (ArrowAngle < 0)
@@ -159,7 +218,7 @@ public class ShootArrow : MonoBehaviour
             CreateAimLIne(direction, Connected_Arrow.transform.position);
             Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
 
-            if (!player.GetButton("RT"))
+            if (!InputHolding())
             {
                 ClearAimLine();
                 if (!Charging)

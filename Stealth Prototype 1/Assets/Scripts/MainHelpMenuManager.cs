@@ -35,17 +35,23 @@ public class MainHelpMenuManager : MonoBehaviour
         CheckInput();
     }
 
+    private bool InputClose()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetButtonDown("B");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.Escape);
+        }
+    }
+
     private void CheckInput()
     {
         if (Active&&!EnterThisFrame)
         {
-            if (ControllerManager.MainCharacter.GetButtonDown("B"))
-            {
-                EventManager.instance.Fire(new EnterMenu(MainMenu));
-                EventManager.instance.Fire(new ExitMenu(gameObject));
-            }
-
-            if (Input.GetKeyDown(KeyCode.Backspace))
+            if (InputClose())
             {
                 EventManager.instance.Fire(new EnterMenu(MainMenu));
                 EventManager.instance.Fire(new ExitMenu(gameObject));

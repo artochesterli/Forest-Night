@@ -14,7 +14,7 @@ public class FairyHorizontalMovement : MonoBehaviour
 
     private Player player;
 
-    private const float FastMoveVectorThreshold = 1f;
+    private const float FastMoveVectorThreshold = 0.95f;
     private const float SlowMoveVectorThreshold = 0.4f;
     // Start is called before the first frame update
     void Start()
@@ -29,63 +29,134 @@ public class FairyHorizontalMovement : MonoBehaviour
         var Fairy_Status = GetComponent<Fairy_Status_Manager>();
         if (Fairy_Status.status==FairyStatus.Normal||Fairy_Status.status==FairyStatus.Float || Fairy_Status.status==FairyStatus.Aiming)
         {
-            check_input();
+            CheckInput();
         }
     }
 
-    private void check_input()
+    private bool InputRightFast()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Left Stick X") >= FastMoveVectorThreshold;
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.LeftAlt) &&!Input.GetKey(KeyCode.A);
+        }
+    }
+
+    private bool InputLeftFast()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Left Stick X") <= -FastMoveVectorThreshold;
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.D);
+        }
+    }
+
+    private bool InputRightSlow()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Left Stick X") >= SlowMoveVectorThreshold && player.GetAxis("Left Stick X") < FastMoveVectorThreshold;
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.A);
+        }
+    }
+
+    private bool InputLeftSlow()
+    {
+        if (ControllerManager.FairyJoystick != null)
+        {
+            return player.GetAxis("Left Stick X") <= -SlowMoveVectorThreshold && player.GetAxis("Left Stick X") > -FastMoveVectorThreshold;
+        }
+        else
+        {
+            return Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.LeftAlt) && !Input.GetKey(KeyCode.D);
+        }
+    }
+
+    private void CheckInput()
     {
         var check_horizontal_collider = GetComponent<CheckHorizontalCollider>();
         var CharacterMove = GetComponent<CharacterMove>();
 
-        Vector3 moveVector = Vector3.zero;
-        moveVector.x = player.GetAxis("Left Stick X");
+        bool right = false;
         float CurrentMaxSpeed;
         float CurrentAirAceleration;
 
-        if (Mathf.Abs(moveVector.x) < SlowMoveVectorThreshold)
+        if (!InputRightFast()&&!InputLeftFast()&&!InputRightSlow()&&!InputLeftSlow())
         {
             CurrentMaxSpeed = 0;
             CurrentAirAceleration = 0;
-            moveVector.x = 0;
             Fast = false;
         }
-        else if(Mathf.Abs(moveVector.x) < FastMoveVectorThreshold)
+        else if(InputRightSlow()||InputLeftSlow())
         {
             CurrentMaxSpeed = SlowHorizontalSpeed;
             CurrentAirAceleration = AirAcceleration;
-            moveVector.Normalize();
+            if (InputRightSlow())
+            {
+                right = true;
+            }
+            else
+            {
+                right = false;
+            }
+            if (GetComponent<Fairy_Status_Manager>().status != FairyStatus.Aiming)
+            {
+                if (right)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+                }
+            }
             Fast = false;
         }
         else
         {
             CurrentMaxSpeed = FastHorizontalSpeed;
             CurrentAirAceleration = AirAcceleration;
-            moveVector.Normalize();
+            if (InputRightFast())
+            {
+                right = true;
+            }
+            else
+            {
+                right = false;
+            }
+            if (GetComponent<Fairy_Status_Manager>().status != FairyStatus.Aiming)
+            {
+                if (right)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                    transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
+                }
+            }
             Fast = true;
         }
 
-        if (GetComponent<Fairy_Status_Manager>().status != FairyStatus.Aiming)
-        {
-            if (moveVector.x > 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-            }
-            else if (moveVector.x < 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-                transform.Find("LightToEnvironment").rotation = Quaternion.Euler(0, 0, 0);
-            }
-        }
 
-
-
-        if ( moveVector.x > 0 && !CharacterMove.HitRightWall || moveVector.x < 0 && !CharacterMove.HitLeftWall)
+        if ( right && !CharacterMove.HitRightWall || !right && !CharacterMove.HitLeftWall)
         {
             if (CharacterMove.OnGround)
             {
-                if (moveVector.x > 0)
+                if (right)
                 {
                     CharacterMove.speed.x = CurrentMaxSpeed;
                 }
@@ -97,7 +168,7 @@ public class FairyHorizontalMovement : MonoBehaviour
             }
             else
             {
-                if (moveVector.x > 0)
+                if (right)
                 {
                     if (CharacterMove.speed.x < 0)
                     {

@@ -103,9 +103,21 @@ public class Dash_To_Fairy : MonoBehaviour
     private void Check_Input()
     {
         var Main_Character_Status = GetComponent<Main_Character_Status_Manager>();
-        if (player.GetButtonDown("RT") && detect_float_fairy && Main_Character_Status.status != MainCharacterStatus.Dashing)
+        if (InputAvailable() && detect_float_fairy && Main_Character_Status.status != MainCharacterStatus.Dashing)
         {
             StartCoroutine(Dash());
+        }
+    }
+
+    private bool InputAvailable()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return player.GetButtonDown("RT");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.RightShift);
         }
     }
 
