@@ -28,7 +28,7 @@ public class MainMenuManager : MonoBehaviour
         EventManager.instance.AddHandler<EnterMenu>(OnEnterMenu);
         EventManager.instance.AddHandler<ExitMenu>(OnExitMenu);
 
-        SetMenu();
+        //SetMenu();
     }
 
     private void OnDestroy()
