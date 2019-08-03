@@ -888,6 +888,7 @@ GameObject:
   - component: {fileID: 84320553}
   - component: {fileID: 84320557}
   - component: {fileID: 84320558}
+  - component: {fileID: 84320559}
   m_Layer: 5
   m_Name: MainPageMenu
   m_TagString: Untagged
@@ -1097,6 +1098,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartMenu: {fileID: 1809811169}
   StartButton: {fileID: 1809811169}
+--- !u!114 &84320559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84320552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aadc6b345d328bf4ab93ed3ea247e388, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &91194356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2804,7 +2817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &227328731
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2856,7 +2869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &234508150
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9405,7 +9418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &889553101
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11620,7 +11633,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1154100501
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12092,9 +12105,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1223095893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3a26b43f02e733409420bbffe405361, type: 3}
+  m_Script: {fileID: 11500000, guid: 3870bf4401ddfd04b926c8e80d5958ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LinkedMenu: {fileID: 1227009051}
 --- !u!1 &1227009051
 GameObject:
   m_ObjectHideFlags: 0
@@ -12109,7 +12123,7 @@ GameObject:
   - component: {fileID: 1227009053}
   - component: {fileID: 1227009056}
   m_Layer: 5
-  m_Name: LevelSelectionMenu
+  m_Name: SaveSlotMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12349,7 +12363,10 @@ MonoBehaviour:
   LoadInfo: {fileID: 221736894}
   DeleteInfo: {fileID: 1797763818}
   BackInfo: {fileID: 968898676}
-  Slots: []
+  Slots:
+  - {fileID: 234508149}
+  - {fileID: 227328730}
+  - {fileID: 1154100500}
   HaveDataFrameSelected: {fileID: 21300000, guid: dd3b90f8c302bba4faf830ded384b3c2,
     type: 3}
   HaveDataFrameNotSelected: {fileID: 21300000, guid: d04ce6f6b2afdd0469839baef4351c0f,
@@ -14532,7 +14549,7 @@ GameObject:
   - component: {fileID: 1519275397}
   - component: {fileID: 1519275396}
   m_Layer: 5
-  m_Name: Frame_NotSelected (1)
+  m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16499,7 +16516,7 @@ GameObject:
   - component: {fileID: 1770699065}
   - component: {fileID: 1770699064}
   m_Layer: 5
-  m_Name: Frame_Selected
+  m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16544,7 +16561,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: dd3b90f8c302bba4faf830ded384b3c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d04ce6f6b2afdd0469839baef4351c0f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16979,7 +16996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1809811170
 RectTransform:
   m_ObjectHideFlags: 0

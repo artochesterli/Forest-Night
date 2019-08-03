@@ -48,7 +48,6 @@ public class MenuGroupManager : MonoBehaviour
                 EventManager.instance.Fire(new EnterMenu(CurrentActivatedMenu.GetComponent<ChildMenu>().ParentMenu));
             }
         }
-        Debug.Log(CurrentActivatedMenu);
     }
 
     private bool InputForward()

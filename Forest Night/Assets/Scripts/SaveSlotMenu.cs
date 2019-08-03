@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelSelectionMenu : MonoBehaviour
+public class SaveSlotMenu : MonoBehaviour
 {
     public GameObject NewGameInfo;
     public GameObject LoadInfo;
@@ -183,10 +183,14 @@ public class LevelSelectionMenu : MonoBehaviour
         {
             Active = false;
             BackInfo.SetActive(false);
+            NewGameInfo.SetActive(false);
+            LoadInfo.SetActive(false);
+            BackInfo.SetActive(false);
             for (int i = 0; i < Slots.Count; i++)
             {
                 Slots[i].SetActive(false);
             }
+            
         }
     }
 

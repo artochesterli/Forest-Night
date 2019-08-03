@@ -9,7 +9,17 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class Data
 {
     public int CurrentSaveSlot;
-    public List<int> Progress = new List<int>(3);
+    public List<int> Progress;
+
+    public Data()
+    {
+        CurrentSaveSlot = -1;
+        Progress = new List<int>();
+        for(int i = 0; i < 3; i++)
+        {
+            Progress.Add(0);
+        }
+    }
 }
 
 
@@ -23,7 +33,10 @@ public class SaveDataManager : MonoBehaviour
 
     private void OnEnable()
     {
-        CreateInitData();
+        if (data == null)
+        {
+            CreateInitData();
+        }
         EventManager.instance.AddHandler<EnterLevel>(OnEnterLevel);
     }
     // Start is called before the first frame update
@@ -59,15 +72,12 @@ public class SaveDataManager : MonoBehaviour
         string DataPath = Path.Combine(FolderPath, FileName + Extension);
         if (File.Exists(DataPath))
         {
-            LoadData();
+            data=LoadData();
             return;
         }
 
-        data.CurrentSaveSlot = -1;
-        for(int i = 0; i < data.Progress.Count; i++)
-        {
-            data.Progress[i] = 0;
-        }
+        data = new Data();
+        Debug.Log(data.Progress.Count);
 
         FileStream fileStream = File.Open(DataPath, FileMode.Create);
         BinaryFormatter binaryFormatter = new BinaryFormatter();
