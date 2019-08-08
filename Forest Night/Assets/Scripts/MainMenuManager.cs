@@ -38,7 +38,25 @@ public class MainMenuManager : MonoBehaviour
     {
         string FolderPath = Path.Combine(Application.dataPath, FolderName);
         string DataPath = Path.Combine(FolderPath, FileName + Extension);
-        return File.Exists(DataPath);
+        if (!File.Exists(DataPath))
+        {
+            return false;
+        }
+
+        if (SaveDataManager.data.CurrentSaveSlot < 0)
+        {
+            return false;
+        }
+
+        for(int i = 0; i < SaveDataManager.data.Progress.Count; i++)
+        {
+            if (SaveDataManager.data.Progress[SaveDataManager.data.CurrentSaveSlot]>0)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void OnEnterMenu(EnterMenu E)

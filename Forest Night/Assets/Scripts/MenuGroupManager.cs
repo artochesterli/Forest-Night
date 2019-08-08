@@ -28,17 +28,24 @@ public class MenuGroupManager : MonoBehaviour
 
     private void CheckInput()
     {
-        if (InputForward())
+        if (InputClick())
         {
-            if (CurrentSelectedButton.GetComponent<ForwardButton>() != null)
+            if (CurrentSelectedButton != null)
             {
-                EventManager.instance.Fire(new ExitMenu(CurrentActivatedMenu));
-                EventManager.instance.Fire(new EnterMenu(CurrentSelectedButton.GetComponent<ForwardButton>().LinkedMenu));
+                if (CurrentSelectedButton.GetComponent<ForwardButton>() != null)
+                {
+                    EventManager.instance.Fire(new ExitMenu(CurrentActivatedMenu));
+                    EventManager.instance.Fire(new EnterMenu(CurrentSelectedButton.GetComponent<ForwardButton>().LinkedMenu));
+                    GetComponent<AudioSource>().Play();
+                }
+                else if(CurrentSelectedButton.GetComponent<FunctionButton>()!=null)
+                {
+                    EventManager.instance.Fire(new ButtonClicked(CurrentSelectedButton));
+                    GetComponent<AudioSource>().Play();
+                }
             }
-            else
-            {
-                EventManager.instance.Fire(new ButtonClicked(CurrentSelectedButton));
-            }
+
+            
         }
         else if (InputBack())
         {
@@ -50,7 +57,7 @@ public class MenuGroupManager : MonoBehaviour
         }
     }
 
-    private bool InputForward()
+    private bool InputClick()
     {
         if (ControllerManager.MainCharacterJoystick != null)
         {

@@ -77,7 +77,6 @@ public class SaveDataManager : MonoBehaviour
         }
 
         data = new Data();
-        Debug.Log(data.Progress.Count);
 
         FileStream fileStream = File.Open(DataPath, FileMode.Create);
         BinaryFormatter binaryFormatter = new BinaryFormatter();

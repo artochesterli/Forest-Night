@@ -46,6 +46,7 @@ public class GameSceneInitMenu : MonoBehaviour
         if (E.Menu == gameObject)
         {
             Active = true;
+            EventManager.instance.Fire(new GameSceneMenuClose());
         }
     }
 

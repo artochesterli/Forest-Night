@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class GameSceneMenuMask : MonoBehaviour
 {
-    public GameObject QuitButton;
-
     private bool Fading;
     private float timecount;
 
@@ -19,7 +17,6 @@ public class GameSceneMenuMask : MonoBehaviour
     {
         EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
         EventManager.instance.AddHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
-        EventManager.instance.AddHandler<ButtonClicked>(OnButtonClicked);
         timecount = FadeTime;
     }
 
@@ -27,7 +24,6 @@ public class GameSceneMenuMask : MonoBehaviour
     {
         EventManager.instance.RemoveHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
         EventManager.instance.RemoveHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
-        EventManager.instance.RemoveHandler<ButtonClicked>(OnButtonClicked);
     }
 
     // Update is called once per frame
@@ -62,29 +58,6 @@ public class GameSceneMenuMask : MonoBehaviour
     {
         timecount = 0;
         Fading = false;
-    }
-
-    private IEnumerator QuitToMainPage()
-    {
-        float timecount = 0;
-        while (timecount < ToMainPageTime)
-        {
-            GetComponent<Image>().color = Color.Lerp(new Color(0, 0, 0, 0), Color.black, timecount / ToMainPageTime);
-            timecount += Time.deltaTime;
-            yield return null;
-        }
-        GetComponent<Image>().color = Color.black;
-
-        SceneManager.LoadScene("MainPage");
-    }
-
-    private void OnButtonClicked(ButtonClicked Click)
-    {
-        if (Click.Button == QuitButton)
-        {
-            EventManager.instance.Fire(new GameSceneMenuClose());
-            StartCoroutine(QuitToMainPage());
-        }
     }
 
 }
