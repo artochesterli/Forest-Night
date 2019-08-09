@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class SaveSlotMenu : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class SaveSlotMenu : MonoBehaviour
     public Sprite HaveDataFrameNotSelected;
     public Sprite NoDataFrameSelected;
     public Sprite NoDataFrameNotSelected;
+
+    public Color TextSelectedColor;
+    public Color TextUnSelectedColor;
 
     private bool Active;
     private int SelectedSlotIndex;
@@ -93,13 +97,33 @@ public class SaveSlotMenu : MonoBehaviour
     {
         for(int i = 0; i < Slots.Count; i++)
         {
+            GameObject Number = Slots[i].transform.Find("Number").gameObject;
+            GameObject LevelText= Slots[i].transform.Find("LevelText").gameObject;
+            GameObject Date= Slots[i].transform.Find("Date").gameObject;
             if (SaveDataManager.data.Progress[i] == 0)
             {
-                Slots[i].transform.Find("Number").GetComponent<Text>().text = "";
+                Number.GetComponent<Text>().text = "";
+                LevelText.GetComponent<Text>().text = "";
+                Date.GetComponent<Text>().text = "";
             }
             else
             {
-                Slots[i].transform.Find("Number").GetComponent<Text>().text = SaveDataManager.data.Progress[i].ToString();
+                Number.GetComponent<Text>().text = SaveDataManager.data.Progress[i].ToString();
+                LevelText.GetComponent<Text>().text = "LEVEL";
+                DateTime datetime = SaveDataManager.data.Date[i];
+                Date.GetComponent<Text>().text = datetime.Month.ToString()+"/"+datetime.Day.ToString()+"/"+datetime.Year.ToString();
+            }
+            if (SelectedSlotIndex == i)
+            {
+                Number.GetComponent<Text>().color = TextSelectedColor;
+                LevelText.GetComponent<Text>().color = TextSelectedColor;
+                Date.GetComponent<Text>().color = TextSelectedColor;
+            }
+            else
+            {
+                Number.GetComponent<Text>().color = TextUnSelectedColor;
+                LevelText.GetComponent<Text>().color = TextSelectedColor;
+                Date.GetComponent<Text>().color = TextSelectedColor;
             }
         }
     }
@@ -185,7 +209,7 @@ public class SaveSlotMenu : MonoBehaviour
             BackInfo.SetActive(false);
             NewGameInfo.SetActive(false);
             LoadInfo.SetActive(false);
-            BackInfo.SetActive(false);
+            DeleteInfo.SetActive(false);
             for (int i = 0; i < Slots.Count; i++)
             {
                 Slots[i].SetActive(false);

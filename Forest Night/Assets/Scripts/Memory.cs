@@ -9,6 +9,7 @@ public class Memory : MonoBehaviour
     public Color ActivateColor;
 
     private bool activated;
+    private bool ThisMemory;
     private const float ColorChangeTime = 0.2f;
     private const float FadeTime = 2f;
     private const float FadePauseTime = 1;
@@ -57,7 +58,7 @@ public class Memory : MonoBehaviour
             {
                 activated = true;
                 StartCoroutine(ChangeColor());
-                EventManager.instance.Fire(new SaveLevel());
+                EventManager.instance.Fire(new SaveLevel(gameObject));
             }
         }
     }
@@ -90,9 +91,21 @@ public class Memory : MonoBehaviour
 
     private void OnLoadLevel(LoadLevel L)
     {
-        if (activated)
+        if (activated&&ThisMemory)
         {
             StartCoroutine(Fade());
+        }
+    }
+
+    private void OnSaveLevel(SaveLevel S)
+    {
+        if (S.Memory == gameObject)
+        {
+            ThisMemory = true;
+        }
+        else
+        {
+            ThisMemory = false;
         }
     }
 }

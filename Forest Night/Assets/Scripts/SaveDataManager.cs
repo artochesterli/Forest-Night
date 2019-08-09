@@ -10,14 +10,17 @@ public class Data
 {
     public int CurrentSaveSlot;
     public List<int> Progress;
+    public List<DateTime> Date;
 
     public Data()
     {
         CurrentSaveSlot = -1;
         Progress = new List<int>();
+        Date = new List<DateTime>();
         for(int i = 0; i < 3; i++)
         {
             Progress.Add(0);
+            Date.Add(DateTime.Now);
         }
     }
 }
@@ -59,6 +62,7 @@ public class SaveDataManager : MonoBehaviour
     private void OnEnterLevel(EnterLevel E)
     {
         data.Progress[data.CurrentSaveSlot] = E.Level;
+        data.Date[data.CurrentSaveSlot] = DateTime.Now;
         SaveData();
     }
 

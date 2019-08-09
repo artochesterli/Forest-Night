@@ -42,7 +42,14 @@ public class UnFreezeGame : GameEvent
     }
 }
 
-public class SaveLevel : GameEvent { }
+public class SaveLevel : GameEvent
+{
+    public GameObject Memory;
+    public SaveLevel(GameObject M)
+    {
+        Memory = M;
+    }
+}
 
 public class LoadLevel : GameEvent { }
 
