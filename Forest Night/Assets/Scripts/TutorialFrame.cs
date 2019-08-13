@@ -49,6 +49,7 @@ public class TutorialFrame : MonoBehaviour
         {
             if (InputAvailable())
             {
+                GetComponent<AudioSource>().Play();
                 EventManager.instance.Fire(new TutorialClose(gameObject));
                 Opening = false;
             }
@@ -59,7 +60,15 @@ public class TutorialFrame : MonoBehaviour
 
     private bool InputAvailable()
     {
-        return ControllerManager.MainCharacter.GetButtonDown("A") || ControllerManager.Fairy.GetButtonDown("A") || Input.GetKeyDown(KeyCode.Return);
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            return ControllerManager.MainCharacter.GetButtonDown("A");
+        }
+        else
+        {
+            return Input.GetKeyDown(KeyCode.Return);
+        }
+
     }
 
     private void OnTutorialOpen(TutorialOpen T)

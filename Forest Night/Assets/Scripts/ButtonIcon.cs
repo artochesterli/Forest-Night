@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class ButtonIcon : MonoBehaviour
 {
-    public Sprite SpriteWithController;
-    public Sprite SpriteWithoutController;
+    public Sprite ControllerSprite;
+    public Sprite KeyboardSprite;
+    public Vector2 ControllerSize;
+    public Vector2 KeyboardSize;
 
     // Start is called before the first frame update
     void Start()
@@ -22,13 +24,16 @@ public class ButtonIcon : MonoBehaviour
     
     private void SetAppearance()
     {
+        RectTransform rt = GetComponent<RectTransform>();
         if (ControllerManager.MainCharacterJoystick != null)
         {
-            GetComponent<Image>().sprite = SpriteWithController;
+            GetComponent<Image>().sprite = ControllerSprite;
+            rt.sizeDelta = ControllerSize;
         }
         else
         {
-            GetComponent<Image>().sprite = SpriteWithoutController;
+            GetComponent<Image>().sprite = KeyboardSprite;
+            rt.sizeDelta = KeyboardSize;
         }
     }
 }

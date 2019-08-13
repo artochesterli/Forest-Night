@@ -8,6 +8,8 @@ public class InitMenu : MonoBehaviour
     public Color TextColor;
     public float BlinkCycle;
     public float BlinkAlpha;
+    public GameObject ControllerIcon;
+    public GameObject KeyboardIcon;
 
     private bool Activated;
 
@@ -37,6 +39,17 @@ public class InitMenu : MonoBehaviour
     {
         if (Activated)
         {
+            if (ControllerManager.MainCharacterJoystick != null)
+            {
+                ControllerIcon.SetActive(true);
+                KeyboardIcon.SetActive(false);
+            }
+            else
+            {
+                ControllerIcon.SetActive(false);
+                KeyboardIcon.SetActive(true);
+            }
+
             TimeCount += Time.deltaTime;
             if (TimeCount <= BlinkCycle / 2)
             {
@@ -47,11 +60,9 @@ public class InitMenu : MonoBehaviour
                         child.GetComponent<Text>().color = Color.Lerp(TextColor, new Color(TextColor.r, TextColor.g, TextColor.b, BlinkAlpha), TimeCount * 2 / BlinkCycle);
                     }
 
-                    if (child.GetComponent<Image>() != null)
-                    {
-                        child.GetComponent<Image>().color = Color.Lerp(Color.white, new Color(1, 1, 1, BlinkAlpha), TimeCount * 2 / BlinkCycle);
-                    }
                 }
+                ControllerIcon.GetComponent<Image>().color= Color.Lerp(Color.white, new Color(1, 1, 1, BlinkAlpha), TimeCount * 2 / BlinkCycle);
+                KeyboardIcon.GetComponent<Image>().color = Color.Lerp(Color.white, new Color(1, 1, 1, BlinkAlpha), TimeCount * 2 / BlinkCycle);
             }
             else
             {
@@ -61,12 +72,12 @@ public class InitMenu : MonoBehaviour
                     {
                         child.GetComponent<Text>().color = Color.Lerp(new Color(TextColor.r, TextColor.g, TextColor.b, BlinkAlpha), TextColor,  (TimeCount-BlinkCycle/2) * 2 / BlinkCycle);
                     }
-
-                    if (child.GetComponent<Image>() != null)
-                    {
-                        child.GetComponent<Image>().color = Color.Lerp(new Color(1, 1, 1, BlinkAlpha), Color.white, (TimeCount - BlinkCycle / 2) * 2 / BlinkCycle);
-                    }
                 }
+
+                ControllerIcon.GetComponent<Image>().color = Color.Lerp(new Color(1, 1, 1, BlinkAlpha), Color.white, (TimeCount - BlinkCycle / 2) * 2 / BlinkCycle);
+                KeyboardIcon.GetComponent<Image>().color = Color.Lerp(new Color(1, 1, 1, BlinkAlpha), Color.white, (TimeCount - BlinkCycle / 2) * 2 / BlinkCycle);
+
+
                 if (TimeCount >= BlinkCycle)
                 {
                     TimeCount = 0;
