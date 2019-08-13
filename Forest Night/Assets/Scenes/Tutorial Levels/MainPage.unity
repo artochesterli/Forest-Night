@@ -19003,7 +19003,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1600, y: 900}
+  m_SizeDelta: {x: 1554, y: 1145.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1965534669
 MonoBehaviour:
@@ -20171,6 +20171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a30c1e5cb48594468c04c6dc5c841e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BackInfo: {fileID: 183783099}
+  Image: {fileID: 1965534667}
+  ControllerSprite: {fileID: 21300000, guid: edc71d695efa33f4792d76eb61bd8788, type: 3}
+  KeyboardSprite: {fileID: 21300000, guid: 226fb59d16db296418eea8ffc89e38f1, type: 3}
 --- !u!114 &2118099417
 MonoBehaviour:
   m_ObjectHideFlags: 0

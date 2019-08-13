@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class GameSceneControlMenu : MonoBehaviour
 {
     public GameObject BackInfo;
+    public GameObject Image;
+    public Sprite ControllerSprite;
+    public Sprite KeyboardSprite;
 
-    private const int ArrowUnlockLevel = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,11 @@ public class GameSceneControlMenu : MonoBehaviour
         EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
 
+    private void Update()
+    {
+        SetImage();
+    }
+
     private void OnEnterMenu(EnterMenu M)
     {
         if (M.Menu == gameObject)
@@ -28,17 +35,8 @@ public class GameSceneControlMenu : MonoBehaviour
             BackInfo.SetActive(true);
             MenuGroupManager.CurrentActivatedMenu = gameObject;
             MenuGroupManager.CurrentSelectedButton = gameObject;
-            GameObject Image = transform.Find("Image").gameObject;
             Image.GetComponent<Image>().enabled = true;
-            if (Level_Manager.Self.GetComponent<Level_Manager>().LevelIndex >= ArrowUnlockLevel)
-            {
-                Image.GetComponent<Image>().sprite = Resources.Load("Sprite/TutorialImage/ControlAll", typeof(Sprite)) as Sprite;
-            }
-            else
-            {
-                Image.GetComponent<Image>().sprite = Resources.Load("Sprite/TutorialImage/ControlWithoutShooting", typeof(Sprite)) as Sprite;
-            }
-
+            SetImage();
         }
     }
 
@@ -49,6 +47,18 @@ public class GameSceneControlMenu : MonoBehaviour
             BackInfo.SetActive(false);
             GameObject Image = transform.Find("Image").gameObject;
             Image.GetComponent<Image>().enabled = false;
+        }
+    }
+
+    private void SetImage()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            Image.GetComponent<Image>().sprite = ControllerSprite;
+        }
+        else
+        {
+            Image.GetComponent<Image>().sprite = KeyboardSprite;
         }
     }
 }

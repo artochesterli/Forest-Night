@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ControlMenuManager : MonoBehaviour
 {
+    public GameObject BackInfo;
+    public GameObject Image;
+    public Sprite ControllerSprite;
+    public Sprite KeyboardSprite;
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,15 +24,19 @@ public class ControlMenuManager : MonoBehaviour
         EventManager.instance.RemoveHandler<ExitMenu>(OnExitMenu);
     }
 
+    private void Update()
+    {
+        SetImage();
+    }
+
     private void OnEnterMenu(EnterMenu E)
     {
         if (E.Menu == gameObject)
         {
             MenuGroupManager.CurrentActivatedMenu = gameObject;
-            foreach (Transform child in transform)
-            {
-                child.gameObject.SetActive(true);
-            }
+            BackInfo.SetActive(true);
+            Image.SetActive(true);
+            SetImage();
         }
     }
 
@@ -34,10 +44,20 @@ public class ControlMenuManager : MonoBehaviour
     {
         if (E.Menu == gameObject)
         {
-            foreach (Transform child in transform)
-            {
-                child.gameObject.SetActive(false);
-            }
+            BackInfo.SetActive(false);
+            Image.SetActive(false);
+        }
+    }
+
+    private void SetImage()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            Image.GetComponent<Image>().sprite = ControllerSprite;
+        }
+        else
+        {
+            Image.GetComponent<Image>().sprite = KeyboardSprite;
         }
     }
 
