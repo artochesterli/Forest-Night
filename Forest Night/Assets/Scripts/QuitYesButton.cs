@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class QuitButton : MonoBehaviour
+public class QuitYesButton : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

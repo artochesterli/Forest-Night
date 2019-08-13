@@ -26,7 +26,6 @@ public class SaveSlotMenu : MonoBehaviour
 
     private bool dataloaded;
 
-    private const float StickYThreshold = 0.7f;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,8 +45,8 @@ public class SaveSlotMenu : MonoBehaviour
         if (Active)
         {
             MenuGroupManager.CurrentSelectedButton = Slots[SelectedSlotIndex];
-            SetFrame();
-            SetInfo();
+            
+
             CheckInput();
         }
     }
@@ -57,6 +56,9 @@ public class SaveSlotMenu : MonoBehaviour
         if (InputRight())
         {
             SelectedSlotIndex = (SelectedSlotIndex + 1) % Slots.Count;
+            SetFrame();
+            SetText();
+            SetInfo();
         }
 
         if (InputLeft())
@@ -66,6 +68,9 @@ public class SaveSlotMenu : MonoBehaviour
             {
                 SelectedSlotIndex += Slots.Count;
             }
+            SetFrame();
+            SetText();
+            SetInfo();
         }
     }
 
@@ -73,7 +78,7 @@ public class SaveSlotMenu : MonoBehaviour
     {
         if (ControllerManager.MainCharacterJoystick != null)
         {
-            return ControllerManager.MainCharacter.GetButtonDown("RightArrow") || ControllerManager.MainCharacter.GetAxis("Left Stick X") > StickYThreshold;
+            return ControllerManager.MainCharacter.GetButtonDown("RightArrow");
         }
         else
         {
@@ -85,7 +90,7 @@ public class SaveSlotMenu : MonoBehaviour
     {
         if (ControllerManager.MainCharacterJoystick != null)
         {
-            return ControllerManager.MainCharacter.GetButtonDown("LeftArrow") || ControllerManager.MainCharacter.GetAxis("Left Stick X") < -StickYThreshold;
+            return ControllerManager.MainCharacter.GetButtonDown("LeftArrow");
         }
         else
         {
@@ -122,8 +127,8 @@ public class SaveSlotMenu : MonoBehaviour
             else
             {
                 Number.GetComponent<Text>().color = TextUnSelectedColor;
-                LevelText.GetComponent<Text>().color = TextSelectedColor;
-                Date.GetComponent<Text>().color = TextSelectedColor;
+                LevelText.GetComponent<Text>().color = TextUnSelectedColor;
+                Date.GetComponent<Text>().color = TextUnSelectedColor;
             }
         }
     }
@@ -161,18 +166,20 @@ public class SaveSlotMenu : MonoBehaviour
 
     private void SetInfo()
     {
+        BackInfo.SetActive(false);
+        NewGameInfo.SetActive(false);
+        LoadInfo.SetActive(false);
+        DeleteInfo.SetActive(false);
         if (SaveDataManager.data.Progress[SelectedSlotIndex] == 0)
         {
             NewGameInfo.SetActive(true);
-            LoadInfo.SetActive(false);
-            DeleteInfo.SetActive(false);
         }
         else
         {
-            NewGameInfo.SetActive(false);
             LoadInfo.SetActive(true);
             DeleteInfo.SetActive(true);
         }
+        BackInfo.SetActive(true);
     }
 
     private void SetSlot()
@@ -196,8 +203,9 @@ public class SaveSlotMenu : MonoBehaviour
             {
                 Slots[i].SetActive(true);
             }
+            SetFrame();
             SetText();
-            SetSlot();
+            SetInfo();
         }
     }
 

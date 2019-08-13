@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class GameSceneControlMenu : MonoBehaviour
 {
+    public GameObject BackInfo;
 
     private const int ArrowUnlockLevel = 3;
     // Start is called before the first frame update
@@ -24,8 +25,9 @@ public class GameSceneControlMenu : MonoBehaviour
     {
         if (M.Menu == gameObject)
         {
+            BackInfo.SetActive(true);
             MenuGroupManager.CurrentActivatedMenu = gameObject;
-            MenuGroupManager.CurrentSelectedButton = null;
+            MenuGroupManager.CurrentSelectedButton = gameObject;
             GameObject Image = transform.Find("Image").gameObject;
             Image.GetComponent<Image>().enabled = true;
             if (Level_Manager.Self.GetComponent<Level_Manager>().LevelIndex >= ArrowUnlockLevel)
@@ -44,6 +46,7 @@ public class GameSceneControlMenu : MonoBehaviour
     {
         if(M.Menu == gameObject)
         {
+            BackInfo.SetActive(false);
             GameObject Image = transform.Find("Image").gameObject;
             Image.GetComponent<Image>().enabled = false;
         }

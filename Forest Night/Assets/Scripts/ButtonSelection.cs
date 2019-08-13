@@ -65,7 +65,7 @@ public class ButtonSelection : MonoBehaviour
                 if (FirstPush)
                 {
                     FirstPush = false;
-                    GetComponents<AudioSource>()[1].Play();
+                    GetComponent<AudioSource>().Play();
                     SelectedMenu++;
                     if (MenuShowImage)
                     {
@@ -86,7 +86,7 @@ public class ButtonSelection : MonoBehaviour
                 {
                     if (MoveTimeCount >= MoveTime)
                     {
-                        GetComponents<AudioSource>()[1].Play();
+                        GetComponent<AudioSource>().Play();
                         SelectedMenu++;
                         if (MenuShowImage)
                         {
@@ -112,7 +112,7 @@ public class ButtonSelection : MonoBehaviour
                 if (FirstPush)
                 {
                     FirstPush = false;
-                    GetComponents<AudioSource>()[1].Play();
+                    GetComponent<AudioSource>().Play();
                     SelectedMenu--;
                     if (MenuShowImage)
                     {
@@ -132,7 +132,7 @@ public class ButtonSelection : MonoBehaviour
                 {
                     if (MoveTimeCount >= MoveTime)
                     {
-                        GetComponents<AudioSource>()[1].Play();
+                        GetComponent<AudioSource>().Play();
                         SelectedMenu--;
                         if (MenuShowImage)
                         {

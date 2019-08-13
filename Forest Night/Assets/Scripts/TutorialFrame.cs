@@ -10,19 +10,15 @@ public class TutorialFrame : MonoBehaviour
     private bool MenuOpening;
     private bool Opening;
 
-    private GameObject Image;
-    private GameObject Mask;
-    private GameObject ConfirmIcon;
-    private GameObject ConfirmText;
+    public GameObject Image;
+    public GameObject Mask;
+    public GameObject ConfirmInfo;
 
 
     private bool MenuCloseThisFrame;
 
     private const float OpenCloseTime = 0.3f;
     private const float MaskAlpha = 0.8f;
-
-
-
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +27,6 @@ public class TutorialFrame : MonoBehaviour
         EventManager.instance.AddHandler<TutorialClose>(OnTutorialClose);
         EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
         EventManager.instance.AddHandler<GameSceneMenuClose>(OnGameSceneMenuClose);
-
-        Image = transform.Find("Image").gameObject;
-        Mask = transform.Find("Mask").gameObject;
-        ConfirmIcon = transform.Find("ConfirmInfo").Find("Icon").gameObject;
-        ConfirmText = transform.Find("ConfirmInfo").Find("Text").gameObject;
     }
 
     private void OnDestroy()
@@ -91,8 +82,7 @@ public class TutorialFrame : MonoBehaviour
     {
         MenuOpening = true;
 
-        //ConfirmIcon.GetComponent<Image>().enabled = false;
-        //ConfirmText.GetComponent<Text>().enabled = false;
+        ConfirmInfo.SetActive(false);
     }
 
     private void OnGameSceneMenuClose(GameSceneMenuClose G)
@@ -100,23 +90,21 @@ public class TutorialFrame : MonoBehaviour
         MenuOpening = false;
         MenuCloseThisFrame = true;
 
-        /*if (Opening)
+        if (Opening)
         {
-            ConfirmIcon.GetComponent<Image>().enabled = true;
-            ConfirmText.GetComponent<Text>().enabled = true;
-        }*/
+            ConfirmInfo.SetActive(true);
+        }
     }
 
 
     private IEnumerator Open()
     {
-        Image.GetComponent<Image>().enabled = true;
+        Image.SetActive(true);
         Image.GetComponent<Image>().color = new Color(1, 1, 1, 0);
 
         Mask.GetComponent<Image>().color = new Color(0, 0, 0, 0);
 
-        ConfirmIcon.GetComponent<Image>().enabled = true;
-        ConfirmText.GetComponent<Text>().enabled = true;
+        ConfirmInfo.SetActive(true);
 
         float timecount = 0;
         while (timecount < OpenCloseTime)
@@ -138,8 +126,7 @@ public class TutorialFrame : MonoBehaviour
 
         Mask.GetComponent<Image>().color = new Color(0, 0, 0, MaskAlpha);
 
-        ConfirmIcon.GetComponent<Image>().enabled = false;
-        ConfirmText.GetComponent<Text>().enabled = false;
+        ConfirmInfo.SetActive(false);
 
         float timecount = 0;
         while (timecount < OpenCloseTime)
@@ -149,7 +136,7 @@ public class TutorialFrame : MonoBehaviour
             timecount += Time.deltaTime;
             yield return null;
         }
-        Image.GetComponent<Image>().enabled = false;
+        Image.SetActive(false);
 
     }
 }

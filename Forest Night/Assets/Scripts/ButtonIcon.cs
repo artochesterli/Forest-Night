@@ -11,11 +11,17 @@ public class ButtonIcon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SetAppearance();
     }
 
     // Update is called once per frame
     void LateUpdate()
+    {
+        SetAppearance();
+        
+    }
+    
+    private void SetAppearance()
     {
         if (ControllerManager.MainCharacterJoystick != null)
         {
@@ -25,6 +31,5 @@ public class ButtonIcon : MonoBehaviour
         {
             GetComponent<Image>().sprite = SpriteWithoutController;
         }
-        
     }
 }

@@ -22,6 +22,7 @@ public class MenuGroupManager : MonoBehaviour
     {
         if (CurrentActivatedMenu!=null && CurrentSelectedButton != null)
         {
+            
             CheckInput();
         }
     }

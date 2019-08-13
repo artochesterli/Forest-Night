@@ -11,7 +11,7 @@ public class GameSceneMenuMask : MonoBehaviour
 
     private const float ToMainPageTime = 1;
     private const float FadeTime=0.2f;
-    private const float FadeAlpha = 0.6f;
+    private const float FadeAlpha = 0.8f;
     // Start is called before the first frame update
     void Start()
     {
