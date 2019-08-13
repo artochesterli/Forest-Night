@@ -18,7 +18,6 @@ public class ButtonIcon : MonoBehaviour
     void LateUpdate()
     {
         SetAppearance();
-        
     }
     
     private void SetAppearance()
