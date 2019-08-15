@@ -12,6 +12,11 @@ public class Level_Manager : MonoBehaviour
     private void OnEnable()
     {
         Self = gameObject;
-        EventManager.instance.Fire(new EnterLevel(LevelIndex));
+        EventManager.instance.Fire(new EnterLevel(LevelIndex, AcrossSceneInfo.GameLevelTimeCount));
+    }
+
+    private void Update()
+    {
+        AcrossSceneInfo.GameLevelTimeCount += Time.deltaTime;
     }
 }

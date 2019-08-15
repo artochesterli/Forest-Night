@@ -23,8 +23,8 @@ public class SaveSlot : MonoBehaviour
         if (B.Button == gameObject)
         {
             SaveDataManager.data.CurrentSaveSlot = Index;
-            //SaveDataManager.SaveData();
-            GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/LoadingLevelData"));
+            Debug.Log(Level);
+            GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/System/LoadingLevelData"));
             string name;
             if (Level > 0)
             {

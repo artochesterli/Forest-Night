@@ -24,7 +24,6 @@ public class Title : MonoBehaviour
         if (E.Menu == MainMenu)
         {
             GetComponent<SpriteRenderer>().enabled = true;
-            //GetComponent<Image>().enabled = true;
         }
     }
 
@@ -33,7 +32,6 @@ public class Title : MonoBehaviour
         if (E.Menu == MainMenu)
         {
             GetComponent<SpriteRenderer>().enabled = false;
-            //GetComponent<Image>().enabled = false;
         }
     }
 }

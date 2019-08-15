@@ -18,20 +18,19 @@ public class Portal : MonoBehaviour
     private const float ScreenFadeTime = 1f;
     private const float ColorChangeTime = 0.2f;
     private const float PauseTime = 0.5f;
+    private const int MaxLevel = 10;
 
     // Start is called before the first frame update
     void Start()
     {
-        GameObject SceneLoadData = GameObject.Find("SceneLoadData");
-        if (SceneLoadData!=null&&SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel)
+        if (AcrossSceneInfo.AcrossGameLevel)
         {
-            StartCoroutine(ScreenFade(Color.white));
+            StartCoroutine(ScreenAppearFade(Color.white,1,0,ScreenFadeTime));
         }
         else
         {
-            StartCoroutine(ScreenFade(Color.black));
+            StartCoroutine(ScreenAppearFade(Color.black,1,0,ScreenFadeTime));
         }
-        Destroy(SceneLoadData);
     }
 
     // Update is called once per frame
@@ -62,8 +61,7 @@ public class Portal : MonoBehaviour
         float timecount = 0;
         while (timecount < ColorChangeTime)
         {
-            var main = Gate.GetComponent<ParticleSystem>();
-            main.startColor = Color.Lerp(Color.white, ActivateColor, timecount / ColorChangeTime);
+            Gate.GetComponent<ParticleSystem>().startColor = Color.Lerp(Color.white, ActivateColor, timecount / ColorChangeTime);
             timecount += Time.deltaTime;
             yield return null;
         }
@@ -91,26 +89,25 @@ public class Portal : MonoBehaviour
             timecount += Time.deltaTime;
             yield return null;
         }
-        if (ConnectedLevel > 0)
+        if (ConnectedLevel <= MaxLevel)
         {
-            GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/SceneLoadData"));
-            SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel = true;
-            SceneLoadData.name = "SceneLoadData";
-            DontDestroyOnLoad(SceneLoadData);
+            AcrossSceneInfo.AcrossGameLevel = true;
             SceneManager.LoadSceneAsync("Level " + ConnectedLevel.ToString());
         }
         else
         {
-            SceneManager.LoadSceneAsync("MainPage");
+            AcrossSceneInfo.AcrossGameLevel = false;
+            EventManager.instance.Fire(new QuitGame(true));
+            SceneManager.LoadSceneAsync("GameFinishScene");
         }
     }
 
-    private IEnumerator ScreenFade(Color C)
+    private IEnumerator ScreenAppearFade(Color C, float StartAlpha,float EndAlpha, float time)
     {
         float timecount = 0;
-        while (timecount < ScreenFadeTime)
+        while (timecount < time)
         {
-            Mask.GetComponent<Image>().color = Color.Lerp(C, new Color(C.r, C.g, C.b, 0), timecount / ScreenFadeTime);
+            Mask.GetComponent<Image>().color = Color.Lerp(new Color(C.r, C.g, C.b, StartAlpha), new Color(C.r, C.g, C.b, EndAlpha), timecount / time);
             timecount += Time.deltaTime;
             yield return null;
         }

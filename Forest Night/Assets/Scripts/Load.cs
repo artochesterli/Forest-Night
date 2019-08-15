@@ -45,12 +45,6 @@ public class Load : MonoBehaviour
 
     private IEnumerator LoadScene(string s)
     {
-        float timecount = 0;
-
-        GameObject SceneLoadData = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/SceneLoadData"));
-        SceneLoadData.GetComponent<SceneLoadData>().FromOtherLevel = false;
-        SceneLoadData.name = "SceneLoadData";
-        DontDestroyOnLoad(SceneLoadData);
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(s);
         while (!asyncLoad.isDone)
         {

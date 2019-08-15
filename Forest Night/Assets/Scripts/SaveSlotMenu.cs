@@ -115,8 +115,7 @@ public class SaveSlotMenu : MonoBehaviour
             {
                 Number.GetComponent<Text>().text = SaveDataManager.data.Progress[i].ToString();
                 LevelText.GetComponent<Text>().text = "LEVEL";
-                DateTime datetime = SaveDataManager.data.Date[i];
-                Date.GetComponent<Text>().text = datetime.Month.ToString()+"/"+datetime.Day.ToString()+"/"+datetime.Year.ToString();
+                Date.GetComponent<Text>().text = TimeToString(SaveDataManager.data.Time[i]);
             }
             if (SelectedSlotIndex == i)
             {
@@ -131,6 +130,34 @@ public class SaveSlotMenu : MonoBehaviour
                 Date.GetComponent<Text>().color = TextUnSelectedColor;
             }
         }
+    }
+
+    private string TimeToString(float Second)
+    {
+        int IntSecond = Mathf.RoundToInt(Second);
+        int hour = IntSecond / 3600;
+        IntSecond = IntSecond % 3600;
+        int minute = IntSecond / 60;
+        IntSecond = IntSecond & 60;
+
+        string hourstring = hour.ToString();
+        string minutestring = minute.ToString();
+        string secondstring = IntSecond.ToString();
+
+        if (hour < 10)
+        {
+            hourstring = "0" + hourstring;
+        }
+        if (minute < 10)
+        {
+            minutestring = "0" + minutestring;
+        }
+        if (IntSecond < 10)
+        {
+            secondstring = "0" + secondstring;
+        }
+
+        return hourstring + ":" + minutestring + ":" + secondstring;
     }
 
     private void SetFrame()
@@ -184,6 +211,7 @@ public class SaveSlotMenu : MonoBehaviour
 
     private void SetSlot()
     {
+        SelectedSlotIndex = SaveDataManager.data.CurrentSaveSlot;
         for (int i = 0; i < Slots.Count; i++)
         {
             Slots[i].GetComponent<SaveSlot>().Level = SaveDataManager.data.Progress[i];
@@ -203,9 +231,11 @@ public class SaveSlotMenu : MonoBehaviour
             {
                 Slots[i].SetActive(true);
             }
+            SetSlot();
             SetFrame();
             SetText();
             SetInfo();
+            
         }
     }
 

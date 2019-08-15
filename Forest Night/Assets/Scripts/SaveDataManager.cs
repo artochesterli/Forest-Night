@@ -9,18 +9,23 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class Data
 {
     public int CurrentSaveSlot;
+    public List<bool> Finish;
     public List<int> Progress;
-    public List<DateTime> Date;
+    public List<float> Time;
+
+    private const int SlotNum=3;
 
     public Data()
     {
         CurrentSaveSlot = -1;
         Progress = new List<int>();
-        Date = new List<DateTime>();
-        for(int i = 0; i < 3; i++)
+        Time = new List<float>();
+        Finish = new List<bool>();
+        for(int i = 0; i < SlotNum; i++)
         {
             Progress.Add(0);
-            Date.Add(DateTime.Now);
+            Time.Add(0);
+            Finish.Add(false);
         }
     }
 }
@@ -41,29 +46,33 @@ public class SaveDataManager : MonoBehaviour
             CreateInitData();
         }
         EventManager.instance.AddHandler<EnterLevel>(OnEnterLevel);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-
+        EventManager.instance.AddHandler<QuitGame>(OnQuitGame);
     }
 
     private void OnDestroy()
     {
         EventManager.instance.RemoveHandler<EnterLevel>(OnEnterLevel);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        EventManager.instance.RemoveHandler<QuitGame>(OnQuitGame);
     }
 
     private void OnEnterLevel(EnterLevel E)
     {
         data.Progress[data.CurrentSaveSlot] = E.Level;
-        data.Date[data.CurrentSaveSlot] = DateTime.Now;
+        data.Time[data.CurrentSaveSlot] += AcrossSceneInfo.GameLevelTimeCount;
         SaveData();
+        AcrossSceneInfo.GameLevelTimeCount = 0;
+    }
+
+    private void OnQuitGame(QuitGame Q)
+    {
+        if (Q.finish)
+        {
+            data.Finish[data.CurrentSaveSlot] = true;
+        }
+        data.Time[data.CurrentSaveSlot] += AcrossSceneInfo.GameLevelTimeCount;
+        SaveData();
+        AcrossSceneInfo.GameLevelTimeCount = 0;
+        
     }
 
     public static void CreateInitData()

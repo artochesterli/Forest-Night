@@ -74,9 +74,20 @@ public class ExitMenu : GameEvent
 public class EnterLevel : GameEvent
 {
     public int Level;
-    public EnterLevel(int L)
+    public float TimeCount;
+    public EnterLevel(int L,float timecount)
     {
         Level = L;
+        TimeCount = timecount;
+    }
+}
+
+public class QuitGame : GameEvent
+{
+    public bool finish;
+    public QuitGame(bool b)
+    {
+        finish = b;
     }
 }
 

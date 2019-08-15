@@ -26,7 +26,7 @@ public class ContinueButton : MonoBehaviour
     {
         if (Click.Button == gameObject)
         {
-            GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/GameObject/LoadingLevelData"));
+            GameObject g = (GameObject)Instantiate(Resources.Load("Prefabs/System/LoadingLevelData"));
             string name = "Level " + SaveDataManager.data.Progress[SaveDataManager.data.CurrentSaveSlot].ToString();
             g.GetComponent<LoadingLevelData>().Scene = name;
             g.name = "LoadingLevelData";

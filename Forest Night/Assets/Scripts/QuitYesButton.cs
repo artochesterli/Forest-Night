@@ -20,6 +20,8 @@ public class QuitYesButton : MonoBehaviour
     {
         if (B.Button == gameObject)
         {
+            EventManager.instance.Fire(new QuitGame(false));
+            AcrossSceneInfo.AcrossGameLevel = false;
             SceneManager.LoadScene("MainPage");
         }
     }

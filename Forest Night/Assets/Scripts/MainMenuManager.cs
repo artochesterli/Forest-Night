@@ -50,7 +50,7 @@ public class MainMenuManager : MonoBehaviour
 
         for(int i = 0; i < SaveDataManager.data.Progress.Count; i++)
         {
-            if (SaveDataManager.data.Progress[SaveDataManager.data.CurrentSaveSlot]>0)
+            if (SaveDataManager.data.Progress[SaveDataManager.data.CurrentSaveSlot]>0 && !SaveDataManager.data.Finish[SaveDataManager.data.CurrentSaveSlot])
             {
                 return true;
             }
@@ -83,8 +83,10 @@ public class MainMenuManager : MonoBehaviour
 
     private void SetMenu()
     {
+        float PivotY;
         if (HaveData())
         {
+            PivotY = StartY;
             if (GetComponent<ButtonSelection>().ButtonList[0]!=ContinueButton)
             {
                 GetComponent<ButtonSelection>().ButtonList.Insert(0, ContinueButton);
@@ -92,6 +94,7 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
+            PivotY = StartY - Interval / 2;
             ContinueButton.SetActive(false);
             if(GetComponent<ButtonSelection>().ButtonList[0] == ContinueButton)
             {
@@ -101,7 +104,7 @@ public class MainMenuManager : MonoBehaviour
 
         for(int i = 0; i < GetComponent<ButtonSelection>().ButtonList.Count; i++)
         {
-            GetComponent<ButtonSelection>().ButtonList[i].GetComponent<RectTransform>().anchoredPosition= new Vector2(0, StartY - i * Interval);
+            GetComponent<ButtonSelection>().ButtonList[i].GetComponent<RectTransform>().anchoredPosition= new Vector2(0, PivotY - i * Interval);
             GetComponent<ButtonSelection>().ButtonList[i].SetActive(true);
         }
         
