@@ -36,10 +36,8 @@ public class AbilitiesMenuManager : MonoBehaviour
             GetComponent<MenuMoveImage>().enabled = true;
             var MenuMoveImage = GetComponent<MenuMoveImage>();
             MenuMoveImage.Image.GetComponent<Image>().enabled = true;
-            MenuMoveImage.Image.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
-            MenuMoveImage.BackImage.GetComponent<Image>().enabled = true;
-            MenuMoveImage.BackImage.GetComponent<Image>().sprite = GetComponent<MenuMoveImage>().SpriteList[GetComponent<ButtonSelection>().SelectedMenu];
-            MenuMoveImage.BackImage.GetComponent<RectTransform>().anchoredPosition = MenuMoveImage.Image.GetComponent<RectTransform>().anchoredPosition + Vector2.up * height;
+            MenuMoveImage.ImageIndex = GetComponent<ButtonSelection>().SelectedMenu;
+            MenuMoveImage.SetSprite();
             foreach (Transform child in transform)
             {
                 child.gameObject.SetActive(true);
@@ -55,7 +53,6 @@ public class AbilitiesMenuManager : MonoBehaviour
             GetComponent<MenuMoveImage>().enabled = false;
             var MenuMoveImage = GetComponent<MenuMoveImage>();
             MenuMoveImage.Image.GetComponent<Image>().enabled = false;
-            MenuMoveImage.BackImage.GetComponent<Image>().enabled = false;
             foreach (Transform child in transform)
             {
                 child.gameObject.SetActive(false);

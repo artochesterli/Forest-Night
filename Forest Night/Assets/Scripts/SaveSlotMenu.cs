@@ -211,7 +211,10 @@ public class SaveSlotMenu : MonoBehaviour
 
     private void SetSlot()
     {
-        SelectedSlotIndex = SaveDataManager.data.CurrentSaveSlot;
+        if (SaveDataManager.data.CurrentSaveSlot >= 0)
+        {
+            SelectedSlotIndex = SaveDataManager.data.CurrentSaveSlot;
+        }
         for (int i = 0; i < Slots.Count; i++)
         {
             Slots[i].GetComponent<SaveSlot>().Level = SaveDataManager.data.Progress[i];

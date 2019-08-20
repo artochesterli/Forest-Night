@@ -5,58 +5,73 @@ using UnityEngine.UI;
 
 public class MenuMoveImage : MonoBehaviour
 {
-    public List<Sprite> SpriteList;
+    public List<Sprite> ConConSpriteList;
+    public List<Sprite> ConKeySpriteList;
+    public List<Sprite> KeyConSpriteList;
+    public List<Sprite> KeyKeySpriteList;
 
     public GameObject Image;
-    public GameObject BackImage;
-    public Vector2 ImagePos;
 
-    private const float ImageMoveTime = 0.2f;
-    private const float height = 1080;
+    public int ImageIndex;
+
+    private const float ImageShowTime = 0.2f;
 
     private void Update()
     {
-        
+        SetSprite();
     }
-    public void MoveImage(bool up, int index)
+
+
+    public void SetSprite()
     {
-        Image.GetComponent<Image>().sprite = BackImage.GetComponent<Image>().sprite;
-        Image.GetComponent<RectTransform>().anchoredPosition = ImagePos;
-        if (up)
+        if (ControllerManager.MainCharacterJoystick != null)
         {
-            BackImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + Vector2.down * height;
+            if (ControllerManager.FairyJoystick != null)
+            {
+                Image.GetComponent<Image>().sprite = ConConSpriteList[ImageIndex];
+            }
+            else
+            {
+                Image.GetComponent<Image>().sprite = ConKeySpriteList[ImageIndex];
+            }
         }
         else
         {
-            BackImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + Vector2.up * height;
+            if (ControllerManager.FairyJoystick != null)
+            {
+                Image.GetComponent<Image>().sprite = KeyConSpriteList[ImageIndex];
+            }
+            else
+            {
+                Image.GetComponent<Image>().sprite = KeyKeySpriteList[ImageIndex];
+            }
         }
-        BackImage.GetComponent<Image>().sprite = SpriteList[index];
+    }
+
+    public void MoveImage(int index)
+    {
+        ImageIndex = index;
+
+        Image.GetComponent<Image>().color = Color.white;
+
+        SetSprite();
 
         StopAllCoroutines();
-        StartCoroutine(Move(up));
+        StartCoroutine(ShowImage());
     }
 
-    private IEnumerator Move(bool up)
+    private IEnumerator ShowImage()
     {
         float timecount = 0;
-        Vector2 direction;
-        if (up)
+
+        Image.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+
+        while (timecount < ImageShowTime)
         {
-            direction = Vector2.up;
-        }
-        else
-        {
-            direction = Vector2.down;
-        }
-        while (timecount < ImageMoveTime)
-        {
-            Image.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(ImagePos, ImagePos + direction * height, timecount / ImageMoveTime);
-            BackImage.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(ImagePos - direction * height, ImagePos, timecount / ImageMoveTime);
             timecount += Time.deltaTime;
+            Image.GetComponent<Image>().color = Color.Lerp(new Color(1, 1, 1, 0), Color.white, timecount / ImageShowTime);
             yield return null;
         }
-        Image.GetComponent<Image>().sprite = BackImage.GetComponent<Image>().sprite;
-        Image.GetComponent<RectTransform>().anchoredPosition = ImagePos;
-        BackImage.GetComponent<RectTransform>().anchoredPosition = ImagePos + direction * height;
+
     }
 }

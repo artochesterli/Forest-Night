@@ -69,7 +69,7 @@ public class ButtonSelection : MonoBehaviour
                     SelectedMenu++;
                     if (MenuShowImage)
                     {
-                        GetComponent<MenuMoveImage>().MoveImage(false, SelectedMenu);
+                        GetComponent<MenuMoveImage>().MoveImage(SelectedMenu);
                     }
 
                 }
@@ -90,7 +90,7 @@ public class ButtonSelection : MonoBehaviour
                         SelectedMenu++;
                         if (MenuShowImage)
                         {
-                            GetComponent<MenuMoveImage>().MoveImage(false, SelectedMenu);
+                            GetComponent<MenuMoveImage>().MoveImage(SelectedMenu);
                         }
                         MoveTimeCount = 0;
                     }
@@ -116,7 +116,7 @@ public class ButtonSelection : MonoBehaviour
                     SelectedMenu--;
                     if (MenuShowImage)
                     {
-                        GetComponent<MenuMoveImage>().MoveImage(true, SelectedMenu);
+                        GetComponent<MenuMoveImage>().MoveImage(SelectedMenu);
                     }
                 }
 
@@ -136,7 +136,7 @@ public class ButtonSelection : MonoBehaviour
                         SelectedMenu--;
                         if (MenuShowImage)
                         {
-                            GetComponent<MenuMoveImage>().MoveImage(true, SelectedMenu);
+                            GetComponent<MenuMoveImage>().MoveImage(SelectedMenu);
                         }
                         MoveTimeCount = 0;
                     }

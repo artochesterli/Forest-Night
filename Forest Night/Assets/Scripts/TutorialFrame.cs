@@ -14,6 +14,11 @@ public class TutorialFrame : MonoBehaviour
     public GameObject Mask;
     public GameObject ConfirmInfo;
 
+    public Sprite ConConSprite;
+    public Sprite ConKeySprite;
+    public Sprite KeyConSprite;
+    public Sprite KeyKeySprite;
+
 
     private bool MenuCloseThisFrame;
 
@@ -40,7 +45,34 @@ public class TutorialFrame : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SetSprite();
         CheckInput();
+    }
+
+    private void SetSprite()
+    {
+        if (ControllerManager.MainCharacterJoystick != null)
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                Image.GetComponent<Image>().sprite = ConConSprite;
+            }
+            else
+            {
+                Image.GetComponent<Image>().sprite = ConKeySprite;
+            }
+        }
+        else
+        {
+            if (ControllerManager.FairyJoystick != null)
+            {
+                Image.GetComponent<Image>().sprite = KeyConSprite;
+            }
+            else
+            {
+                Image.GetComponent<Image>().sprite = KeyKeySprite;
+            }
+        }
     }
 
     private void CheckInput()
