@@ -135,11 +135,11 @@ public class ShootArrow : MonoBehaviour
                 Vector2 direction;
                 if (transform.right.x > 0)
                 {
-                    direction = Utility.instance.Rotate(Vector2.up, -ArrowAngle);
+                    direction = Utility.Rotate(Vector2.up, -ArrowAngle);
                 }
                 else
                 {
-                    direction = Utility.instance.Rotate(Vector2.up, ArrowAngle);
+                    direction = Utility.Rotate(Vector2.up, ArrowAngle);
                 }
 
                 Connected_Arrow.transform.position = transform.position + (Vector3)direction * Aim_offset;
@@ -208,11 +208,11 @@ public class ShootArrow : MonoBehaviour
             Vector2 direction;
             if (transform.right.x > 0)
             {
-                direction = Utility.instance.Rotate(Vector2.up, -ArrowAngle);
+                direction = Utility.Rotate(Vector2.up, -ArrowAngle);
             }
             else
             {
-                direction = Utility.instance.Rotate(Vector2.up, ArrowAngle);
+                direction = Utility.Rotate(Vector2.up, ArrowAngle);
             }
             ClearAimLine();
             CreateAimLIne(direction, Connected_Arrow.transform.position);

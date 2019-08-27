@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class Utility
 {
-    public static Utility instance = new Utility();
-
-    public Vector2 Rotate(Vector2 v, float degrees)
+    public static Vector2 Rotate(Vector2 v, float degrees)
     {
         float radians = degrees * Mathf.Deg2Rad;
         float sin = Mathf.Sin(radians);

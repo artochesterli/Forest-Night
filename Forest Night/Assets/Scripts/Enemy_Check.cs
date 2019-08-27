@@ -126,7 +126,7 @@ public class Enemy_Check : MonoBehaviour
 
         for(int i = 0; i < RaycastLines; i++)
         {
-            Vector2 direction= Utility.instance.Rotate((Vector2)transform.right, angle);
+            Vector2 direction= Utility.Rotate((Vector2)transform.right, angle);
             angle += Interval;
 
             RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + LaserInitialOffset, direction, Alert_Distance, layermask);
