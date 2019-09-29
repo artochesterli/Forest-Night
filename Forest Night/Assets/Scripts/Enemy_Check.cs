@@ -38,6 +38,13 @@ public class Enemy_Check : MonoBehaviour
     private const float LaserLine_disappear_time = 0.2f;
     private const float mirroBounceStartPointOffset = 0.01f;
 
+    private void OnEnable()
+    {
+        stun_time_count = 0;
+        shoot_star_time_count = 0;
+        alert_time_count = 0;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -20,6 +20,10 @@ public class Enemy_Status_Manager : MonoBehaviour
     public GameObject IndicatorRed;
     public GameObject AngryEffect;
 
+    private void OnEnable()
+    {
+        status = EnemyStatus.Patrol;
+    }
 
     // Start is called before the first frame update
     void Start()
