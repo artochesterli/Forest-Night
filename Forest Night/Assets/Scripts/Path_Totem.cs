@@ -15,8 +15,6 @@ public class Path_Totem : MonoBehaviour
     private const int PathSpritePerMeter = 2;
     private const int PathSpriteNumber = 4;
 
-    
-
     // Start is called before the first frame update
     void Start()
     {

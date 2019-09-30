@@ -19,6 +19,7 @@ public class ExitButton : MonoBehaviour
     {
         if (Click.Button == gameObject)
         {
+            Debug.Log("ggg");
             Application.Quit();
         }
     }

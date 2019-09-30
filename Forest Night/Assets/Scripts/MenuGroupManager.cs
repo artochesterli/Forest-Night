@@ -60,6 +60,10 @@ public class MenuGroupManager : MonoBehaviour
 
     private bool InputClick()
     {
+        return ControllerManager.MainCharacterJoystick != null && ControllerManager.MainCharacter.GetButtonDown("A") 
+            || ControllerManager.FairyJoystick != null && ControllerManager.Fairy.GetButtonDown("A")
+            || Input.GetKeyDown(KeyCode.Return);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetButtonDown("A");
@@ -72,6 +76,10 @@ public class MenuGroupManager : MonoBehaviour
 
     private bool InputBack()
     {
+        return ControllerManager.MainCharacterJoystick != null&& ControllerManager.MainCharacter.GetButtonDown("B")
+            || ControllerManager.FairyJoystick != null && ControllerManager.Fairy.GetButtonDown("B")
+            || Input.GetKeyDown(KeyCode.Backspace);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetButtonDown("B");

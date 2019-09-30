@@ -76,6 +76,10 @@ public class SaveSlotMenu : MonoBehaviour
 
     private bool InputRight()
     {
+        return ControllerManager.MainCharacterJoystick != null && ControllerManager.MainCharacter.GetButtonDown("RightArrow")
+            || ControllerManager.FairyJoystick != null && ControllerManager.Fairy.GetButtonDown("RightArrow")
+            || Input.GetKeyDown(KeyCode.RightArrow);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetButtonDown("RightArrow");
@@ -88,6 +92,10 @@ public class SaveSlotMenu : MonoBehaviour
 
     private bool InputLeft()
     {
+        return ControllerManager.MainCharacterJoystick != null && ControllerManager.MainCharacter.GetButtonDown("LeftArrow")
+            || ControllerManager.FairyJoystick != null && ControllerManager.Fairy.GetButtonDown("LeftArrow")
+            || Input.GetKeyDown(KeyCode.LeftArrow);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetButtonDown("LeftArrow");

@@ -31,6 +31,10 @@ public class GameSceneInitMenu : MonoBehaviour
 
     private bool InputAvailable()
     {
+        return ControllerManager.MainCharacterJoystick != null && ControllerManager.MainCharacter.GetButtonDown("Start")
+            || ControllerManager.FairyJoystick!= null && ControllerManager.Fairy.GetButtonDown("Start")
+            || Input.GetKeyDown(KeyCode.Escape);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetButtonDown("Start");

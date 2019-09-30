@@ -22,7 +22,7 @@ public class QuitYesButton : MonoBehaviour
         {
             EventManager.instance.Fire(new QuitGame(false));
             AcrossSceneInfo.AcrossGameLevel = false;
-            SceneManager.LoadScene("MainPage");
+            SceneManager.LoadScene("MainPage",LoadSceneMode.Single);
         }
     }
 }

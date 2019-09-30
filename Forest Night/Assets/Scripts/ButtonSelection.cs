@@ -34,6 +34,12 @@ public class ButtonSelection : MonoBehaviour
 
     private bool InputUp()
     {
+        return ControllerManager.MainCharacterJoystick != null && (ControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold 
+            || ControllerManager.MainCharacter.GetButton("UpArrow"))
+            || ControllerManager.FairyJoystick != null && (ControllerManager.Fairy.GetAxis("Left Stick Y") > StickYThreshold
+            || ControllerManager.Fairy.GetButton("UpArrow"))
+            || Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetAxis("Left Stick Y") > StickYThreshold || ControllerManager.MainCharacter.GetButton("UpArrow");
@@ -46,6 +52,12 @@ public class ButtonSelection : MonoBehaviour
 
     private bool InputDown()
     {
+        return ControllerManager.MainCharacterJoystick != null && (ControllerManager.MainCharacter.GetAxis("Left Stick Y") < -StickYThreshold 
+            || ControllerManager.MainCharacter.GetButton("DownArrow"))
+            ||ControllerManager.FairyJoystick != null && (ControllerManager.Fairy.GetAxis("Left Stick Y") < -StickYThreshold
+            || ControllerManager.Fairy.GetButton("DownArrow"))
+            || Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetAxis("Left Stick Y") < -StickYThreshold || ControllerManager.MainCharacter.GetButton("DownArrow");

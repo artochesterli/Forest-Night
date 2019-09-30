@@ -41,14 +41,9 @@ public class GameFinishMenu : MonoBehaviour
 
     private bool InputAvailable()
     {
-        if (ControllerManager.MainCharacterJoystick != null)
-        {
-            return ControllerManager.MainCharacter.GetButtonDown("A");
-        }
-        else
-        {
-            return Input.GetKeyDown(KeyCode.Return);
-        }
+        return ControllerManager.MainCharacterJoystick != null && ControllerManager.MainCharacter.GetButtonDown("A")
+            || ControllerManager.FairyJoystick != null && ControllerManager.Fairy.GetButtonDown("A")
+            || Input.GetKeyDown(KeyCode.Return);
     }
 
     private IEnumerator ReturnToMain()

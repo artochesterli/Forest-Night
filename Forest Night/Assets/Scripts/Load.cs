@@ -45,7 +45,7 @@ public class Load : MonoBehaviour
 
     private IEnumerator LoadScene(string s)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(s);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(s,LoadSceneMode.Single);
         while (!asyncLoad.isDone)
         {
             yield return null;

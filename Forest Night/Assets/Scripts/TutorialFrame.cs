@@ -92,6 +92,10 @@ public class TutorialFrame : MonoBehaviour
 
     private bool InputAvailable()
     {
+        return ControllerManager.MainCharacterJoystick != null && ControllerManager.MainCharacter.GetButtonDown("A") 
+            || ControllerManager.FairyJoystick != null && ControllerManager.Fairy.GetButtonDown("A")
+            || Input.GetKeyDown(KeyCode.Return);
+
         if (ControllerManager.MainCharacterJoystick != null)
         {
             return ControllerManager.MainCharacter.GetButtonDown("A");

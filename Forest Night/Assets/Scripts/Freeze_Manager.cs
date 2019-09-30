@@ -14,7 +14,8 @@ public class Freeze_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Frozen = false;
+        ShowTutorial = false;
         EventManager.instance.AddHandler<TutorialOpen>(OnTutorialOpen);
         EventManager.instance.AddHandler<TutorialClose>(OnTutorialClose);
         EventManager.instance.AddHandler<GameSceneMenuOpen>(OnGameSceneMenuOpen);
