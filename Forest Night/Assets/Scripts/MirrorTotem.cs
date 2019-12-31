@@ -7,6 +7,7 @@ public class MirrorTotem : MonoBehaviour
     public List<GameObject> ConnectedMirrors;
 
     private const float LightingTime = 0.2f;
+    private bool Blinking;
 
     // Start is called before the first frame update
     void Start()
@@ -22,11 +23,16 @@ public class MirrorTotem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<Collider2D>().gameObject.CompareTag("Slash"))
+
+    }
+
+    public void Go()
+    {
+        if (!Blinking)
         {
             StopAllCoroutines();
             StartCoroutine(Blink());
-            for(int i = 0; i < ConnectedMirrors.Count; i++)
+            for (int i = 0; i < ConnectedMirrors.Count; i++)
             {
                 var MirrorStateManager = ConnectedMirrors[i].GetComponent<MirrorStateManager>();
                 MirrorStateManager.Activated = !MirrorStateManager.Activated;
@@ -36,6 +42,7 @@ public class MirrorTotem : MonoBehaviour
 
     private IEnumerator Blink()
     {
+        Blinking = true;
         GameObject MirrorLight = transform.Find("ActivatedLight").gameObject;
 
         float timecount = 0;
@@ -59,6 +66,7 @@ public class MirrorTotem : MonoBehaviour
             }
             yield return null;
         }
+        Blinking = false;
     }
 
     public void DisableSelf()

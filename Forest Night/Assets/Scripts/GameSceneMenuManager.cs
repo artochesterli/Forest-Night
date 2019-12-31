@@ -6,6 +6,7 @@ using Rewired;
 public class GameSceneMenuManager : MonoBehaviour
 {
     public GameObject BackInfo;
+    public GameObject ConfirmInfo;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,7 @@ public class GameSceneMenuManager : MonoBehaviour
 
     private void OnGameSceneMenuOpen(GameSceneMenuOpen M)
     {
+        ConfirmInfo.SetActive(true);
         BackInfo.SetActive(true);
         MenuGroupManager.CurrentActivatedMenu = gameObject;
         GetComponent<ButtonSelection>().enabled = true;
@@ -49,6 +51,7 @@ public class GameSceneMenuManager : MonoBehaviour
 
     private void OnGameSceneMenuClose(GameSceneMenuClose M)
     {
+        ConfirmInfo.SetActive(false);
         BackInfo.SetActive(false);
         MenuGroupManager.CurrentActivatedMenu = null;
         MenuGroupManager.CurrentSelectedButton = null;
@@ -63,6 +66,7 @@ public class GameSceneMenuManager : MonoBehaviour
     {
         if (E.Menu == gameObject)
         {
+            ConfirmInfo.SetActive(true);
             BackInfo.SetActive(true);
             MenuGroupManager.CurrentActivatedMenu = gameObject;
             GetComponent<ButtonSelection>().enabled = true;
@@ -77,6 +81,7 @@ public class GameSceneMenuManager : MonoBehaviour
     {
         if (E.Menu == gameObject)
         {
+            ConfirmInfo.SetActive(false);
             BackInfo.SetActive(false);
             GetComponent<ButtonSelection>().enabled = false;
             for (int i = 0; i < GetComponent<ButtonSelection>().ButtonList.Count; i++)

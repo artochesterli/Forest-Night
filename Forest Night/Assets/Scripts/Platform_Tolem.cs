@@ -102,8 +102,12 @@ public class Platform_Tolem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.CompareTag("Slash") &&!moving)
+
+    }
+
+    public void Go()
+    {
+        if (!moving)
         {
             StopAllCoroutines();
             StartCoroutine(Move());

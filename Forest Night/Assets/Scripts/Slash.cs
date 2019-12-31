@@ -7,6 +7,9 @@ public class Slash : MonoBehaviour
 {
     public bool Slashing;
 
+    public LayerMask TotemLayer;
+    public LayerMask EnemyLayer;
+
     private Player player;
     private GameObject Weapon;
     private float Weapon_Active_Time_count;
@@ -82,18 +85,57 @@ public class Slash : MonoBehaviour
                 ResetSlash();
             }
             Weapon_Active_Time_count += Time.deltaTime;
-            if (Weapon_Active_Time_count > Weapon_Damage_Time)
-            {
-                Weapon.GetComponent<BoxCollider2D>().enabled = true;
-            }
-            if (Weapon_Active_Time_count > Weapon_Active_Time)
+
+            if (Weapon_Active_Time_count >= Weapon_Active_Time)
             {
                 ResetSlash();
+            }
+            else if (Weapon_Active_Time_count >= Weapon_Damage_Time)
+            {
+                //Weapon.GetComponent<BoxCollider2D>().enabled = true;
+                HitObjects();
             }
         }
         else
         {
             ResetSlash();
+        }
+    }
+
+    private void HitObjects()
+    {
+        Vector2 Pos = Weapon.transform.position;
+        Vector2 Size = Weapon.GetComponent<BoxCollider2D>().size;
+        float width = 0.01f;
+
+        RaycastHit2D[] AllHits = Physics2D.BoxCastAll(Pos - (Vector2)transform.right*(Size.x/2+width/2), new Vector2(width,Size.y), 0, transform.right, Size.x, TotemLayer | EnemyLayer);
+
+        for (int i = 0; i < AllHits.Length; i++)
+        {
+            if (AllHits[i].collider.CompareTag("Path_Totem"))
+            {
+                GameObject Obj = AllHits[i].collider.gameObject;
+                Obj.GetComponent<Path_Totem>().Go();
+            }
+
+            if (AllHits[i].collider.CompareTag("Platform_Totem"))
+            {
+                GameObject Obj = AllHits[i].collider.gameObject;
+                Obj.GetComponent<Platform_Tolem>().Go();
+            }
+
+            if (AllHits[i].collider.CompareTag("Mirror_Totem"))
+            {
+                GameObject Obj = AllHits[i].collider.gameObject;
+                Obj.GetComponent<MirrorTotem>().Go();
+            }
+
+            if (AllHits[i].collider.CompareTag("Enemy"))
+            {
+                GameObject Obj = AllHits[i].collider.gameObject;
+                Obj.GetComponent<Enemy_Status_Manager>().Die();
+            }
+
         }
     }
 

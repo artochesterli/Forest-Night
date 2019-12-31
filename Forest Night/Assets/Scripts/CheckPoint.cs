@@ -49,7 +49,7 @@ public class CheckPoint : MonoBehaviour
         AllEnemyCopy.transform.parent = transform;
         AllLevelMechanicsCopy.transform.parent = transform;
         AllEnemyCopy.SetActive(false);
-
+        AllLevelMechanicsCopy.SetActive(false);
 
         foreach(Transform child in AllLevelMechanicsCopy.transform)
         {

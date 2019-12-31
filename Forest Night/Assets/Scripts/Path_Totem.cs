@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Path_Totem : MonoBehaviour
 {
+    public GameObject ConnectedTutorialTrigger;
     public float Path_Length;
     public bool Activated;
 
@@ -18,7 +19,10 @@ public class Path_Totem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        if (ConnectedTutorialTrigger != null)
+        {
+            ConnectedTutorialTrigger.GetComponent<SlashTutorialTrigger>().ConnectedVines = gameObject;
+        }
     }
 
     // Update is called once per frame
@@ -29,14 +33,18 @@ public class Path_Totem : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        GameObject ob = collision.GetComponent<Collider2D>().gameObject;
-        if (ob.CompareTag("Slash")&&!Activated)
+
+    }
+
+    public void Go()
+    {
+        if (!Activated)
         {
             StartCoroutine(CreatePath());
         }
     }
 
-    private IEnumerator CreatePath()
+    public IEnumerator CreatePath()
     {
         Activated = true;
         yield return StartCoroutine(LightAppear());

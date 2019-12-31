@@ -117,12 +117,6 @@ public class Enemy_Status_Manager : MonoBehaviour
     {
         GameObject ob = collision.GetComponent<Collider2D>().gameObject;
 
-        if (ob.CompareTag("Slash"))
-        {
-            Instantiate(Resources.Load("Prefabs/VFX/EnemyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
-            Destroy(gameObject);
-        }
-
         if (ob.CompareTag("Arrow") && ob.GetComponent<Arrow>().Emited)
         {
             ActivateStunEffect();
@@ -131,6 +125,12 @@ public class Enemy_Status_Manager : MonoBehaviour
             status = EnemyStatus.Stunned;
             GetComponent<Enemy_Check>().RemoveLaser();
         }
+    }
+
+    public void Die()
+    {
+        Instantiate(Resources.Load("Prefabs/VFX/EnemyDeath"), transform.position, Quaternion.Euler(0, 0, 0));
+        Destroy(gameObject);
     }
 
     private void ActivateStunEffect()
