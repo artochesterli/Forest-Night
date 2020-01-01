@@ -107,8 +107,9 @@ public class Slash : MonoBehaviour
         Vector2 Pos = Weapon.transform.position;
         Vector2 Size = Weapon.GetComponent<BoxCollider2D>().size;
         float width = 0.01f;
+        float offset = 0.1f;
 
-        RaycastHit2D[] AllHits = Physics2D.BoxCastAll(Pos - (Vector2)transform.right*(Size.x/2+width/2), new Vector2(width,Size.y), 0, transform.right, Size.x, TotemLayer | EnemyLayer);
+        RaycastHit2D[] AllHits = Physics2D.BoxCastAll(Pos - (Vector2)transform.right*(Size.x/2+width/2+offset), new Vector2(width,Size.y), 0, transform.right, Size.x+offset, TotemLayer | EnemyLayer);
 
         for (int i = 0; i < AllHits.Length; i++)
         {
