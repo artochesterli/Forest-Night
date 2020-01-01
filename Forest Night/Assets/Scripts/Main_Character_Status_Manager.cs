@@ -45,22 +45,9 @@ public class Main_Character_Status_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetInvisibility();
         SetAudio();
         SetDashEffect();
         CheckAimed();
-    }
-
-    private void SetInvisibility()
-    {
-        if(status == MainCharacterStatus.Normal && GetComponent<CharacterMove>().OnGround)
-        {
-            GetComponent<Invisible>().AbleToInvisible = true;
-        }
-        else
-        {
-            GetComponent<Invisible>().AbleToInvisible = false;
-        }
     }
 
     private void SetAudio()

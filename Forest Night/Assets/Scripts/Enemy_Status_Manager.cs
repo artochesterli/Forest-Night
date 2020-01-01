@@ -20,6 +20,8 @@ public class Enemy_Status_Manager : MonoBehaviour
     public GameObject IndicatorRed;
     public GameObject AngryEffect;
 
+    public GameObject ConnectedTutorialTrigger;
+
     private void OnEnable()
     {
         status = EnemyStatus.Patrol;
@@ -28,6 +30,11 @@ public class Enemy_Status_Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (ConnectedTutorialTrigger != null)
+        {
+            ConnectedTutorialTrigger.GetComponent<KillEnemyTutorialTrigger>().ConnectedEnemy = gameObject;
+        }
+
         AngryEffect.GetComponent<ParticleSystem>().Stop(true);
         DeActivateStunEffect();
         EventManager.instance.AddHandler<CharacterDied>(OnCharacterDied);

@@ -47,23 +47,11 @@ public class Fairy_Status_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SetInvisibility();
         FloatGoingDown();
         CheckFloatPlatform();
         CheckAimed();
     }
 
-    private void SetInvisibility()
-    {
-        if (status == FairyStatus.Normal)
-        {
-            GetComponent<Invisible>().AbleToInvisible = true;
-        }
-        else if (status == FairyStatus.Float || status == FairyStatus.FloatPlatform || status == FairyStatus.Climbing || status == FairyStatus.Aiming || status == FairyStatus.Aimed)
-        {
-            GetComponent<Invisible>().AbleToInvisible = false;
-        }
-    }
 
     private void FloatGoingDown()
     {
